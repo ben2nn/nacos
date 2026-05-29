@@ -7,24 +7,59 @@ interface NamespaceState {
   namespaces: Namespace[];
   loading: boolean;
   error: string | null;
+  namespaceChangeGuard: (() => boolean) | null;
 }
 
 interface NamespaceActions {
   setNamespace: (id: string, showName: string) => void;
   fetchNamespaces: () => Promise<void>;
   getCurrentNamespace: () => string;
+  setNamespaceChangeGuard: (guard: (() => boolean) | null) => void;
+  getNamespaceChangeGuard: () => (() => boolean) | null;
 }
 
 type NamespaceStore = NamespaceState & NamespaceActions;
 
-const getDefaultNamespace = (): string => {
-  // Try to get from URL params first
-  const hash = window.location.hash;
-  const match = hash.match(/[?&]namespace=([^&]*)/);
-  if (match) {
-    return decodeURIComponent(match[1]);
+export const getDefaultNamespaceFromHash = (hash: string): string => {
+  // Try namespaceId first (used by AI detail pages)
+  const namespaceIdMatch = hash.match(/[?&]namespaceId=([^&]*)/);
+  if (namespaceIdMatch) {
+    return decodeURIComponent(namespaceIdMatch[1]);
+  }
+  // Fall back to legacy namespace param
+  const namespaceMatch = hash.match(/[?&]namespace=([^&]*)/);
+  if (namespaceMatch) {
+    return decodeURIComponent(namespaceMatch[1]);
   }
   return '';
+};
+
+export const getNamespaceSearchAfterSwitch = (
+  search: string,
+  namespaceId: string,
+  namespaceShowName: string,
+): string | null => {
+  const params = new URLSearchParams(search);
+
+  // If route uses namespaceId param (AI detail pages)
+  if (params.has('namespaceId')) {
+    params.set('namespaceId', namespaceId);
+    return params.toString();
+  }
+
+  // If route uses legacy namespace param
+  if (params.has('namespace')) {
+    params.set('namespace', namespaceId);
+    params.set('namespaceShowName', namespaceShowName);
+    return params.toString();
+  }
+
+  // Route doesn't use namespace params
+  return null;
+};
+
+const getDefaultNamespace = (): string => {
+  return getDefaultNamespaceFromHash(window.location.hash);
 };
 
 export const useNamespaceStore = create<NamespaceStore>((set, get) => ({
@@ -34,6 +69,7 @@ export const useNamespaceStore = create<NamespaceStore>((set, get) => ({
   namespaces: [],
   loading: false,
   error: null,
+  namespaceChangeGuard: null,
 
   // Actions
   setNamespace: (id: string, showName: string) => {
@@ -76,5 +112,13 @@ export const useNamespaceStore = create<NamespaceStore>((set, get) => ({
 
   getCurrentNamespace: () => {
     return get().currentNamespace;
+  },
+
+  setNamespaceChangeGuard: (guard: (() => boolean) | null) => {
+    set({ namespaceChangeGuard: guard });
+  },
+
+  getNamespaceChangeGuard: () => {
+    return get().namespaceChangeGuard;
   },
 }));
