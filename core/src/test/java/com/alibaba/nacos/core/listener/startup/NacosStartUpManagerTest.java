@@ -30,13 +30,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * {@link NacosStartUpManager} unit test.
  */
 class NacosStartUpManagerTest {
-    
+
     @Test
     void startUnknownPhaseThrows() {
-        assertThrows(IllegalArgumentException.class,
-            () -> NacosStartUpManager.start("unknown-phase"));
+        assertThrows(IllegalArgumentException.class, () -> NacosStartUpManager.start("unknown-phase"));
     }
-    
+
     @Test
     void startCoreThenGetCurrentStartUpReturnsCoreStartUp() {
         NacosStartUpManager.start(NacosStartUp.CORE_START_UP_PHASE);
@@ -47,12 +46,11 @@ class NacosStartUpManagerTest {
     
     @Test
     void getCurrentStartUpThrowsWhenNotStarted() {
-        NacosStartUpManager manager = (NacosStartUpManager) ReflectionTestUtils
-            .getField(NacosStartUpManager.class, "INSTANCE");
+        NacosStartUpManager manager = (NacosStartUpManager) ReflectionTestUtils.getField(NacosStartUpManager.class, "INSTANCE");
         ReflectionTestUtils.setField(manager, "currentStartUpPhase", null);
         assertThrows(IllegalStateException.class, NacosStartUpManager::getCurrentStartUp);
     }
-    
+
     @Test
     void getReverseStartedListReturnsReversedOrder() {
         NacosStartUpManager.start(NacosStartUp.CORE_START_UP_PHASE);

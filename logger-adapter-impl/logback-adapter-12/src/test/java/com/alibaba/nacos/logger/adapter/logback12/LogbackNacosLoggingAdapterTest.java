@@ -68,8 +68,7 @@ public class LogbackNacosLoggingAdapterTest {
             loggerContext.addListener(loggerContextListener);
             setLoggerFactory(loggerContext);
         }
-        loggingProperties =
-            new NacosLoggingProperties("classpath:nacos-logback12.xml", new Properties());
+        loggingProperties = new NacosLoggingProperties("classpath:nacos-logback12.xml", new Properties());
     }
     
     @AfterEach
@@ -84,10 +83,8 @@ public class LogbackNacosLoggingAdapterTest {
         System.clearProperty("nacos.logging.config");
     }
     
-    public void setLoggerFactory(ILoggerFactory loggerFactory)
-        throws NoSuchFieldException, IllegalAccessException {
-        Field loggerFactoryField =
-            StaticLoggerBinder.getSingleton().getClass().getDeclaredField("loggerFactory");
+    public void setLoggerFactory(ILoggerFactory loggerFactory) throws NoSuchFieldException, IllegalAccessException {
+        Field loggerFactoryField = StaticLoggerBinder.getSingleton().getClass().getDeclaredField("loggerFactory");
         loggerFactoryField.setAccessible(true);
         loggerFactoryField.set(StaticLoggerBinder.getSingleton(), loggerFactory);
     }
@@ -95,8 +92,7 @@ public class LogbackNacosLoggingAdapterTest {
     @Test
     void testLoadConfigurationSuccess() {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        loggerContext.putObject(CoreConstants.RECONFIGURE_ON_CHANGE_TASK,
-            new ReconfigureOnChangeTask());
+        loggerContext.putObject(CoreConstants.RECONFIGURE_ON_CHANGE_TASK, new ReconfigureOnChangeTask());
         logbackNacosLoggingAdapter.loadConfiguration(loggingProperties);
         for (Logger each : loggerContext.getLoggerList()) {
             if (!"com.alibaba.nacos.client.naming".equals(each.getName())) {
@@ -136,8 +132,7 @@ public class LogbackNacosLoggingAdapterTest {
     void testLoadConfigurationFailure() {
         assertThrows(IllegalStateException.class, () -> {
             System.setProperty("nacos.logging.config", "http://localhost");
-            loggingProperties =
-                new NacosLoggingProperties("classpath:nacos-logback12.xml", System.getProperties());
+            loggingProperties = new NacosLoggingProperties("classpath:nacos-logback12.xml", System.getProperties());
             logbackNacosLoggingAdapter.loadConfiguration(loggingProperties);
         });
     }
@@ -149,15 +144,13 @@ public class LogbackNacosLoggingAdapterTest {
     
     @Test
     void testGetDefaultConfigLocation() {
-        assertEquals("classpath:nacos-logback12.xml",
-            logbackNacosLoggingAdapter.getDefaultConfigLocation());
+        assertEquals("classpath:nacos-logback12.xml", logbackNacosLoggingAdapter.getDefaultConfigLocation());
     }
     
     @Test
     void testLoadConfigurationReload() {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        loggerContext.putObject(CoreConstants.RECONFIGURE_ON_CHANGE_TASK,
-            new ReconfigureOnChangeTask());
+        loggerContext.putObject(CoreConstants.RECONFIGURE_ON_CHANGE_TASK, new ReconfigureOnChangeTask());
         logbackNacosLoggingAdapter.loadConfiguration(loggingProperties);
         loggerContext.reset();
         verify(loggerContextListener).onReset(loggerContext);
@@ -172,8 +165,7 @@ public class LogbackNacosLoggingAdapterTest {
     @Test
     void testLoadConfigurationStart() {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        loggerContext.putObject(CoreConstants.RECONFIGURE_ON_CHANGE_TASK,
-            new ReconfigureOnChangeTask());
+        loggerContext.putObject(CoreConstants.RECONFIGURE_ON_CHANGE_TASK, new ReconfigureOnChangeTask());
         logbackNacosLoggingAdapter.loadConfiguration(loggingProperties);
         loggerContext.start();
         verify(loggerContextListener).onStart(loggerContext);
@@ -188,8 +180,7 @@ public class LogbackNacosLoggingAdapterTest {
     @Test
     void testLoadConfigurationStop() {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        loggerContext.putObject(CoreConstants.RECONFIGURE_ON_CHANGE_TASK,
-            new ReconfigureOnChangeTask());
+        loggerContext.putObject(CoreConstants.RECONFIGURE_ON_CHANGE_TASK, new ReconfigureOnChangeTask());
         logbackNacosLoggingAdapter.loadConfiguration(loggingProperties);
         loggerContext.stop();
         verify(loggerContextListener).onReset(loggerContext);

@@ -33,8 +33,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication(exclude = {LdapAutoConfiguration.class})
 @ComponentScan(excludeFilters = {
-    @Filter(type = FilterType.CUSTOM,
-        classes = {NacosTypeExcludeFilter.class, NacosWebBeanTypeFilter.class})})
+        @Filter(type = FilterType.CUSTOM, classes = {NacosTypeExcludeFilter.class, NacosWebBeanTypeFilter.class})})
 @EnableScheduling
 public class NacosServerBasicApplication {
     

@@ -50,8 +50,7 @@ class NacosHttpTpsControlRegistrationTest {
     void testTpsFilterRegistration() {
         NacosHttpTpsControlRegistration config = new NacosHttpTpsControlRegistration();
         NacosHttpTpsFilter filter = config.tpsFilter(methodsCache);
-        FilterRegistrationBean<NacosHttpTpsFilter> registration =
-            config.tpsFilterRegistration(filter);
+        FilterRegistrationBean<NacosHttpTpsFilter> registration = config.tpsFilterRegistration(filter);
         assertNotNull(registration);
         assertNotNull(registration.getFilter());
         assertTrue(registration.getFilter() instanceof NacosHttpTpsFilter);

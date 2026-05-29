@@ -34,8 +34,7 @@ class ServerParamCheckConfigTest {
         environment.setProperty("nacos.core.param.check.enabled", String.valueOf(false));
         environment.setProperty("nacos.core.param.check.checker", "default");
         
-        Constructor<ServerParamCheckConfig> declaredConstructor =
-            ServerParamCheckConfig.class.getDeclaredConstructor();
+        Constructor<ServerParamCheckConfig> declaredConstructor = ServerParamCheckConfig.class.getDeclaredConstructor();
         declaredConstructor.setAccessible(true);
         ServerParamCheckConfig paramCheckConfig = declaredConstructor.newInstance();
         

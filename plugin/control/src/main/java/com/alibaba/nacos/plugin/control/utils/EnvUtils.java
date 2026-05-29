@@ -39,9 +39,8 @@ public class EnvUtils {
         if (StringUtils.isBlank(nacosHomePath)) {
             String nacosHome = System.getProperty(NACOS_HOME_KEY);
             if (StringUtils.isBlank(nacosHome)) {
-                nacosHome = Paths
-                    .get(System.getProperty(NACOS_HOME_PROPERTY), NACOS_HOME_ADDITIONAL_FILEPATH)
-                    .toString();
+                nacosHome = Paths.get(System.getProperty(NACOS_HOME_PROPERTY), NACOS_HOME_ADDITIONAL_FILEPATH)
+                        .toString();
             }
             return nacosHome;
         }

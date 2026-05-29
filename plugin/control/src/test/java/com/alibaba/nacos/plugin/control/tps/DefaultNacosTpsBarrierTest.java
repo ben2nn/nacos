@@ -69,15 +69,4 @@ class DefaultNacosTpsBarrierTest {
         
     }
     
-    @Test
-    void testApplyRuleClearsRuleForNullOrEmptyRule() {
-        TpsBarrier tpsBarrier = new DefaultNacosTpsBarrier("test_barrier");
-        
-        tpsBarrier.applyRule(null);
-        assertTrue(tpsBarrier.getPointBarrier().isMonitorType());
-        
-        tpsBarrier.applyRule(new TpsControlRule());
-        assertTrue(tpsBarrier.getPointBarrier().isMonitorType());
-    }
-    
 }

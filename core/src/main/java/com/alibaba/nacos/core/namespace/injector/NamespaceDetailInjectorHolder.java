@@ -28,8 +28,7 @@ import java.util.Set;
  */
 public class NamespaceDetailInjectorHolder {
     
-    private static final NamespaceDetailInjectorHolder INSTANCE =
-        new NamespaceDetailInjectorHolder();
+    private static final NamespaceDetailInjectorHolder INSTANCE = new NamespaceDetailInjectorHolder();
     
     private final Set<AbstractNamespaceDetailInjector> namespaceDetailInjectors;
     

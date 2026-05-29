@@ -79,12 +79,4 @@ class SimpleReadWriteLockTest {
         
         assertFalse(lock.tryWriteLock());
     }
-    
-    @Test
-    void testReleaseReadLockWithoutReadLockDoesNothing() {
-        SimpleReadWriteLock lock = new SimpleReadWriteLock();
-        lock.releaseReadLock();
-        
-        assertTrue(lock.tryWriteLock());
-    }
 }

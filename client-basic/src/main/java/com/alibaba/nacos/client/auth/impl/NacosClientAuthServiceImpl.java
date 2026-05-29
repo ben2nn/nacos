@@ -39,8 +39,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("checkstyle:SummaryJavadoc")
 public class NacosClientAuthServiceImpl extends AbstractClientAuthService {
     
-    private static final Logger SECURITY_LOGGER =
-        LoggerFactory.getLogger(NacosClientAuthServiceImpl.class);
+    private static final Logger SECURITY_LOGGER = LoggerFactory.getLogger(NacosClientAuthServiceImpl.class);
     
     /**
      * TTL of token in seconds.
@@ -76,15 +75,14 @@ public class NacosClientAuthServiceImpl extends AbstractClientAuthService {
     @Override
     public Boolean login(Properties properties) {
         try {
-            boolean reLoginFlag = Boolean.parseBoolean(
-                loginIdentityContext.getParameter(NacosAuthLoginConstant.RELOGINFLAG, "false"));
+            boolean reLoginFlag = Boolean.parseBoolean(loginIdentityContext.getParameter(NacosAuthLoginConstant.RELOGINFLAG, "false"));
             if (reLoginFlag) {
                 if ((System.currentTimeMillis() - lastRefreshTime) < reLoginWindow) {
                     return true;
                 }
             } else {
                 if ((System.currentTimeMillis() - lastRefreshTime) < TimeUnit.SECONDS
-                    .toMillis(tokenTtl - tokenRefreshWindow)) {
+                        .toMillis(tokenTtl - tokenRefreshWindow)) {
                     return true;
                 }
             }
@@ -100,14 +98,13 @@ public class NacosClientAuthServiceImpl extends AbstractClientAuthService {
                 LoginIdentityContext identityContext = httpLoginProcessor.getResponse(properties);
                 if (identityContext != null) {
                     if (identityContext.getAllKey().contains(NacosAuthLoginConstant.ACCESSTOKEN)) {
-                        tokenTtl = Long.parseLong(
-                            identityContext.getParameter(NacosAuthLoginConstant.TOKENTTL));
+                        tokenTtl = Long.parseLong(identityContext.getParameter(NacosAuthLoginConstant.TOKENTTL));
                         tokenRefreshWindow = generateTokenRefreshWindow(tokenTtl);
                         lastRefreshTime = System.currentTimeMillis();
-                        
+
                         LoginIdentityContext newCtx = new LoginIdentityContext();
                         newCtx.setParameter(NacosAuthLoginConstant.ACCESSTOKEN,
-                            identityContext.getParameter(NacosAuthLoginConstant.ACCESSTOKEN));
+                                identityContext.getParameter(NacosAuthLoginConstant.ACCESSTOKEN));
                         this.loginIdentityContext = newCtx;
                     }
                     return true;
@@ -127,7 +124,7 @@ public class NacosClientAuthServiceImpl extends AbstractClientAuthService {
     
     @Override
     public void shutdown() throws NacosException {
-        
+    
     }
     
     /**
@@ -137,7 +134,7 @@ public class NacosClientAuthServiceImpl extends AbstractClientAuthService {
      */
     public long generateTokenRefreshWindow(long tokenTtl) {
         long startNumber = tokenTtl / 15;
-        long endNumber = tokenTtl / 10;
+        long endNumber   = tokenTtl / 10;
         return RandomUtils.nextLong(startNumber, endNumber);
     }
 }

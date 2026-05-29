@@ -80,8 +80,7 @@ public class PromptVariable implements Serializable {
     
     @Override
     public String toString() {
-        return "PromptVariable{" + "name='" + name + '\'' + ", defaultValue='" + defaultValue + '\''
-            + ", description='"
-            + description + '\'' + '}';
+        return "PromptVariable{" + "name='" + name + '\'' + ", defaultValue='" + defaultValue + '\'' + ", description='"
+                + description + '\'' + '}';
     }
 }

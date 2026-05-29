@@ -33,8 +33,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@ConditionalOnProperty(value = Constants.NACOS_DEPLOYMENT_TYPE,
-    havingValue = Constants.NACOS_DEPLOYMENT_TYPE_CONSOLE)
+@ConditionalOnProperty(value = Constants.NACOS_DEPLOYMENT_TYPE, havingValue = Constants.NACOS_DEPLOYMENT_TYPE_CONSOLE)
 public @interface EnabledRemoteHandler {
-    
+
 }

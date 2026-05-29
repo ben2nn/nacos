@@ -53,7 +53,6 @@ public class ClientInfo {
     }
     
     public enum ClientType {
-        
         /**
          * Go client type.
          */

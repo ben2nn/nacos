@@ -42,8 +42,7 @@ class KeyValueInputTest extends BasicRequestTest {
     
     @Test
     void testDeserialize() throws JsonProcessingException {
-        String json =
-            "{\"name\":\"testKey\",\"description\":\"test description\",\"value\":\"test value\"}";
+        String json = "{\"name\":\"testKey\",\"description\":\"test description\",\"value\":\"test value\"}";
         
         KeyValueInput keyValueInput = mapper.readValue(json, KeyValueInput.class);
         assertNotNull(keyValueInput);

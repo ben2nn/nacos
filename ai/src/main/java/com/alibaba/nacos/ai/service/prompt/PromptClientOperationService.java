@@ -39,9 +39,8 @@ public interface PromptClientOperationService {
      * @return the prompt version info
      * @throws NacosException the nacos exception
      */
-    PromptVersionInfo queryPrompt(String namespaceId, String promptKey, String version,
-        String label, String md5)
-        throws NacosException;
+    PromptVersionInfo queryPrompt(String namespaceId, String promptKey, String version, String label, String md5)
+            throws NacosException;
     
     /**
      * Query prompt by version/label/latest with priority version > label > latest.
@@ -53,9 +52,8 @@ public interface PromptClientOperationService {
      * @return the prompt version info
      * @throws NacosException the nacos exception
      */
-    default PromptVersionInfo queryPrompt(String namespaceId, String promptKey, String version,
-        String label)
-        throws NacosException {
+    default PromptVersionInfo queryPrompt(String namespaceId, String promptKey, String version, String label)
+            throws NacosException {
         return queryPrompt(namespaceId, promptKey, version, label, null);
     }
 }

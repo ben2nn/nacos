@@ -37,21 +37,18 @@ public class SafeBcryptPasswordEncoderTest {
     
     @Test
     void testValidPasswordLength() {
-        String rawPassword = StringUtils.repeat("A", AuthConstants.MAX_PASSWORD_LENGTH);
+        String rawPassword =  StringUtils.repeat("A", AuthConstants.MAX_PASSWORD_LENGTH);
         String encodedPassword = ENCODER.encode(rawPassword);
         
-        assertTrue(ENCODER.matches(rawPassword, encodedPassword),
-            "72-character rawPassword should match");
+        assertTrue(ENCODER.matches(rawPassword, encodedPassword), "72-character rawPassword should match");
     }
     
     @Test
     void testExcessivePasswordLength() {
         String rawPassword = StringUtils.repeat("A", AuthConstants.MAX_PASSWORD_LENGTH + 1);
-        String encodedPassword =
-            ENCODER.encode(rawPassword.substring(0, AuthConstants.MAX_PASSWORD_LENGTH));
+        String encodedPassword = ENCODER.encode(rawPassword.substring(0, AuthConstants.MAX_PASSWORD_LENGTH));
         
-        assertFalse(ENCODER.matches(rawPassword, encodedPassword),
-            "73-character rawPassword should be rejected");
+        assertFalse(ENCODER.matches(rawPassword, encodedPassword), "73-character rawPassword should be rejected");
     }
     
     @Test
@@ -60,9 +57,7 @@ public class SafeBcryptPasswordEncoderTest {
         String rawPassword73 = rawPassword72 + "A";
         String encodedPassword = ENCODER.encode(rawPassword72);
         
-        assertTrue(ENCODER.matches(rawPassword72, encodedPassword),
-            "72-character password must pass");
-        assertFalse(ENCODER.matches(rawPassword73, encodedPassword),
-            "73-character password must fail");
+        assertTrue(ENCODER.matches(rawPassword72, encodedPassword), "72-character password must pass");
+        assertFalse(ENCODER.matches(rawPassword73, encodedPassword), "73-character password must fail");
     }
 }

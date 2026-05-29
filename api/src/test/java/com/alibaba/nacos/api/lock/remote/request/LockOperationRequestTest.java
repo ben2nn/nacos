@@ -52,8 +52,7 @@ class LockOperationRequestTest extends BasicRequestTest {
     
     @Test
     void testDeserialize() throws Exception {
-        String json =
-            "{\"headers\":{},\"requestId\":\"1\",\"lockInstance\":{\"key\":\"testKey\",\"expiredTime\":1000,"
+        String json = "{\"headers\":{},\"requestId\":\"1\",\"lockInstance\":{\"key\":\"testKey\",\"expiredTime\":1000,"
                 + "\"lockType\":\"testType\"},\"lockOperationEnum\":\"ACQUIRE\",\"module\":\"lock\"}";
         LockOperationRequest result = mapper.readValue(json, LockOperationRequest.class);
         assertNotNull(result);

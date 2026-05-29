@@ -129,7 +129,7 @@ const agentManagementMenu = {
   ],
 };
 
-export default function(model, aiEnabled = true) {
+export default function(model) {
   const { token = '{}' } = localStorage;
   const { globalAdmin } = isJsonString(token) ? JSON.parse(token) || {} : {};
   const result = [];
@@ -137,15 +137,9 @@ export default function(model, aiEnabled = true) {
     result.push(serviceDiscoveryMenu);
   } else if (model === 'config') {
     result.push(configurationMenu);
-  } else if (model === 'microservice') {
-    result.push(configurationMenu, serviceDiscoveryMenu);
-  } else if (model === 'ai') {
-    result.push(aiRegistryMenu, pluginMenu);
   } else {
     result.push(configurationMenu, serviceDiscoveryMenu);
-    if (aiEnabled) {
-      result.push(aiRegistryMenu);
-    }
+    result.push(aiRegistryMenu);
     result.push(pluginMenu);
   }
   if (globalAdmin) {

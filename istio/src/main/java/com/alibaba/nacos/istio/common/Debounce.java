@@ -31,7 +31,6 @@ import java.util.concurrent.Callable;
  * @date 2022/8/20 9:05
  */
 public class Debounce implements Callable<PushRequest> {
-    
     private Date startDebounce;
     
     private Date lastConfigUpdateTime;
@@ -68,7 +67,6 @@ public class Debounce implements Callable<PushRequest> {
                     startDebounce = lastConfigUpdateTime;
                     pushRequest = otherRequest;
                     new Timer().schedule(new TimerTask() {
-                        
                         @Override
                         public void run() {
                             if (free) {
@@ -92,8 +90,7 @@ public class Debounce implements Callable<PushRequest> {
         long eventDelay = System.currentTimeMillis() - startDebounce.getTime();
         long quietTime = System.currentTimeMillis() - lastConfigUpdateTime.getTime();
         
-        if (eventDelay > istioConfig.getDebounceMax()
-            || quietTime > istioConfig.getDebounceAfter()) {
+        if (eventDelay > istioConfig.getDebounceMax() || quietTime > istioConfig.getDebounceAfter()) {
             if (pushRequest != null) {
                 free = false;
                 flag = true;
@@ -101,7 +98,6 @@ public class Debounce implements Callable<PushRequest> {
             }
         } else {
             new Timer().schedule(new TimerTask() {
-                
                 @Override
                 public void run() {
                     if (free) {

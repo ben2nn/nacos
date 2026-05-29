@@ -44,7 +44,6 @@ import {
   parseSkillFromContent,
   filterSkillMdFromResources,
 } from '@/lib/sse-utils';
-import { hasNonFrontmatterMarkdownBody } from '@/lib/markdown-utils';
 import type { SSEStreamHandle } from '@/lib/sse-utils';
 import type {
   SelectedMcpTool,
@@ -197,7 +196,7 @@ export function CreateSkillDialog({
       setError(t('skill.descriptionRequired'));
       return;
     }
-    if (!hasNonFrontmatterMarkdownBody(instruction)) {
+    if (!instruction.trim()) {
       setError(t('skill.instructionRequired'));
       return;
     }
@@ -330,10 +329,6 @@ export function CreateSkillDialog({
     const name = generatedSkill.name?.trim();
     if (!name) {
       setGenerateError(t('skill.nameRequired'));
-      return;
-    }
-    if (!hasNonFrontmatterMarkdownBody(generatedSkill.skillMd || '')) {
-      setGenerateError(t('skill.instructionRequired'));
       return;
     }
 
@@ -483,7 +478,7 @@ export function CreateSkillDialog({
                   disabled={
                     !!validateSkillName(skillName.trim()) ||
                     !description.trim() ||
-                    !hasNonFrontmatterMarkdownBody(instruction) ||
+                    !instruction.trim() ||
                     loading
                   }
                 >

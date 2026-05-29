@@ -31,8 +31,7 @@ import java.util.List;
  * @since 0.7.0
  */
 @JsonTypeInfo(use = Id.NAME, property = "type", defaultImpl = NoneSelector.class)
-public abstract class AbstractSelector
-    implements Serializable, Selector<List<Instance>, List<Instance>, String> {
+public abstract class AbstractSelector implements Serializable, Selector<List<Instance>, List<Instance>, String> {
     
     private static final long serialVersionUID = 4530233098102379229L;
     
@@ -50,8 +49,7 @@ public abstract class AbstractSelector
     }
     
     @Override
-    public Selector<List<Instance>, List<Instance>, String> parse(String expression)
-        throws NacosException {
+    public Selector<List<Instance>, List<Instance>, String> parse(String expression) throws NacosException {
         return null;
     }
     

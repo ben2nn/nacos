@@ -46,8 +46,7 @@ class ConditionStandaloneEmbedStorageTest {
     
     @Test
     void testMatches() {
-        MockedStatic<DatasourceConfiguration> propertyUtilMockedStatic =
-            Mockito.mockStatic(DatasourceConfiguration.class);
+        MockedStatic<DatasourceConfiguration> propertyUtilMockedStatic = Mockito.mockStatic(DatasourceConfiguration.class);
         MockedStatic<EnvUtil> envUtilMockedStatic = Mockito.mockStatic(EnvUtil.class);
         
         propertyUtilMockedStatic.when(DatasourceConfiguration::isEmbeddedStorage).thenReturn(true);

@@ -44,8 +44,7 @@ public class Constants {
     /**
      * Back up file directory in server side.
      */
-    public static final String CONFIG_BAK_DIR =
-        System.getProperty("user.home", "/home/admin") + "/nacos/bak_data";
+    public static final String CONFIG_BAK_DIR = System.getProperty("user.home", "/home/admin") + "/nacos/bak_data";
     
     public static final String APPNAME = "AppName";
     
@@ -293,8 +292,7 @@ public class Constants {
     /**
      * Configure the dump event-list name.
      */
-    public static final String EXTEND_INFOS_CONFIG_DUMP_EVENT =
-        ConfigDumpEvent.class.getName() + "@@many";
+    public static final String EXTEND_INFOS_CONFIG_DUMP_EVENT = ConfigDumpEvent.class.getName() + "@@many";
     
     public static final String CONFIG_EXPORT_ITEM_FILE_SEPARATOR = "/";
     
@@ -345,7 +343,7 @@ public class Constants {
     /**
      * Separator.
      */
-    public static final String COLON = ":";
+    public static final String COLON =  ":";
     
     static String getPersistEncode() {
         String persistEncode = System.getenv(NACOS_PERSIST_ENCODE_KEY);

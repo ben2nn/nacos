@@ -78,11 +78,6 @@ export default function McpServerManagementPage() {
     navigate(`/mcpServerDetail?${params}`);
   };
 
-  const handleCreate = () => {
-    const params = new URLSearchParams({ namespaceId });
-    navigate(`/newMcpServer?${params}`);
-  };
-
   const handleEdit = (name: string) => {
     const params = new URLSearchParams({ mode: 'edit', mcpName: name, namespaceId });
     navigate(`/newMcpServer?${params}`);
@@ -139,7 +134,7 @@ export default function McpServerManagementPage() {
             <Download className="mr-1.5 h-3.5 w-3.5" />
             {t('mcp.importFromRegistry')}
           </Button>
-          <Button size="sm" onClick={handleCreate}>
+          <Button size="sm" onClick={() => navigate('/newMcpServer')}>
             <Plus className="mr-1.5 h-3.5 w-3.5" />
             {t('mcp.createServer')}
           </Button>
@@ -218,7 +213,7 @@ export default function McpServerManagementPage() {
           </div>
           <p className="text-sm font-medium">{t('common.noData')}</p>
           <p className="text-xs text-muted-foreground/70 mt-1">{t('mcp.searchPlaceholder')}</p>
-          <Button variant="outline" size="sm" className="mt-4" onClick={handleCreate}>
+          <Button variant="outline" size="sm" className="mt-4" onClick={() => navigate('/newMcpServer')}>
             <Plus className="mr-1.5 h-3.5 w-3.5" />
             {t('mcp.createServer')}
           </Button>

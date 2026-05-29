@@ -99,8 +99,7 @@ public class ServiceInfo implements Cloneable {
             this.name = keys[SERVICE_POSITION];
         } else {
             //defensive programming
-            throw new IllegalArgumentException(
-                "Can't parse out 'groupName',but it must not be null!");
+            throw new IllegalArgumentException("Can't parse out 'groupName',but it must not be null!");
         }
     }
     
@@ -223,12 +222,12 @@ public class ServiceInfo implements Cloneable {
         }
         return name;
     }
-    
+
     @JsonIgnore
     public String getKeyWithoutClusters() {
         return getGroupedServiceName();
     }
-    
+
     @JsonIgnore
     public String getKeyEncoded() {
         String serviceName = getGroupedServiceName();

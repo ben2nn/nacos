@@ -50,21 +50,18 @@ import static com.alibaba.nacos.prometheus.api.ApiConstants.PROMETHEUS_CONTROLLE
 public class PrometheusAuthFilter {
     
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http,
-        UserDetailsService userDetailsService,
-        PasswordEncoder passwordEncoder) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(
-            AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder);
+                AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         return authenticationManagerBuilder.getOrBuild();
     }
     
     @Bean
     public FilterRegistrationBean<BasicAuthenticationFilter> basicAuthenticationFilter(
-        AuthenticationManager authenticationManager) {
-        FilterRegistrationBean<BasicAuthenticationFilter> registration =
-            new FilterRegistrationBean<>();
+            AuthenticationManager authenticationManager) {
+        FilterRegistrationBean<BasicAuthenticationFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new BasicAuthenticationFilter(authenticationManager));
         registration.addUrlPatterns(PROMETHEUS_CONTROLLER_PATH);
         registration.setName("prometheusBasicAuthenticationFilter");
@@ -74,8 +71,7 @@ public class PrometheusAuthFilter {
     
     @Bean
     public FilterRegistrationBean<AnonymousAuthenticationFilter> anonymousAuthenticationFilter() {
-        FilterRegistrationBean<AnonymousAuthenticationFilter> registration =
-            new FilterRegistrationBean<>();
+        FilterRegistrationBean<AnonymousAuthenticationFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new AnonymousAuthenticationFilter("annony"));
         registration.addUrlPatterns(PROMETHEUS_CONTROLLER_PATH);
         registration.setName("prometheusAnonymousAuthenticationFilter");
@@ -95,8 +91,7 @@ public class PrometheusAuthFilter {
     
     @Bean
     public FilterRegistrationBean<ExceptionTranslationFilter> exceptionTranslationFilter() {
-        FilterRegistrationBean<ExceptionTranslationFilter> registration =
-            new FilterRegistrationBean<>();
+        FilterRegistrationBean<ExceptionTranslationFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new ExceptionTranslationFilter(new Http403ForbiddenEntryPoint()));
         registration.addUrlPatterns(PROMETHEUS_CONTROLLER_PATH);
         registration.setName("prometheusExceptionTranslationFilter");

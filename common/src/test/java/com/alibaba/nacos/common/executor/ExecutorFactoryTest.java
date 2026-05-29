@@ -93,8 +93,7 @@ class ExecutorFactoryTest {
         ExecutorService executorService;
         ThreadPoolExecutor threadPoolExecutor;
         ThreadPoolManager manager = ExecutorFactory.Managed.getThreadPoolManager();
-        final Map<String, Map<String, Set<ExecutorService>>> resourcesManager =
-            manager.getResourcesManager();
+        final Map<String, Map<String, Set<ExecutorService>>> resourcesManager = manager.getResourcesManager();
         
         executorService = ExecutorFactory.Managed.newSingleExecutorService(testGroup);
         assertTrue(executorService instanceof ThreadPoolExecutor);
@@ -112,8 +111,7 @@ class ExecutorFactoryTest {
         assertNotEquals(threadFactory, threadPoolExecutor.getThreadFactory());
         assertEquals(2, resourcesManager.get("nacos").get(testGroup).size());
         
-        executorService =
-            ExecutorFactory.Managed.newSingleExecutorService(testGroup, threadFactory);
+        executorService = ExecutorFactory.Managed.newSingleExecutorService(testGroup, threadFactory);
         assertTrue(executorService instanceof ThreadPoolExecutor);
         threadPoolExecutor = (ThreadPoolExecutor) executorService;
         assertEquals(1, threadPoolExecutor.getCorePoolSize());
@@ -121,8 +119,7 @@ class ExecutorFactoryTest {
         assertEquals(threadFactory, threadPoolExecutor.getThreadFactory());
         assertEquals(3, resourcesManager.get("nacos").get(testGroup).size());
         
-        executorService =
-            ExecutorFactory.Managed.newFixedExecutorService(testGroup, 10, threadFactory);
+        executorService = ExecutorFactory.Managed.newFixedExecutorService(testGroup, 10, threadFactory);
         assertTrue(executorService instanceof ThreadPoolExecutor);
         threadPoolExecutor = (ThreadPoolExecutor) executorService;
         assertEquals(10, threadPoolExecutor.getCorePoolSize());
@@ -132,8 +129,7 @@ class ExecutorFactoryTest {
         
         ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
         
-        executorService =
-            ExecutorFactory.Managed.newSingleScheduledExecutorService(testGroup, threadFactory);
+        executorService = ExecutorFactory.Managed.newSingleScheduledExecutorService(testGroup, threadFactory);
         assertTrue(executorService instanceof ScheduledThreadPoolExecutor);
         scheduledThreadPoolExecutor = (ScheduledThreadPoolExecutor) executorService;
         assertEquals(1, scheduledThreadPoolExecutor.getCorePoolSize());
@@ -141,8 +137,7 @@ class ExecutorFactoryTest {
         assertEquals(threadFactory, threadPoolExecutor.getThreadFactory());
         assertEquals(5, resourcesManager.get("nacos").get(testGroup).size());
         
-        executorService =
-            ExecutorFactory.Managed.newScheduledExecutorService(testGroup, 10, threadFactory);
+        executorService = ExecutorFactory.Managed.newScheduledExecutorService(testGroup, 10, threadFactory);
         assertTrue(executorService instanceof ScheduledThreadPoolExecutor);
         scheduledThreadPoolExecutor = (ScheduledThreadPoolExecutor) executorService;
         assertEquals(10, scheduledThreadPoolExecutor.getCorePoolSize());
@@ -150,8 +145,7 @@ class ExecutorFactoryTest {
         assertEquals(threadFactory, threadPoolExecutor.getThreadFactory());
         assertEquals(6, resourcesManager.get("nacos").get(testGroup).size());
         
-        threadPoolExecutor = ExecutorFactory.Managed.newCustomerThreadExecutor(testGroup, 10, 20,
-            1000, threadFactory);
+        threadPoolExecutor = ExecutorFactory.Managed.newCustomerThreadExecutor(testGroup, 10, 20, 1000, threadFactory);
         assertEquals(10, threadPoolExecutor.getCorePoolSize());
         assertEquals(20, threadPoolExecutor.getMaximumPoolSize());
         assertEquals(threadFactory, threadPoolExecutor.getThreadFactory());

@@ -97,8 +97,7 @@ class NamingHttpResourceParserTest {
     void testParseWithGroupInService() throws NoSuchMethodException {
         Secured secured = getMethodSecure();
         Mockito.when(request.getParameter(eq(CommonParams.NAMESPACE_ID))).thenReturn("testNs");
-        Mockito.when(request.getParameter(eq(CommonParams.SERVICE_NAME)))
-            .thenReturn("testG@@testS");
+        Mockito.when(request.getParameter(eq(CommonParams.SERVICE_NAME))).thenReturn("testG@@testS");
         Resource actual = resourceParser.parse(request, secured);
         assertEquals("testNs", actual.getNamespaceId());
         assertEquals("testG", actual.getGroup());

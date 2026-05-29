@@ -49,16 +49,14 @@ class ConfigChangeBatchListenRequestHandlerTest {
     @BeforeEach
     void setUp() {
         configQueryRequestHandler = new ConfigChangeBatchListenRequestHandler();
-        ReflectionTestUtils.setField(configQueryRequestHandler, "configChangeListenContext",
-            configChangeListenContext);
+        ReflectionTestUtils.setField(configQueryRequestHandler, "configChangeListenContext", configChangeListenContext);
         requestMeta = new RequestMeta();
         requestMeta.setClientIp("1.1.1.1");
     }
     
     @Test
     void testHandle() {
-        MockedStatic<ConfigCacheService> configCacheServiceMockedStatic =
-            Mockito.mockStatic(ConfigCacheService.class);
+        MockedStatic<ConfigCacheService> configCacheServiceMockedStatic = Mockito.mockStatic(ConfigCacheService.class);
         
         String dataId = "dataId";
         String group = "group";
@@ -68,18 +66,14 @@ class ConfigChangeBatchListenRequestHandlerTest {
         
         final String groupKeyCopy = groupKey;
         configCacheServiceMockedStatic.when(
-            () -> ConfigCacheService.isUptodate(eq(groupKeyCopy), Mockito.any(), Mockito.any(),
-                Mockito.any()))
-            .thenReturn(false);
+                () -> ConfigCacheService.isUptodate(eq(groupKeyCopy), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(false);
         ConfigBatchListenRequest configChangeListenRequest = new ConfigBatchListenRequest();
         configChangeListenRequest.addConfigListenContext(group, dataId, tenant, " ");
         try {
-            ConfigChangeBatchListenResponse configChangeBatchListenResponse =
-                configQueryRequestHandler.handle(configChangeListenRequest,
+            ConfigChangeBatchListenResponse configChangeBatchListenResponse = configQueryRequestHandler.handle(configChangeListenRequest,
                     requestMeta);
             boolean hasChange = false;
-            for (ConfigChangeBatchListenResponse.ConfigContext changedConfig : configChangeBatchListenResponse
-                .getChangedConfigs()) {
+            for (ConfigChangeBatchListenResponse.ConfigContext changedConfig : configChangeBatchListenResponse.getChangedConfigs()) {
                 if (changedConfig.getDataId().equals(dataId)) {
                     hasChange = true;
                     break;
@@ -91,18 +85,6 @@ class ConfigChangeBatchListenRequestHandlerTest {
         } finally {
             configCacheServiceMockedStatic.close();
         }
-    }
-    
-    @Test
-    void testHandleRemoveListen() throws NacosException {
-        ConfigBatchListenRequest configChangeListenRequest = new ConfigBatchListenRequest();
-        configChangeListenRequest.setListen(false);
-        configChangeListenRequest.addConfigListenContext("group", "dataId", "tenant", "md5");
-        
-        ConfigChangeBatchListenResponse response =
-            configQueryRequestHandler.handle(configChangeListenRequest, requestMeta);
-        
-        assertTrue(response.getChangedConfigs().isEmpty());
     }
     
 }

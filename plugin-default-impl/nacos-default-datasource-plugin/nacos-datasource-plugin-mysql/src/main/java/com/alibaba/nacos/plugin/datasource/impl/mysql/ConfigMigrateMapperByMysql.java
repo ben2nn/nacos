@@ -24,8 +24,7 @@ import com.alibaba.nacos.plugin.datasource.mapper.ConfigMigrateMapper;
  *
  * @author Sunrisea
  */
-public class ConfigMigrateMapperByMysql extends AbstractMapperByMysql
-    implements ConfigMigrateMapper {
+public class ConfigMigrateMapperByMysql extends AbstractMapperByMysql implements ConfigMigrateMapper {
     
     @Override
     public String getDataSource() {

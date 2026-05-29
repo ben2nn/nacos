@@ -37,8 +37,7 @@ class ClientAbilityControlManagerTest {
     
     @Test
     void testInitCurrentNodeAbilities() {
-        Map<AbilityMode, Map<AbilityKey, Boolean>> actual =
-            clientAbilityControlManager.initCurrentNodeAbilities();
+        Map<AbilityMode, Map<AbilityKey, Boolean>> actual = clientAbilityControlManager.initCurrentNodeAbilities();
         assertEquals(1, actual.size());
         assertTrue(actual.containsKey(AbilityMode.SDK_CLIENT));
         // Current not define sdk ability.

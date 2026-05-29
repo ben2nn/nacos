@@ -23,7 +23,6 @@ package com.alibaba.nacos.api.model.v2;
  * @author zhangyukun on:2024/9/24
  */
 public enum SupportedLanguage {
-    
     /**
      * Chinese language.
      */

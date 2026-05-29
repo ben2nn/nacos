@@ -71,8 +71,7 @@ class ChatResponseTest {
     @Test
     void testContentResponse() {
         // Given
-        ChatResponse response =
-            new ChatResponse(StreamResponseType.CONTENT, "This is a content chunk", false);
+        ChatResponse response = new ChatResponse(StreamResponseType.CONTENT, "This is a content chunk", false);
         
         // Then
         assertEquals(StreamResponseType.CONTENT, response.getType());

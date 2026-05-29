@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState, useMemo } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import Markdown from 'react-markdown';
@@ -87,15 +87,10 @@ import {
 export default function AgentSpecDetailPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { name: routeName } = useParams<{ name: string }>();
   const agentSpecName = routeName ? decodeURIComponent(routeName) : '';
   const { currentNamespace } = useNamespaceStore();
-  const namespaceId =
-    searchParams.get('namespaceId') ||
-    searchParams.get('namespace') ||
-    currentNamespace ||
-    'public';
+  const namespaceId = currentNamespace || 'public';
 
   const {
     currentDetail,
@@ -313,35 +308,6 @@ export default function AgentSpecDetailPage() {
       });
       toast.success(t('agentSpec.publishSuccess'));
       await loadDetail();
-    } catch {
-      await loadDetail();
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const handleRedraft = async (version: string) => {
-    setActionLoading(true);
-    try {
-      await agentSpecApi.redraft({ namespaceId, agentSpecName, version });
-      toast.success(t('agentSpec.redraftSuccess'));
-      await loadDetail();
-      const response = await agentSpecApi.getVersion({ namespaceId, agentSpecName, version });
-      setDetailDocument(response.data);
-      const doc = response.data;
-      const docResource = doc?.resource || {};
-      const agentsEntry = Object.entries(docResource).find(([, r]) => {
-        const name = r.name.split('/').pop() || r.name;
-        return name.toUpperCase() === 'AGENTS.MD';
-      });
-      const agentsStr = agentsEntry?.[1]?.content || '';
-      const resEntries = Object.entries(docResource).filter(([key]) => key !== agentsEntry?.[0]);
-      setEditDescription(doc?.description ?? '');
-      setEditAgentsContent(agentsStr);
-      setEditResources(Object.fromEntries(resEntries));
-      setEditContent(doc?.content || '{}');
-      setEditVirtualFolders(new Set());
-      setIsEditingDraft(true);
     } catch {
       await loadDetail();
     } finally {
@@ -857,8 +823,7 @@ export default function AgentSpecDetailPage() {
                   <SelectContent>
                     {versionOptions.map((version) => {
                       const vPipeline = parsePipelineInfo(version.publishPipelineInfo);
-                      const isVersionPendingPublish = (version.status === 'reviewed' && vPipeline?.status !== 'REJECTED') || (version.status === 'reviewing' && vPipeline?.status === 'APPROVED');
-                      const isVersionRejected = version.status === 'reviewed' && vPipeline?.status === 'REJECTED';
+                      const isVersionPendingPublish = version.status === 'reviewing' && vPipeline?.status === 'APPROVED';
                       return (
                       <SelectItem key={version.version} value={version.version}>
                         <span className="flex items-center gap-2">
@@ -873,12 +838,7 @@ export default function AgentSpecDetailPage() {
                               {t('agentSpec.versionStatus.draft')}
                             </Badge>
                           )}
-                          {isVersionRejected && (
-                            <Badge className="bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300 text-[10px] px-1 py-0 border-0">
-                              {t('agentSpec.versionStatus.rejected')}
-                            </Badge>
-                          )}
-                          {!isVersionRejected && (version.status === 'reviewing' || version.status === 'reviewed') && (
+                          {version.status === 'reviewing' && (
                             <Badge className={isVersionPendingPublish
                               ? 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300 text-[10px] px-1 py-0 border-0'
                               : 'bg-blue-100 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 text-[10px] px-1 py-0 border-0'
@@ -1070,8 +1030,8 @@ export default function AgentSpecDetailPage() {
                     </>
                   )}
 
-                  {/* Reviewing / Reviewed actions */}
-                  {(currentVersionStatus === 'reviewing' || currentVersionStatus === 'reviewed') && (
+                  {/* Reviewing actions */}
+                  {currentVersionStatus === 'reviewing' && (
                     <>
                       <Button
                         size="sm"
@@ -1084,30 +1044,6 @@ export default function AgentSpecDetailPage() {
                           ? t('agentSpec.pipelineInProgress')
                           : t('agentSpec.publish')}
                       </Button>
-                      {currentVersionStatus === 'reviewed' && (
-                        <>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="h-7 text-xs gap-1.5"
-                            disabled={actionLoading}
-                            onClick={() => handleRedraft(selectedVersion)}
-                          >
-                            <Pencil className="h-3 w-3" />
-                            {t('agentSpec.redraft')}
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="h-7 text-xs gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            disabled={actionLoading}
-                            onClick={handleDeleteDraft}
-                          >
-                            <Trash2 className="h-3 w-3" />
-                            {t('agentSpec.deleteDraft')}
-                          </Button>
-                        </>
-                      )}
                       {currentPipelineInfo && currentPipelineInfo.status === 'APPROVED' && (
                         <PipelineStatusDisplay pipelineInfo={currentPipelineInfo} compact translationPrefix="agentSpec" />
                       )}
@@ -1641,13 +1577,12 @@ function StatusBadge({
   status,
   label,
 }: {
-  status?: 'draft' | 'reviewing' | 'reviewed' | 'online' | 'offline';
+  status?: 'draft' | 'reviewing' | 'online' | 'offline';
   label: string;
 }) {
   const statusStyles: Record<string, string> = {
     draft: 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300',
     reviewing: 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300',
-    reviewed: 'bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300',
     online: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300',
     offline: 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400',
   };

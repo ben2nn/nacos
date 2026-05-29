@@ -21,6 +21,5 @@ package com.alibaba.nacos.api.ai.listener;
  *
  * @author xiweng.yy
  */
-public abstract class AbstractNacosAgentCardListener
-    implements NacosAiListener<NacosAgentCardEvent> {
+public abstract class AbstractNacosAgentCardListener implements NacosAiListener<NacosAgentCardEvent> {
 }

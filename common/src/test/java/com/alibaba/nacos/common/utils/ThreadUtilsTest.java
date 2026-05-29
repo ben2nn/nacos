@@ -79,8 +79,7 @@ class ThreadUtilsTest {
     @Test
     void testShutdownThreadPoolWithInterruptedException() throws InterruptedException {
         ExecutorService executor = mock(ExecutorService.class);
-        when(executor.awaitTermination(100, TimeUnit.MILLISECONDS))
-            .thenThrow(new InterruptedException());
+        when(executor.awaitTermination(100, TimeUnit.MILLISECONDS)).thenThrow(new InterruptedException());
         ThreadUtils.shutdownThreadPool(executor);
         verify(executor, times(4)).shutdownNow();
     }

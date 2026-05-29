@@ -40,8 +40,7 @@ class MediaTypeTest {
     
     @Test
     void testValueOf2() {
-        MediaType mediaType =
-            MediaType.valueOf(MediaType.APPLICATION_FORM_URLENCODED, "ISO-8859-1");
+        MediaType mediaType = MediaType.valueOf(MediaType.APPLICATION_FORM_URLENCODED, "ISO-8859-1");
         String type = "application/x-www-form-urlencoded";
         String charset = "ISO-8859-1";
         String excepted = "application/x-www-form-urlencoded;charset=ISO-8859-1";

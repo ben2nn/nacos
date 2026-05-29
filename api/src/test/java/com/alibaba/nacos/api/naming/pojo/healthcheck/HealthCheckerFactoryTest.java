@@ -93,8 +93,7 @@ class HealthCheckerFactoryTest {
     
     @Test
     void testCreateNoneHealthChecker() {
-        assertEquals(AbstractHealthChecker.None.class,
-            HealthCheckerFactory.createNoneHealthChecker().getClass());
+        assertEquals(AbstractHealthChecker.None.class, HealthCheckerFactory.createNoneHealthChecker().getClass());
     }
     
     private static class NoRegisterHealthChecker extends AbstractHealthChecker {

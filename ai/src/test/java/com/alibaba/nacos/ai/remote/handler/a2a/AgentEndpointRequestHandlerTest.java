@@ -63,8 +63,7 @@ class AgentEndpointRequestHandlerTest {
     
     @BeforeEach
     void setUp() {
-        requestHandler =
-            new AgentEndpointRequestHandler(clientOperationService, agentIdCodecHolder);
+        requestHandler = new AgentEndpointRequestHandler(clientOperationService, agentIdCodecHolder);
         capturedInstance = null;
     }
     
@@ -77,7 +76,7 @@ class AgentEndpointRequestHandlerTest {
         AgentEndpointRequest request = new AgentEndpointRequest();
         AgentEndpointResponse response = requestHandler.handle(request, meta);
         assertErrorResponse(response, NacosException.INVALID_PARAM,
-            "Required parameter `agentName` can't be empty or null");
+                "Required parameter `agentName` can't be empty or null");
     }
     
     @Test
@@ -85,8 +84,7 @@ class AgentEndpointRequestHandlerTest {
         AgentEndpointRequest request = new AgentEndpointRequest();
         request.setAgentName("test");
         AgentEndpointResponse response = requestHandler.handle(request, meta);
-        assertErrorResponse(response, NacosException.INVALID_PARAM,
-            "Required parameter `endpoint` can't be null");
+        assertErrorResponse(response, NacosException.INVALID_PARAM, "Required parameter `endpoint` can't be null");
     }
     
     @Test
@@ -99,7 +97,7 @@ class AgentEndpointRequestHandlerTest {
         request.setEndpoint(endpoint);
         AgentEndpointResponse response = requestHandler.handle(request, meta);
         assertErrorResponse(response, NacosException.INVALID_PARAM,
-            "Required parameter `endpoint.version` can't be empty or null");
+                "Required parameter `endpoint.version` can't be empty or null");
     }
     
     @Test
@@ -115,7 +113,7 @@ class AgentEndpointRequestHandlerTest {
         when(agentIdCodecHolder.encode("test")).thenReturn("test");
         AgentEndpointResponse response = requestHandler.handle(request, meta);
         assertErrorResponse(response, NacosException.INVALID_PARAM,
-            "parameter `type` should be registerEndpoint or deregisterEndpoint, but was INVALID_TYPE");
+                "parameter `type` should be registerEndpoint or deregisterEndpoint, but was INVALID_TYPE");
     }
     
     @Test
@@ -141,13 +139,12 @@ class AgentEndpointRequestHandlerTest {
             capturedInstance = invocation.getArgument(1);
             validateInstanceMetadata(capturedInstance);
             return null;
-        }).when(clientOperationService).registerInstance(any(Service.class), any(Instance.class),
-            eq("TEST_CONNECTION_ID"));
+        }).when(clientOperationService).registerInstance(any(Service.class), any(Instance.class), eq("TEST_CONNECTION_ID"));
         
         AgentEndpointResponse response = requestHandler.handle(request, meta);
         assertEquals(AiRemoteConstants.REGISTER_ENDPOINT, response.getType());
         verify(clientOperationService).registerInstance(any(Service.class), any(Instance.class),
-            eq("TEST_CONNECTION_ID"));
+                eq("TEST_CONNECTION_ID"));
     }
     
     @Test
@@ -173,13 +170,12 @@ class AgentEndpointRequestHandlerTest {
             capturedInstance = invocation.getArgument(1);
             validateInstanceMetadata(capturedInstance);
             return null;
-        }).when(clientOperationService).deregisterInstance(any(Service.class), any(Instance.class),
-            eq("TEST_CONNECTION_ID"));
+        }).when(clientOperationService).deregisterInstance(any(Service.class), any(Instance.class), eq("TEST_CONNECTION_ID"));
         
         AgentEndpointResponse response = requestHandler.handle(request, meta);
         assertEquals(AiRemoteConstants.DE_REGISTER_ENDPOINT, response.getType());
         verify(clientOperationService).deregisterInstance(any(Service.class), any(Instance.class),
-            eq("TEST_CONNECTION_ID"));
+                eq("TEST_CONNECTION_ID"));
     }
     
     private void assertErrorResponse(AgentEndpointResponse response, int code, String message) {

@@ -52,8 +52,7 @@ class InputTest extends BasicRequestTest {
     
     @Test
     void testDeserialize() throws JsonProcessingException {
-        String json =
-            "{\"description\":\"test description\",\"isRequired\":true,\"format\":\"string\","
+        String json = "{\"description\":\"test description\",\"isRequired\":true,\"format\":\"string\","
                 + "\"value\":\"test value\",\"isSecret\":false,\"defaultValue\":\"default value\","
                 + "\"choices\":[\"choice1\",\"choice2\"]}";
         

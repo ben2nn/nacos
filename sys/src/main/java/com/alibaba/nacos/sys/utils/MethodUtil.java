@@ -24,10 +24,9 @@ import java.lang.reflect.Method;
  * @author yanhom
  */
 public final class MethodUtil {
-    
-    private MethodUtil() {
-    }
-    
+
+    private MethodUtil() {}
+
     /**
      * Invoke method and return double value.
      *
@@ -42,7 +41,7 @@ public final class MethodUtil {
             return Double.NaN;
         }
     }
-    
+
     /**
      * Invoke method and return long value.
      *

@@ -100,12 +100,10 @@ public class ConfigProxyTest {
         expectedConfigDetailInfo.setGroupName(group);
         expectedConfigDetailInfo.setNamespaceId(namespaceId);
         
-        when(configHandler.getConfigDetail(dataId, group, namespaceId))
-            .thenReturn(expectedConfigDetailInfo);
+        when(configHandler.getConfigDetail(dataId, group, namespaceId)).thenReturn(expectedConfigDetailInfo);
         
         // 执行
-        ConfigDetailInfo actualConfigDetailInfo =
-            configProxy.getConfigDetail(dataId, group, namespaceId);
+        ConfigDetailInfo actualConfigDetailInfo = configProxy.getConfigDetail(dataId, group, namespaceId);
         
         // 断言
         assertEquals(expectedConfigDetailInfo, actualConfigDetailInfo);
@@ -132,10 +130,9 @@ public class ConfigProxyTest {
         expectedPage.setTotalCount(10);
         
         when(configHandler.getConfigList(anyInt(), anyInt(), anyString(), anyString(), anyString(),
-            any(Map.class))).thenReturn(expectedPage);
+                any(Map.class))).thenReturn(expectedPage);
         
-        Page<ConfigBasicInfo> result =
-            configProxy.getConfigList(1, 10, DATA_ID, GROUP, NAMESPACE_ID, new HashMap<>());
+        Page<ConfigBasicInfo> result = configProxy.getConfigList(1, 10, DATA_ID, GROUP, NAMESPACE_ID, new HashMap<>());
         
         assertNotNull(result);
         assertEquals(expectedPage.getPageNumber(), result.getPageNumber());
@@ -145,15 +142,12 @@ public class ConfigProxyTest {
     
     @Test
     public void deleteConfig() throws NacosException {
-        when(configHandler.deleteConfig(DATA_ID, GROUP, NAMESPACE_ID, TAG, CLIENT_IP, SRC_USER))
-            .thenReturn(true);
+        when(configHandler.deleteConfig(DATA_ID, GROUP, NAMESPACE_ID, TAG, CLIENT_IP, SRC_USER)).thenReturn(true);
         
-        Boolean result =
-            configProxy.deleteConfig(DATA_ID, GROUP, NAMESPACE_ID, TAG, CLIENT_IP, SRC_USER);
+        Boolean result = configProxy.deleteConfig(DATA_ID, GROUP, NAMESPACE_ID, TAG, CLIENT_IP, SRC_USER);
         
         assertTrue(result);
-        verify(configHandler, times(1)).deleteConfig(DATA_ID, GROUP, NAMESPACE_ID, TAG, CLIENT_IP,
-            SRC_USER);
+        verify(configHandler, times(1)).deleteConfig(DATA_ID, GROUP, NAMESPACE_ID, TAG, CLIENT_IP, SRC_USER);
     }
     
     @Test
@@ -164,18 +158,15 @@ public class ConfigProxyTest {
         expectedPage.setPagesAvailable(1);
         expectedPage.setTotalCount(0);
         
-        when(configHandler.getConfigListByContent(anyString(), anyInt(), anyInt(), anyString(),
-            anyString(),
-            anyString(), anyMap())).thenReturn(expectedPage);
+        when(configHandler.getConfigListByContent(anyString(), anyInt(), anyInt(), anyString(), anyString(),
+                anyString(), anyMap())).thenReturn(expectedPage);
         
-        Page<ConfigBasicInfo> result =
-            configProxy.getConfigListByContent("search", 1, 10, DATA_ID_B, GROUP_B,
+        Page<ConfigBasicInfo> result = configProxy.getConfigListByContent("search", 1, 10, DATA_ID_B, GROUP_B,
                 NAMESPACE_ID_B, new HashMap<>());
         
         assertEquals(expectedPage, result);
-        verify(configHandler, times(1)).getConfigListByContent("search", 1, 10, DATA_ID_B, GROUP_B,
-            NAMESPACE_ID_B,
-            new HashMap<>());
+        verify(configHandler, times(1)).getConfigListByContent("search", 1, 10, DATA_ID_B, GROUP_B, NAMESPACE_ID_B,
+                new HashMap<>());
     }
     
     @Test
@@ -201,11 +192,9 @@ public class ConfigProxyTest {
         ConfigListenerInfo expectedInfo = new ConfigListenerInfo();
         expectedInfo.setQueryType("config");
         
-        when(configHandler.getListeners(dataId, group, namespaceId, aggregation))
-            .thenReturn(expectedInfo);
+        when(configHandler.getListeners(dataId, group, namespaceId, aggregation)).thenReturn(expectedInfo);
         
-        ConfigListenerInfo actualInfo =
-            configProxy.getListeners(dataId, group, namespaceId, aggregation);
+        ConfigListenerInfo actualInfo = configProxy.getListeners(dataId, group, namespaceId, aggregation);
         
         assertEquals(expectedInfo, actualInfo);
         verify(configHandler, times(1)).getListeners(dataId, group, namespaceId, aggregation);
@@ -220,11 +209,9 @@ public class ConfigProxyTest {
         ConfigListenerInfo expectedInfo = new ConfigListenerInfo();
         expectedInfo.setQueryType("config");
         
-        when(configHandler.getAllSubClientConfigByIp(ip, all, namespaceId, aggregation))
-            .thenReturn(expectedInfo);
+        when(configHandler.getAllSubClientConfigByIp(ip, all, namespaceId, aggregation)).thenReturn(expectedInfo);
         
-        ConfigListenerInfo result =
-            configProxy.getAllSubClientConfigByIp(ip, all, namespaceId, aggregation);
+        ConfigListenerInfo result = configProxy.getAllSubClientConfigByIp(ip, all, namespaceId, aggregation);
         
         assertEquals(expectedInfo.getQueryType(), result.getQueryType());
     }
@@ -240,11 +227,9 @@ public class ConfigProxyTest {
         byte[] expectedBody = "testBody".getBytes();
         ResponseEntity<byte[]> expectedResponse = ResponseEntity.ok(expectedBody);
         
-        when(configHandler.exportConfig(dataId, group, namespaceId, appName, ids))
-            .thenReturn(expectedResponse);
+        when(configHandler.exportConfig(dataId, group, namespaceId, appName, ids)).thenReturn(expectedResponse);
         
-        ResponseEntity<byte[]> actualResponse =
-            configProxy.exportConfigV2(dataId, group, namespaceId, appName, ids);
+        ResponseEntity<byte[]> actualResponse = configProxy.exportConfigV2(dataId, group, namespaceId, appName, ids);
         
         assertEquals(expectedResponse, actualResponse);
         verify(configHandler, times(1)).exportConfig(dataId, group, namespaceId, appName, ids);
@@ -262,16 +247,13 @@ public class ConfigProxyTest {
         expectedData.put("status", "success");
         Result<Map<String, Object>> expectedResult = Result.success(expectedData);
         
-        when(configHandler.importAndPublishConfig(any(), any(), any(), any(), any(), any()))
-            .thenReturn(expectedResult);
+        when(configHandler.importAndPublishConfig(any(), any(), any(), any(), any(), any())).thenReturn(expectedResult);
         
-        Result<Map<String, Object>> actualResult =
-            configProxy.importAndPublishConfig(srcUser, namespaceId, policy,
+        Result<Map<String, Object>> actualResult = configProxy.importAndPublishConfig(srcUser, namespaceId, policy,
                 file, srcIp, requestIpApp);
         
         assertEquals(expectedResult, actualResult);
-        verify(configHandler, times(1)).importAndPublishConfig(srcUser, namespaceId, policy, file,
-            srcIp, requestIpApp);
+        verify(configHandler, times(1)).importAndPublishConfig(srcUser, namespaceId, policy, file, srcIp, requestIpApp);
     }
     
     @Test
@@ -287,17 +269,14 @@ public class ConfigProxyTest {
         expectedData.put("key", "value");
         Result<Map<String, Object>> expected = Result.success(expectedData);
         
-        when(configHandler.cloneConfig(srcUser, namespaceId, configBeansList, policy, srcIp,
-            requestIpApp)).thenReturn(
+        when(configHandler.cloneConfig(srcUser, namespaceId, configBeansList, policy, srcIp, requestIpApp)).thenReturn(
                 expected);
         
-        Result<Map<String, Object>> actual =
-            configProxy.cloneConfig(srcUser, namespaceId, configBeansList, policy,
+        Result<Map<String, Object>> actual = configProxy.cloneConfig(srcUser, namespaceId, configBeansList, policy,
                 srcIp, requestIpApp);
         
         assertEquals(expected, actual);
-        verify(configHandler, times(1)).cloneConfig(srcUser, namespaceId, configBeansList, policy,
-            srcIp, requestIpApp);
+        verify(configHandler, times(1)).cloneConfig(srcUser, namespaceId, configBeansList, policy, srcIp, requestIpApp);
     }
     
     @Test
@@ -307,11 +286,9 @@ public class ConfigProxyTest {
         expectedConfigGrayInfo.setConfigTags(TAG);
         expectedConfigGrayInfo.setContent("testContent");
         
-        when(configHandler.queryBetaConfig(DATA_ID_B, GROUP_B, NAMESPACE_ID_B))
-            .thenReturn(expectedConfigGrayInfo);
+        when(configHandler.queryBetaConfig(DATA_ID_B, GROUP_B, NAMESPACE_ID_B)).thenReturn(expectedConfigGrayInfo);
         
-        ConfigGrayInfo actualConfigGrayInfo =
-            configProxy.queryBetaConfig(DATA_ID_B, GROUP_B, NAMESPACE_ID_B);
+        ConfigGrayInfo actualConfigGrayInfo = configProxy.queryBetaConfig(DATA_ID_B, GROUP_B, NAMESPACE_ID_B);
         
         assertEquals(expectedConfigGrayInfo, actualConfigGrayInfo);
         verify(configHandler, times(1)).queryBetaConfig(DATA_ID_B, GROUP_B, NAMESPACE_ID_B);
@@ -326,15 +303,12 @@ public class ConfigProxyTest {
         String requestIpApp = "testApp";
         String srcUser = SRC_USER;
         
-        when(configHandler.removeBetaConfig(dataId, group, namespaceId, remoteIp, requestIpApp,
-            srcUser)).thenReturn(
+        when(configHandler.removeBetaConfig(dataId, group, namespaceId, remoteIp, requestIpApp, srcUser)).thenReturn(
                 true);
         
-        boolean result = configProxy.removeBetaConfig(dataId, group, namespaceId, remoteIp,
-            requestIpApp, srcUser);
+        boolean result = configProxy.removeBetaConfig(dataId, group, namespaceId, remoteIp, requestIpApp, srcUser);
         
         assertTrue(result);
-        verify(configHandler, times(1)).removeBetaConfig(dataId, group, namespaceId, remoteIp,
-            requestIpApp, srcUser);
+        verify(configHandler, times(1)).removeBetaConfig(dataId, group, namespaceId, remoteIp, requestIpApp, srcUser);
     }
 }

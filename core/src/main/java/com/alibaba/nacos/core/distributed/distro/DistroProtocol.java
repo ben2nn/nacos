@@ -51,9 +51,8 @@ public class DistroProtocol {
     
     private volatile boolean isInitialized = false;
     
-    public DistroProtocol(ServerMemberManager memberManager,
-        DistroComponentHolder distroComponentHolder,
-        DistroTaskEngineHolder distroTaskEngineHolder) {
+    public DistroProtocol(ServerMemberManager memberManager, DistroComponentHolder distroComponentHolder,
+            DistroTaskEngineHolder distroTaskEngineHolder) {
         this.memberManager = memberManager;
         this.distroComponentHolder = distroComponentHolder;
         this.distroTaskEngineHolder = distroTaskEngineHolder;
@@ -71,7 +70,6 @@ public class DistroProtocol {
     
     private void startLoadTask() {
         DistroCallback loadCallback = new DistroCallback() {
-            
             @Override
             public void onSuccess() {
                 isInitialized = true;
@@ -83,15 +81,13 @@ public class DistroProtocol {
             }
         };
         GlobalExecutor.submitLoadDataTask(
-            new DistroLoadDataTask(memberManager, distroComponentHolder, DistroConfig.getInstance(),
-                loadCallback));
+                new DistroLoadDataTask(memberManager, distroComponentHolder, DistroConfig.getInstance(), loadCallback));
     }
     
     private void startVerifyTask() {
-        GlobalExecutor.schedulePartitionDataTimedSync(
-            new DistroVerifyTimedTask(memberManager, distroComponentHolder,
-                distroTaskEngineHolder.getExecuteWorkersManager()),
-            DistroConfig.getInstance().getVerifyIntervalMillis());
+        GlobalExecutor.schedulePartitionDataTimedSync(new DistroVerifyTimedTask(memberManager, distroComponentHolder,
+                        distroTaskEngineHolder.getExecuteWorkersManager()),
+                DistroConfig.getInstance().getVerifyIntervalMillis());
     }
     
     public boolean isInitialized() {
@@ -129,14 +125,11 @@ public class DistroProtocol {
      * @param targetServer target server
      * @param delay        delay time for sync
      */
-    public void syncToTarget(DistroKey distroKey, DataOperation action, String targetServer,
-        long delay) {
-        DistroKey distroKeyWithTarget =
-            new DistroKey(distroKey.getResourceKey(), distroKey.getResourceType(),
+    public void syncToTarget(DistroKey distroKey, DataOperation action, String targetServer, long delay) {
+        DistroKey distroKeyWithTarget = new DistroKey(distroKey.getResourceKey(), distroKey.getResourceType(),
                 targetServer);
         DistroDelayTask distroDelayTask = new DistroDelayTask(distroKeyWithTarget, action, delay);
-        distroTaskEngineHolder.getDelayTaskExecuteEngine().addTask(distroKeyWithTarget,
-            distroDelayTask);
+        distroTaskEngineHolder.getDelayTaskExecuteEngine().addTask(distroKeyWithTarget, distroDelayTask);
         if (Loggers.DISTRO.isDebugEnabled()) {
             Loggers.DISTRO.debug("[DISTRO-SCHEDULE] {} to {}", distroKey, targetServer);
         }
@@ -154,8 +147,7 @@ public class DistroProtocol {
             return null;
         }
         String resourceType = distroKey.getResourceType();
-        DistroTransportAgent transportAgent =
-            distroComponentHolder.findTransportAgent(resourceType);
+        DistroTransportAgent transportAgent = distroComponentHolder.findTransportAgent(resourceType);
         if (null == transportAgent) {
             Loggers.DISTRO.warn("[DISTRO] Can't find transport agent for key {}", resourceType);
             return null;
@@ -171,12 +163,11 @@ public class DistroProtocol {
      */
     public boolean onReceive(DistroData distroData) {
         Loggers.DISTRO.info("[DISTRO] Receive distro data type: {}, key: {}", distroData.getType(),
-            distroData.getDistroKey());
+                distroData.getDistroKey());
         String resourceType = distroData.getDistroKey().getResourceType();
         DistroDataProcessor dataProcessor = distroComponentHolder.findDataProcessor(resourceType);
         if (null == dataProcessor) {
-            Loggers.DISTRO.warn("[DISTRO] Can't find data process for received data {}",
-                resourceType);
+            Loggers.DISTRO.warn("[DISTRO] Can't find data process for received data {}", resourceType);
             return false;
         }
         return dataProcessor.processData(distroData);
@@ -191,15 +182,13 @@ public class DistroProtocol {
      */
     public boolean onVerify(DistroData distroData, String sourceAddress) {
         if (Loggers.DISTRO.isDebugEnabled()) {
-            Loggers.DISTRO.debug("[DISTRO] Receive verify data type: {}, key: {}",
-                distroData.getType(),
-                distroData.getDistroKey());
+            Loggers.DISTRO.debug("[DISTRO] Receive verify data type: {}, key: {}", distroData.getType(),
+                    distroData.getDistroKey());
         }
         String resourceType = distroData.getDistroKey().getResourceType();
         DistroDataProcessor dataProcessor = distroComponentHolder.findDataProcessor(resourceType);
         if (null == dataProcessor) {
-            Loggers.DISTRO.warn("[DISTRO] Can't find verify data process for received data {}",
-                resourceType);
+            Loggers.DISTRO.warn("[DISTRO] Can't find verify data process for received data {}", resourceType);
             return false;
         }
         return dataProcessor.processVerifyData(distroData, sourceAddress);
@@ -215,8 +204,7 @@ public class DistroProtocol {
         String resourceType = distroKey.getResourceType();
         DistroDataStorage distroDataStorage = distroComponentHolder.findDataStorage(resourceType);
         if (null == distroDataStorage) {
-            Loggers.DISTRO.warn("[DISTRO] Can't find data storage for received key {}",
-                resourceType);
+            Loggers.DISTRO.warn("[DISTRO] Can't find data storage for received key {}", resourceType);
             return new DistroData(distroKey, new byte[0]);
         }
         return distroDataStorage.getDistroData(distroKey);

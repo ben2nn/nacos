@@ -87,9 +87,8 @@ public class RaftEvent extends SlowEvent {
     
     @Override
     public String toString() {
-        return "RaftEvent{" + "groupId='" + groupId + '\'' + ", leader='" + leader + '\''
-            + ", term=" + term
-            + ", raftClusterInfo=" + raftClusterInfo + '}';
+        return "RaftEvent{" + "groupId='" + groupId + '\'' + ", leader='" + leader + '\'' + ", term=" + term
+                + ", raftClusterInfo=" + raftClusterInfo + '}';
     }
     
     public static final class RaftEventBuilder {
@@ -126,7 +125,7 @@ public class RaftEvent extends SlowEvent {
             this.raftClusterInfo = raftClusterInfo;
             return this;
         }
-        
+    
         public RaftEventBuilder errMsg(String errMsg) {
             this.errMsg = errMsg;
             return this;

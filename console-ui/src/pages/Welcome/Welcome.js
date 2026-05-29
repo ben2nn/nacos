@@ -35,12 +35,7 @@ class Welcome extends React.Component {
         </>
       );
     }
-    let path = 'configurationManagement';
-    if (functionMode === 'naming') {
-      path = 'serviceManagement';
-    } else if (functionMode === 'ai') {
-      path = 'skillManagement';
-    }
+    const path = functionMode === 'naming' ? 'serviceManagement' : 'configurationManagement';
     return <>{functionMode !== '' && <Redirect to={`/${path}`} />}</>;
   }
 }

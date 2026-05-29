@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Search, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -31,8 +31,6 @@ export default function SubscriberListPage() {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const { currentNamespace } = useNamespaceStore();
-  const activeNamespace =
-    searchParams.get('namespace') || searchParams.get('namespaceId') || currentNamespace;
 
   // Search
   const [serviceName, setServiceName] = useState(searchParams.get('serviceName') || '');
@@ -45,12 +43,12 @@ export default function SubscriberListPage() {
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const fetchSubscribers = useCallback(async () => {
+  const fetchSubscribers = async () => {
     if (!serviceName.trim()) return;
     setLoading(true);
     try {
       const response = await serviceApi.listSubscribers({
-        namespaceId: activeNamespace,
+        namespaceId: currentNamespace,
         serviceName: serviceName.trim(),
         groupName: groupName.trim() || undefined,
         pageNo,
@@ -66,22 +64,18 @@ export default function SubscriberListPage() {
     } finally {
       setLoading(false);
     }
-  }, [activeNamespace, groupName, pageNo, pageSize, serviceName]);
+  };
 
   useEffect(() => {
     if (serviceName.trim()) {
       fetchSubscribers();
     }
-    // Keep search input edits manual; refetch automatically only when namespace or pagination changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeNamespace, pageNo, pageSize]);
+  }, [pageNo, pageSize]);
 
   const handleSearch = () => {
-    if (pageNo === 1) {
-      fetchSubscribers();
-      return;
-    }
     setPageNo(1);
+    fetchSubscribers();
   };
 
   const handleReset = () => {

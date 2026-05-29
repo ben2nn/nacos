@@ -42,8 +42,7 @@ class ServerVersionDetailTest extends BasicRequestTest {
     
     @Test
     void testDeserialize() throws JsonProcessingException {
-        String json =
-            "{\"version\":\"1.0.0\",\"release_date\":\"2022-01-01T00:00:00Z\",\"is_latest\":true}";
+        String json = "{\"version\":\"1.0.0\",\"release_date\":\"2022-01-01T00:00:00Z\",\"is_latest\":true}";
         
         ServerVersionDetail serverVersionDetail = mapper.readValue(json, ServerVersionDetail.class);
         assertNotNull(serverVersionDetail);

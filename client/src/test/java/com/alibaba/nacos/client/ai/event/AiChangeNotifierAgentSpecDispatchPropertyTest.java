@@ -49,7 +49,6 @@ class AiChangeNotifierAgentSpecDispatchPropertyTest {
         AiChangeNotifier notifier = new AiChangeNotifier();
         
         AbstractNacosAgentSpecListener listener = new AbstractNacosAgentSpecListener() {
-            
             @Override
             public void onEvent(NacosAgentSpecEvent event) {
                 // no-op for property test
@@ -69,6 +68,6 @@ class AiChangeNotifierAgentSpecDispatchPropertyTest {
         
         // After receiving the matching event, invoker should have been invoked
         assertTrue(invoker.isInvoked(),
-            "Invoker should be invoked after receiving matching AgentSpecChangedEvent");
+                "Invoker should be invoked after receiving matching AgentSpecChangedEvent");
     }
 }

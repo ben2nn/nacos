@@ -38,8 +38,7 @@ import java.util.Map;
 @SuppressWarnings("all")
 public abstract class AbstractNacosRestTemplate {
     
-    private final Map<String, ResponseHandler> responseHandlerMap =
-        new HashMap<String, ResponseHandler>();
+    private final Map<String, ResponseHandler> responseHandlerMap = new HashMap<String, ResponseHandler>();
     
     protected final Logger logger;
     
@@ -51,8 +50,7 @@ public abstract class AbstractNacosRestTemplate {
     private void initDefaultResponseHandler() {
         // init response handler
         responseHandlerMap.put(ResponseHandlerType.STRING_TYPE, new StringResponseHandler());
-        responseHandlerMap.put(ResponseHandlerType.RESTRESULT_TYPE,
-            new RestResultResponseHandler());
+        responseHandlerMap.put(ResponseHandlerType.RESTRESULT_TYPE, new RestResultResponseHandler());
         responseHandlerMap.put(ResponseHandlerType.BYTE_ARRAY_TYPE, new ByteArrayResponseHandler());
         responseHandlerMap.put(ResponseHandlerType.DEFAULT_BEAN_TYPE, new BeanResponseHandler());
     }
@@ -62,8 +60,7 @@ public abstract class AbstractNacosRestTemplate {
      *
      * @param responseHandler {@link ResponseHandler}
      */
-    public void registerResponseHandler(String responseHandlerType,
-        ResponseHandler responseHandler) {
+    public void registerResponseHandler(String responseHandlerType, ResponseHandler responseHandler) {
         responseHandlerMap.put(responseHandlerType, responseHandler);
     }
     

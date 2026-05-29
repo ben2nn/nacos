@@ -30,8 +30,7 @@ import io.grpc.stub.StreamObserver;
 public class ConnectionGeneratorServiceImpl implements ConnectionGeneratorService {
     
     @Override
-    public Connection getConnection(ConnectionMeta metaInfo, StreamObserver streamObserver,
-        Channel channel) {
+    public Connection getConnection(ConnectionMeta metaInfo, StreamObserver streamObserver, Channel channel) {
         return new GrpcConnection(metaInfo, streamObserver, channel);
     }
     

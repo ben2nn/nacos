@@ -129,8 +129,7 @@ class ReflectUtilsTest {
                 assertEquals(exception, e);
             }
             try {
-                InvocationTargetException invocationTargetException =
-                    new InvocationTargetException(exception);
+                InvocationTargetException invocationTargetException = new InvocationTargetException(exception);
                 ReflectUtils.handleReflectionException(invocationTargetException);
             } catch (Exception e) {
                 assertEquals(exception, e);

@@ -38,6 +38,5 @@ public interface HttpClientRequest extends Closeable {
      * @return HttpClientResponse
      * @throws Exception ex
      */
-    HttpClientResponse execute(URI uri, String httpMethod, RequestHttpEntity requestHttpEntity)
-        throws Exception;
+    HttpClientResponse execute(URI uri, String httpMethod, RequestHttpEntity requestHttpEntity) throws Exception;
 }

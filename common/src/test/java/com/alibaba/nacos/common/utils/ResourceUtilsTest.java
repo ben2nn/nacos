@@ -69,8 +69,7 @@ class ResourceUtilsTest {
     
     @Test
     void testGetResourceUrlFromLoader() throws IOException {
-        URL url =
-            ResourceUtils.getResourceUrl(this.getClass().getClassLoader(), "test-tls-cert.pem");
+        URL url = ResourceUtils.getResourceUrl(this.getClass().getClassLoader(), "test-tls-cert.pem");
         assertNotNull(url);
     }
     
@@ -97,8 +96,7 @@ class ResourceUtilsTest {
     
     @Test
     void testGetResourceAsStreamForClasspathFromSystem() throws IOException {
-        try (InputStream inputStream =
-            ResourceUtils.getResourceAsStream(null, "test-tls-cert.pem")) {
+        try (InputStream inputStream = ResourceUtils.getResourceAsStream(null, "test-tls-cert.pem")) {
             assertNotNull(inputStream);
         }
     }
@@ -113,24 +111,21 @@ class ResourceUtilsTest {
     
     @Test
     void testGetResourceAsPropertiesForClasspath() throws IOException {
-        Properties properties =
-            ResourceUtils.getResourceAsProperties("resource_utils_test.properties");
+        Properties properties = ResourceUtils.getResourceAsProperties("resource_utils_test.properties");
         assertNotNull(properties);
         assertTrue(properties.containsKey("a"));
     }
     
     @Test
     void testGetResourceAsReader() throws IOException {
-        try (Reader reader =
-            ResourceUtils.getResourceAsReader("resource_utils_test.properties", "UTF-8")) {
+        try (Reader reader = ResourceUtils.getResourceAsReader("resource_utils_test.properties", "UTF-8")) {
             assertNotNull(reader);
         }
     }
     
     @Test
     void testGetResourceAsReaderWithLoader() throws IOException {
-        try (Reader reader =
-            ResourceUtils.getResourceAsReader(ResourceUtilsTest.class.getClassLoader(),
+        try (Reader reader = ResourceUtils.getResourceAsReader(ResourceUtilsTest.class.getClassLoader(),
                 "resource_utils_test.properties", "UTF-8")) {
             assertNotNull(reader);
         }
@@ -144,15 +139,13 @@ class ResourceUtilsTest {
     
     @Test
     void testGetResourceAsFileByUrl() throws IOException {
-        File file = ResourceUtils.getResourceAsFile(
-            ResourceUtils.getResourceUrl("classpath:resource_utils_test.properties"));
+        File file = ResourceUtils.getResourceAsFile(ResourceUtils.getResourceUrl("classpath:resource_utils_test.properties"));
         assertNotNull(file);
     }
     
     @Test
     void testGetResourceAsFileByLoader() throws IOException {
-        File file = ResourceUtils.getResourceAsFile(ResourceUtils.class.getClassLoader(),
-            "resource_utils_test.properties");
+        File file = ResourceUtils.getResourceAsFile(ResourceUtils.class.getClassLoader(), "resource_utils_test.properties");
         assertNotNull(file);
     }
 }

@@ -136,25 +136,12 @@ class ControllerMethodsCacheTest {
     }
     
     @Test
-    void getMethodWithRequestSpecificContextPathResolvesConsolePath() throws Exception {
-        cache.initClassMethod(Collections.singleton(ConsolePathController.class));
-        MockHttpServletRequest request =
-            new MockHttpServletRequest("POST", "/src/v3/console/ai/skills/draft");
-        request.setContextPath("/src");
-        request.setRequestURI("/src/v3/console/ai/skills/draft");
-        Method method = cache.getMethod(request);
-        assertNotNull(method);
-        assertEquals("createDraft", method.getName());
-    }
-    
-    @Test
     void ambiguousMappingThrowsIllegalStateException() {
         cache.initClassMethod(Collections.singleton(AmbiguousController.class));
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/nacos/ambig/same");
         request.setRequestURI("/nacos/ambig/same");
         request.setParameter("p", "v");
-        IllegalStateException ex =
-            assertThrows(IllegalStateException.class, () -> cache.getMethod(request));
+        IllegalStateException ex = assertThrows(IllegalStateException.class, () -> cache.getMethod(request));
         assertTrue(ex.getMessage().contains("Ambiguous methods"));
     }
     
@@ -270,7 +257,6 @@ class ControllerMethodsCacheTest {
      */
     @RequestMapping("/api")
     public static class TestController {
-        
         @GetMapping(value = "/get", params = "required=yes")
         public void get() {
         }
@@ -285,7 +271,6 @@ class ControllerMethodsCacheTest {
      */
     @RequestMapping("/ambig")
     public static class AmbiguousController {
-        
         @GetMapping(value = "/same", params = "p=v")
         public void same1() {
         }
@@ -300,7 +285,6 @@ class ControllerMethodsCacheTest {
      */
     @RequestMapping("/multi")
     public static class MultiParamController {
-        
         @GetMapping(value = "/one", params = "a=1")
         public void oneParam() {
         }
@@ -312,7 +296,6 @@ class ControllerMethodsCacheTest {
     
     @RequestMapping("/crud")
     public static class CrudController {
-        
         @PutMapping("/1")
         public void update() {
         }
@@ -328,7 +311,6 @@ class ControllerMethodsCacheTest {
     
     @RequestMapping("/only")
     public static class ClassPathOnlyController {
-        
         @GetMapping
         public void index() {
         }
@@ -336,7 +318,6 @@ class ControllerMethodsCacheTest {
     
     @RequestMapping("/req")
     public static class MethodLevelRequestMappingController {
-        
         @RequestMapping(value = "/action", method = RequestMethod.POST)
         public void action() {
         }
@@ -348,18 +329,8 @@ class ControllerMethodsCacheTest {
     
     @RequestMapping(value = {"/primary", "/second"})
     public static class DualPathController {
-        
         @GetMapping("/info")
         public void info() {
         }
-    }
-    
-    @RequestMapping("/v3/console/ai/skills")
-    public static class ConsolePathController {
-        
-        @PostMapping("/draft")
-        public void createDraft() {
-        }
-        
     }
 }

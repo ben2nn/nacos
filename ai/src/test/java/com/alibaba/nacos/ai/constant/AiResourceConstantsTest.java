@@ -38,7 +38,6 @@ class AiResourceConstantsTest {
         assertEquals("online", AiResourceConstants.VERSION_STATUS_ONLINE);
         assertEquals("draft", AiResourceConstants.VERSION_STATUS_DRAFT);
         assertEquals("reviewing", AiResourceConstants.VERSION_STATUS_REVIEWING);
-        assertEquals("reviewed", AiResourceConstants.VERSION_STATUS_REVIEWED);
         assertEquals("offline", AiResourceConstants.VERSION_STATUS_OFFLINE);
     }
     

@@ -90,8 +90,7 @@ class DefaultHttpClientRequestTest {
     @Test
     void testExecuteForFormWithoutConfig() throws Exception {
         isForm = true;
-        Header header = Header.newInstance().addParam(HttpHeaderConsts.CONTENT_TYPE,
-            MediaType.APPLICATION_FORM_URLENCODED);
+        Header header = Header.newInstance().addParam(HttpHeaderConsts.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED);
         Map<String, String> body = new HashMap<>();
         body.put("test", "test");
         RequestHttpEntity httpEntity = new RequestHttpEntity(header, Query.EMPTY, body);
@@ -103,12 +102,10 @@ class DefaultHttpClientRequestTest {
     void testExecuteForFormWithConfig() throws Exception {
         isForm = true;
         withConfig = true;
-        Header header = Header.newInstance().addParam(HttpHeaderConsts.CONTENT_TYPE,
-            MediaType.APPLICATION_FORM_URLENCODED);
+        Header header = Header.newInstance().addParam(HttpHeaderConsts.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED);
         Map<String, String> body = new HashMap<>();
         body.put("test", "test");
-        RequestHttpEntity httpEntity =
-            new RequestHttpEntity(HttpClientConfig.builder().build(), header, Query.EMPTY, body);
+        RequestHttpEntity httpEntity = new RequestHttpEntity(HttpClientConfig.builder().build(), header, Query.EMPTY, body);
         HttpClientResponse actual = httpClientRequest.execute(uri, "PUT", httpEntity);
         assertEquals(response, getActualResponse(actual));
     }
@@ -122,7 +119,7 @@ class DefaultHttpClientRequestTest {
     }
     
     private SimpleHttpResponse getActualResponse(HttpClientResponse actual)
-        throws IllegalAccessException, NoSuchFieldException {
+            throws IllegalAccessException, NoSuchFieldException {
         Field field = actual.getClass().getDeclaredField("response");
         field.setAccessible(true);
         return (SimpleHttpResponse) field.get(actual);

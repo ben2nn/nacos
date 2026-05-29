@@ -35,8 +35,7 @@ class RpcAckCallbackInitorOrCleanerTest {
     @Test
     void testInitAndCleaner() {
         String connectId = "11";
-        ConnectionMeta meta =
-            new ConnectionMeta(connectId, "", "", 80, 80, "GRPC", "", "", new HashMap<>());
+        ConnectionMeta meta = new ConnectionMeta(connectId, "", "", 80, 80, "GRPC", "", "", new HashMap<>());
         Connection connection = new GrpcConnection(meta, null, null);
         
         RpcAckCallbackInitorOrCleaner initorOrCleaner = new RpcAckCallbackInitorOrCleaner();

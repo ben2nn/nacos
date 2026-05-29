@@ -64,8 +64,7 @@ class SdkDefaultTlsContextBuilderTest {
     
     @Test
     void testGetSslContextWithoutMutual() {
-        when(rpcServerTlsConfig.getCiphers())
-            .thenReturn("ECDHE-RSA-AES128-GCM-SHA256,ECDHE-RSA-AES256-GCM-SHA384");
+        when(rpcServerTlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256,ECDHE-RSA-AES256-GCM-SHA384");
         when(rpcServerTlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
         when(rpcServerTlsConfig.getCertPrivateKey()).thenReturn("test-server-key.pem");
         when(rpcServerTlsConfig.getCertChainFile()).thenReturn("test-server-cert.pem");
@@ -76,8 +75,7 @@ class SdkDefaultTlsContextBuilderTest {
     void testGetSslContextWithMutual() {
         when(rpcServerTlsConfig.getTrustAll()).thenReturn(true);
         when(rpcServerTlsConfig.getMutualAuthEnable()).thenReturn(true);
-        when(rpcServerTlsConfig.getCiphers())
-            .thenReturn("ECDHE-RSA-AES128-GCM-SHA256,ECDHE-RSA-AES256-GCM-SHA384");
+        when(rpcServerTlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256,ECDHE-RSA-AES256-GCM-SHA384");
         when(rpcServerTlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
         when(rpcServerTlsConfig.getCertPrivateKey()).thenReturn("test-server-key.pem");
         when(rpcServerTlsConfig.getCertChainFile()).thenReturn("test-server-cert.pem");
@@ -87,8 +85,7 @@ class SdkDefaultTlsContextBuilderTest {
     @Test
     void testGetSslContextWithMutualAndPart() {
         when(rpcServerTlsConfig.getMutualAuthEnable()).thenReturn(true);
-        when(rpcServerTlsConfig.getCiphers())
-            .thenReturn("ECDHE-RSA-AES128-GCM-SHA256,ECDHE-RSA-AES256-GCM-SHA384");
+        when(rpcServerTlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256,ECDHE-RSA-AES256-GCM-SHA384");
         when(rpcServerTlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
         when(rpcServerTlsConfig.getCertPrivateKey()).thenReturn("test-server-key.pem");
         when(rpcServerTlsConfig.getCertChainFile()).thenReturn("test-server-cert.pem");
@@ -100,8 +97,7 @@ class SdkDefaultTlsContextBuilderTest {
     void testGetSslContextWithMutualAndPartIllegal() {
         assertThrows(IllegalArgumentException.class, () -> {
             when(rpcServerTlsConfig.getMutualAuthEnable()).thenReturn(true);
-            when(rpcServerTlsConfig.getCiphers())
-                .thenReturn("ECDHE-RSA-AES128-GCM-SHA256,ECDHE-RSA-AES256-GCM-SHA384");
+            when(rpcServerTlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256,ECDHE-RSA-AES256-GCM-SHA384");
             when(rpcServerTlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
             when(rpcServerTlsConfig.getCertPrivateKey()).thenReturn("test-server-key.pem");
             when(rpcServerTlsConfig.getCertChainFile()).thenReturn("test-server-cert.pem");

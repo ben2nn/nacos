@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.config.server.controller.v3;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.api.annotation.NacosApi;
 import com.alibaba.nacos.api.common.ApiType;
 import com.alibaba.nacos.api.model.v2.ErrorCode;
@@ -79,10 +78,8 @@ public class ConfigOpsControllerV3 {
     /**
      * Manually trigger dump of a local configuration file.
      */
-    @Since("3.0.0")
     @PostMapping(value = "/localCache")
-    @Secured(resource = Constants.OPS_CONTROLLER_V3_ADMIN_PATH, action = ActionTypes.WRITE,
-        signType = SignType.CONFIG, apiType = ApiType.ADMIN_API)
+    @Secured(resource = Constants.OPS_CONTROLLER_V3_ADMIN_PATH, action = ActionTypes.WRITE, signType = SignType.CONFIG, apiType = ApiType.ADMIN_API)
     public Result<String> updateLocalCacheFromStore() {
         LOGGER.info("start to dump all data from store.");
         try {
@@ -90,28 +87,23 @@ public class ConfigOpsControllerV3 {
             return Result.success("Local cache updated from store successfully!");
         } catch (Exception e) {
             LOGGER.error("[updateLocalCacheFromStore] ", e);
-            return Result.failure(ErrorCode.SERVER_ERROR.getCode(),
-                "Local cache updated from store failed!",
-                e.getMessage());
+            return Result.failure(ErrorCode.SERVER_ERROR.getCode(), "Local cache updated from store failed!",
+                    e.getMessage());
         }
     }
     
-    @Since("3.0.0")
     @PutMapping(value = "/log")
-    @Secured(resource = Constants.OPS_CONTROLLER_V3_ADMIN_PATH, action = ActionTypes.WRITE,
-        signType = SignType.CONFIG, apiType = ApiType.ADMIN_API)
+    @Secured(resource = Constants.OPS_CONTROLLER_V3_ADMIN_PATH, action = ActionTypes.WRITE, signType = SignType.CONFIG, apiType = ApiType.ADMIN_API)
     public Result<String> setLogLevel(@RequestParam String logName, @RequestParam String logLevel) {
         try {
             LogUtil.setLogLevel(logName, logLevel);
             return Result.success(
-                String.format("Log level updated successfully! Module: %s, Log Level: %s", logName,
-                    logLevel));
+                    String.format("Log level updated successfully! Module: %s, Log Level: %s", logName, logLevel));
         } catch (Exception e) {
             LOGGER.error("Failed to set log level for module {} to {}", logName, logLevel, e);
             return Result.failure(ErrorCode.SERVER_ERROR.getCode(),
-                String.format("Failed to set log level for module %s to %s: %s", logName, logLevel,
-                    e.getMessage()),
-                null);
+                    String.format("Failed to set log level for module %s to %s: %s", logName, logLevel, e.getMessage()),
+                    null);
         }
     }
     
@@ -126,27 +118,23 @@ public class ConfigOpsControllerV3 {
      * @param sql The query
      * @return {@link RestResult}
      */
-    @Since("3.0.0")
     @GetMapping(value = "/derby")
-    @Secured(resource = Constants.OPS_CONTROLLER_V3_ADMIN_PATH, action = ActionTypes.WRITE,
-        signType = SignType.CONFIG, apiType = ApiType.ADMIN_API)
+    @Secured(resource = Constants.OPS_CONTROLLER_V3_ADMIN_PATH, action = ActionTypes.WRITE, signType = SignType.CONFIG, apiType = ApiType.ADMIN_API)
     public Result<Object> derbyOps(@RequestParam(value = "sql") String sql) {
         String selectSign = "SELECT";
         String limitSign = "ROWS FETCH NEXT";
         String limit = " OFFSET 0 ROWS FETCH NEXT 1000 ROWS ONLY";
         try {
             if (!DatasourceConfiguration.isEmbeddedStorage()) {
-                return Result.failure(ErrorCode.SERVER_ERROR.getCode(),
-                    "The current storage mode is not Derby", null);
+                return Result.failure(ErrorCode.SERVER_ERROR.getCode(), "The current storage mode is not Derby", null);
             }
             if (!ConfigCommonConfig.getInstance().isDerbyOpsEnabled()) {
                 return Result.failure(ErrorCode.SERVER_ERROR.getCode(),
-                    "Derby ops is disabled, please set `nacos.config.derby.ops.enabled=true` to enabled this feature.",
-                    null);
+                        "Derby ops is disabled, please set `nacos.config.derby.ops.enabled=true` to enabled this feature.",
+                        null);
             }
             
-            LocalDataSourceServiceImpl dataSourceService =
-                (LocalDataSourceServiceImpl) DynamicDataSource.getInstance()
+            LocalDataSourceServiceImpl dataSourceService = (LocalDataSourceServiceImpl) DynamicDataSource.getInstance()
                     .getDataSource();
             if (StringUtils.startsWithIgnoreCase(sql, selectSign)) {
                 if (!StringUtils.containsIgnoreCase(sql, limitSign)) {
@@ -156,13 +144,11 @@ public class ConfigOpsControllerV3 {
                 List<Map<String, Object>> result = template.queryForList(sql);
                 return Result.success(result);
             }
-            return Result.failure(ErrorCode.SERVER_ERROR.getCode(),
-                "Only query statements are allowed to be executed",
-                null);
+            return Result.failure(ErrorCode.SERVER_ERROR.getCode(), "Only query statements are allowed to be executed",
+                    null);
         } catch (Exception e) {
             LOGGER.error("Derby failed to execute sql: " + sql);
-            return Result.failure(ErrorCode.SERVER_ERROR.getCode(), "Failed to execute sql: " + sql,
-                null);
+            return Result.failure(ErrorCode.SERVER_ERROR.getCode(), "Failed to execute sql: " + sql, null);
         }
     }
     
@@ -180,12 +166,9 @@ public class ConfigOpsControllerV3 {
      * @param multipartFile {@link MultipartFile}
      * @return {@link DeferredResult}
      */
-    @Since("3.0.0")
     @PostMapping(value = "/derby/import")
-    @Secured(resource = Constants.OPS_CONTROLLER_V3_ADMIN_PATH, action = ActionTypes.WRITE,
-        signType = SignType.CONFIG, apiType = ApiType.ADMIN_API)
-    public DeferredResult<Result<String>> importDerby(
-        @RequestParam(value = "file") MultipartFile multipartFile) {
+    @Secured(resource = Constants.OPS_CONTROLLER_V3_ADMIN_PATH, action = ActionTypes.WRITE, signType = SignType.CONFIG, apiType = ApiType.ADMIN_API)
+    public DeferredResult<Result<String>> importDerby(@RequestParam(value = "file") MultipartFile multipartFile) {
         DeferredResult<RestResult<String>> response = new DeferredResult<>();
         if (!DatasourceConfiguration.isEmbeddedStorage()) {
             response.setResult(RestResultUtils.failed("Limited to embedded storage mode"));
@@ -193,7 +176,7 @@ public class ConfigOpsControllerV3 {
         }
         if (!ConfigCommonConfig.getInstance().isDerbyOpsEnabled()) {
             response.setResult(RestResultUtils.failed(
-                "Derby ops is disabled, please set `nacos.config.derby.ops.enabled=true` to enabled this feature."));
+                    "Derby ops is disabled, please set `nacos.config.derby.ops.enabled=true` to enabled this feature."));
             return convertToResult(response);
         }
         DatabaseOperate databaseOperate = ApplicationUtils.getBean(DatabaseOperate.class);
@@ -215,14 +198,12 @@ public class ConfigOpsControllerV3 {
     /**
      * Ensure backward compatibility.
      */
-    private DeferredResult<Result<String>> convertToResult(
-        DeferredResult<RestResult<String>> restResult) {
+    private DeferredResult<Result<String>> convertToResult(DeferredResult<RestResult<String>> restResult) {
         DeferredResult<Result<String>> wrappedResponse = new DeferredResult<>();
         restResult.onCompletion(() -> {
             if (restResult.getResult() != null) {
                 RestResult<String> originalResult = (RestResult<String>) restResult.getResult();
-                Result<String> newResult =
-                    new Result<>(originalResult.getCode(), originalResult.getMessage(),
+                Result<String> newResult = new Result<>(originalResult.getCode(), originalResult.getMessage(),
                         originalResult.getData());
                 
                 wrappedResponse.setResult(newResult);

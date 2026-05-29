@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.lock.remote.rpc.handler;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.lock.model.LockInstance;
 import com.alibaba.nacos.api.lock.remote.LockOperationEnum;
@@ -37,10 +36,8 @@ import org.springframework.stereotype.Component;
  * @description LockRequestHandler
  * @date 2023/6/29 14:00
  */
-@Since("3.0.0")
 @Component
-public class LockRequestHandler
-    extends RequestHandler<LockOperationRequest, LockOperationResponse> {
+public class LockRequestHandler extends RequestHandler<LockOperationRequest, LockOperationResponse> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(LockRequestHandler.class);
     
@@ -54,11 +51,9 @@ public class LockRequestHandler
      * TODO Support auth.
      */
     @Override
-    public LockOperationResponse handle(LockOperationRequest request, RequestMeta meta)
-        throws NacosException {
+    public LockOperationResponse handle(LockOperationRequest request, RequestMeta meta) throws NacosException {
         Boolean lock = null;
-        LOGGER.info("request: {}, instance: {}", request.getLockOperationEnum(),
-            request.getLockInstance());
+        LOGGER.info("request: {}, instance: {}", request.getLockOperationEnum(), request.getLockInstance());
         try {
             if (request.getLockOperationEnum() == LockOperationEnum.ACQUIRE) {
                 LockInstance lockInstance = request.getLockInstance();

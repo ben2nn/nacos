@@ -64,8 +64,7 @@ class AgentCapabilitiesTest extends BasicRequestTest {
     
     @Test
     void testDeserialize() throws JsonProcessingException {
-        String json =
-            "{\"streaming\":true,\"pushNotifications\":false,\"stateTransitionHistory\":true,"
+        String json = "{\"streaming\":true,\"pushNotifications\":false,\"stateTransitionHistory\":true,"
                 + "\"extendedAgentCard\":true,"
                 + "\"extensions\":[{\"uri\":\"test-uri\",\"description\":\"test description\",\"required\":true,"
                 + "\"params\":{\"param1\":\"value1\"}}]}";

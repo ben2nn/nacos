@@ -37,8 +37,7 @@ public class NacosGrpcServerTransportFilterServiceLoader {
      */
     public static List<NacosGrpcServerTransportFilter> loadServerTransportFilters(String type) {
         List<NacosGrpcServerTransportFilter> result = new LinkedList<>();
-        for (NacosGrpcServerTransportFilter each : NacosServiceLoader
-            .load(NacosGrpcServerTransportFilter.class)) {
+        for (NacosGrpcServerTransportFilter each : NacosServiceLoader.load(NacosGrpcServerTransportFilter.class)) {
             if (StringUtils.equals(type, each.type())) {
                 result.add(each);
             }

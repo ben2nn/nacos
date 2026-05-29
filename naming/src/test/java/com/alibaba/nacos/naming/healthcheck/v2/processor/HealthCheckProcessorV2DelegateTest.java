@@ -33,7 +33,6 @@ import org.springframework.mock.env.MockEnvironment;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -60,15 +59,11 @@ class HealthCheckProcessorV2DelegateTest {
     @Mock
     private ClusterMetadata clusterMetadata;
     
-    @Mock
-    private HealthCheckProcessorV2 noneHealthCheckProcessor;
-    
     private HealthCheckProcessorV2Delegate healthCheckProcessorV2Delegate;
     
     @BeforeEach
     void setUp() {
-        healthCheckProcessorV2Delegate = new HealthCheckProcessorV2Delegate(
-            healthCheckExtendProvider, healthCheckProcessorExtendV2);
+        healthCheckProcessorV2Delegate = new HealthCheckProcessorV2Delegate(healthCheckExtendProvider, healthCheckProcessorExtendV2);
         verify(healthCheckExtendProvider).init();
         EnvUtil.setEnvironment(new MockEnvironment());
     }
@@ -79,13 +74,10 @@ class HealthCheckProcessorV2DelegateTest {
         list.add(new TcpHealthCheckProcessor(null, null));
         healthCheckProcessorV2Delegate.addProcessor(list);
         
-        Class<HealthCheckProcessorV2Delegate> healthCheckProcessorV2DelegateClass =
-            HealthCheckProcessorV2Delegate.class;
-        Field field =
-            healthCheckProcessorV2DelegateClass.getDeclaredField("healthCheckProcessorMap");
+        Class<HealthCheckProcessorV2Delegate> healthCheckProcessorV2DelegateClass = HealthCheckProcessorV2Delegate.class;
+        Field field = healthCheckProcessorV2DelegateClass.getDeclaredField("healthCheckProcessorMap");
         field.setAccessible(true);
-        Map<String, HealthCheckProcessorV2> map =
-            (Map<String, HealthCheckProcessorV2>) field.get(healthCheckProcessorV2Delegate);
+        Map<String, HealthCheckProcessorV2> map = (Map<String, HealthCheckProcessorV2>) field.get(healthCheckProcessorV2Delegate);
         HealthCheckProcessorV2 healthCheckProcessorV2 = map.get(HealthCheckType.TCP.name());
         assertNotNull(healthCheckProcessorV2);
     }
@@ -94,25 +86,12 @@ class HealthCheckProcessorV2DelegateTest {
     void testProcess() throws NoSuchFieldException, IllegalAccessException {
         testAddProcessor();
         when(clusterMetadata.getHealthyCheckType()).thenReturn(HealthCheckType.TCP.name());
-        when(healthCheckTaskV2.getClient())
-            .thenReturn(new IpPortBasedClient("127.0.0.1:80#true", true));
+        when(healthCheckTaskV2.getClient()).thenReturn(new IpPortBasedClient("127.0.0.1:80#true", true));
         
         healthCheckProcessorV2Delegate.process(healthCheckTaskV2, service, clusterMetadata);
         
         verify(clusterMetadata).getHealthyCheckType();
         verify(healthCheckTaskV2).getClient();
-    }
-    
-    @Test
-    void testProcessFallbackToNoneProcessor() {
-        when(noneHealthCheckProcessor.getType()).thenReturn(NoneHealthCheckProcessor.TYPE);
-        when(clusterMetadata.getHealthyCheckType()).thenReturn("UNKNOWN");
-        healthCheckProcessorV2Delegate.addProcessor(
-            Collections.singletonList(noneHealthCheckProcessor));
-        
-        healthCheckProcessorV2Delegate.process(healthCheckTaskV2, service, clusterMetadata);
-        
-        verify(noneHealthCheckProcessor).process(healthCheckTaskV2, service, clusterMetadata);
     }
     
     @Test

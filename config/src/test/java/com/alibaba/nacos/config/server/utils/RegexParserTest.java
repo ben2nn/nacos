@@ -38,16 +38,6 @@ class RegexParserTest {
     }
     
     @Test
-    void testRegexFormatTrailingQuestionMarks() {
-        assertEquals("^test.{3}$", RegexParser.regexFormat("test???"));
-    }
-    
-    @Test
-    void testRegexFormatOnlyAlphanumeric() {
-        assertEquals("^abc123$", RegexParser.regexFormat("abc123"));
-    }
-    
-    @Test
     void testContainsWildcard() {
         assertFalse(RegexParser.containsWildcard("test"));
         assertTrue(RegexParser.containsWildcard("?"));

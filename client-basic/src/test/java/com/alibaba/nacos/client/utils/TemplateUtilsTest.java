@@ -102,9 +102,4 @@ class TemplateUtilsTest {
         String actual = TemplateUtils.stringBlankAndThenExecute(null, callable);
         assertNull(actual);
     }
-    
-    @Test
-    void testConstructor() {
-        new TemplateUtils();
-    }
 }

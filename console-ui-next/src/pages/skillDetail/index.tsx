@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState, useMemo, useRef } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import Markdown from 'react-markdown';
@@ -72,11 +72,7 @@ import { skillApi } from '@/api/skill';
 import type { SkillDocument, SkillResource, SkillVersionSummary } from '@/types/skill';
 import { parseBizTags, parsePipelineInfo } from '@/types/skill';
 import { cn } from '@/lib/utils';
-import {
-  hasNonFrontmatterMarkdownBody,
-  parseFrontmatter,
-  updateFrontmatterField,
-} from '@/lib/markdown-utils';
+import { parseFrontmatter, updateFrontmatterField } from '@/lib/markdown-utils';
 import dayjs from 'dayjs';
 
 import { SkillVersionTimeline } from '../skillManagement/components/SkillVersionTimeline';
@@ -93,15 +89,10 @@ import { SkillResourcePanel } from './SkillResourcePanel';
 export default function SkillDetailPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { name: routeName } = useParams<{ name: string }>();
   const skillName = routeName ? decodeURIComponent(routeName) : '';
   const { currentNamespace } = useNamespaceStore();
-  const namespaceId =
-    searchParams.get('namespaceId') ||
-    searchParams.get('namespace') ||
-    currentNamespace ||
-    'public';
+  const namespaceId = currentNamespace || 'public';
   const { globalAdmin } = useAuthStore();
   const copilotEnabled = useServerStore((s) => s.copilotEnabled);
 
@@ -278,7 +269,7 @@ export default function SkillDetailPage() {
       toast.error(t('skill.descriptionRequired'));
       return;
     }
-    if (!hasNonFrontmatterMarkdownBody(editInstruction)) {
+    if (!editInstruction.trim()) {
       toast.error(t('skill.skillMdRequired'));
       return;
     }
@@ -324,10 +315,6 @@ export default function SkillDetailPage() {
   // ===== AI Optimize handler =====
 
   const handleOptimizationApply = async (optimizedSkill: SkillDocument) => {
-    if (!hasNonFrontmatterMarkdownBody(optimizedSkill.skillMd || '')) {
-      toast.error(t('skill.skillMdRequired'));
-      return;
-    }
     try {
       const skillCard = JSON.stringify({
         name: skillName,
@@ -478,8 +465,7 @@ export default function SkillDetailPage() {
 
   const handleSubmit = async (version: string) => {
     // Validate required fields before submit
-    if (versionDoc && (!versionDoc.description?.trim()
-      || !hasNonFrontmatterMarkdownBody(versionDoc.skillMd || ''))) {
+    if (versionDoc && (!versionDoc.description?.trim() || !versionDoc.skillMd?.trim())) {
       toast.error(t('skill.submitRequiresFields'));
       return;
     }
@@ -543,27 +529,6 @@ export default function SkillDetailPage() {
       });
       toast.success(t('skill.forcePublishSuccess'));
       await loadDetail();
-    } catch {
-      await loadDetail();
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const handleRedraft = async (version: string) => {
-    setActionLoading(true);
-    try {
-      await skillApi.redraft({ namespaceId, skillName, version });
-      toast.success(t('skill.redraftSuccess'));
-      await loadDetail();
-      const response = await skillApi.getVersion({ namespaceId, skillName, version });
-      setVersionDoc(response.data);
-      const doc = response.data;
-      setEditInstruction(doc?.skillMd ?? '');
-      setEditDescription(doc?.description ?? '');
-      setEditResources({ ...(doc?.resource ?? {}) });
-      setDraftCommitMsg('');
-      setIsEditingDraft(true);
     } catch {
       await loadDetail();
     } finally {
@@ -735,8 +700,7 @@ export default function SkillDetailPage() {
                   <SelectContent>
                     {versionOptions.map((version) => {
                       const vPipeline = parsePipelineInfo(version.publishPipelineInfo);
-                      const isVersionPendingPublish = (version.status === 'reviewed' && vPipeline?.status !== 'REJECTED') || (version.status === 'reviewing' && vPipeline?.status === 'APPROVED');
-                      const isVersionRejected = version.status === 'reviewed' && vPipeline?.status === 'REJECTED';
+                      const isVersionPendingPublish = version.status === 'reviewing' && vPipeline?.status === 'APPROVED';
                       return (
                       <SelectItem key={version.version} value={version.version}>
                         <span className="flex items-center gap-2">
@@ -751,12 +715,7 @@ export default function SkillDetailPage() {
                               {t('skill.versionStatus.draft')}
                             </Badge>
                           )}
-                          {isVersionRejected && (
-                            <Badge className="bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300 text-[10px] px-1 py-0 border-0">
-                              {t('skill.versionStatus.rejected')}
-                            </Badge>
-                          )}
-                          {!isVersionRejected && (version.status === 'reviewing' || version.status === 'reviewed') && (
+                          {version.status === 'reviewing' && (
                             <Badge className={isVersionPendingPublish
                               ? 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300 text-[10px] px-1 py-0 border-0'
                               : 'bg-blue-100 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 text-[10px] px-1 py-0 border-0'
@@ -956,7 +915,7 @@ export default function SkillDetailPage() {
                             <PipelineStatusDisplay pipelineInfo={currentPipelineInfo} compact />
                           )}
                           {/* Admin-only force-publish when pipeline rejected */}
-                          {globalAdmin && currentPipelineInfo && currentPipelineInfo.status === 'REJECTED' && !currentPipelineInfo.historical && (
+                          {globalAdmin && currentPipelineInfo && currentPipelineInfo.status === 'REJECTED' && (
                             <Button
                               variant="outline"
                               size="sm"
@@ -973,8 +932,8 @@ export default function SkillDetailPage() {
                     </>
                   )}
 
-                  {/* Reviewing / Reviewed actions */}
-                  {(currentVersionStatus === 'reviewing' || currentVersionStatus === 'reviewed') && (
+                  {/* Reviewing actions */}
+                  {currentVersionStatus === 'reviewing' && (
                     <>
                       <Button
                         size="sm"
@@ -987,30 +946,6 @@ export default function SkillDetailPage() {
                           ? t('skill.pipelineInProgress')
                           : t('skill.publish')}
                       </Button>
-                      {currentVersionStatus === 'reviewed' && (
-                        <>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="h-7 text-xs gap-1.5"
-                            disabled={actionLoading}
-                            onClick={() => handleRedraft(selectedVersion)}
-                          >
-                            <Pencil className="h-3 w-3" />
-                            {t('skill.redraft')}
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="h-7 text-xs gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            disabled={actionLoading}
-                            onClick={handleDeleteDraft}
-                          >
-                            <Trash2 className="h-3 w-3" />
-                            {t('skill.deleteDraft')}
-                          </Button>
-                        </>
-                      )}
                       {currentPipelineInfo && currentPipelineInfo.status === 'APPROVED' && (
                         <PipelineStatusDisplay pipelineInfo={currentPipelineInfo} compact />
                       )}

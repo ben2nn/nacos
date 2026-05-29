@@ -88,17 +88,13 @@ public class AgentCapabilities {
             return false;
         }
         AgentCapabilities that = (AgentCapabilities) o;
-        return Objects.equals(streaming, that.streaming)
-            && Objects.equals(pushNotifications, that.pushNotifications)
-            && Objects.equals(stateTransitionHistory, that.stateTransitionHistory)
-            && Objects.equals(
-                extendedAgentCard, that.extendedAgentCard)
-            && Objects.equals(extensions, that.extensions);
+        return Objects.equals(streaming, that.streaming) && Objects.equals(pushNotifications, that.pushNotifications)
+                && Objects.equals(stateTransitionHistory, that.stateTransitionHistory) && Objects.equals(
+                extendedAgentCard, that.extendedAgentCard) && Objects.equals(extensions, that.extensions);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(streaming, pushNotifications, stateTransitionHistory, extendedAgentCard,
-            extensions);
+        return Objects.hash(streaming, pushNotifications, stateTransitionHistory, extendedAgentCard, extensions);
     }
 }

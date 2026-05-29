@@ -51,3 +51,4 @@ public interface ServerStateHandler {
      */
     String getConsoleUiGuide();
 }
+

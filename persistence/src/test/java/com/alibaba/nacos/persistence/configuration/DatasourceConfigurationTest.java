@@ -76,8 +76,7 @@ class DatasourceConfigurationTest {
     
     @Test
     void testInitializeForDerbyForStandaloneMode() {
-        environment.setProperty(PersistenceConstant.DATASOURCE_PLATFORM_PROPERTY,
-            PersistenceConstant.DERBY);
+        environment.setProperty(PersistenceConstant.DATASOURCE_PLATFORM_PROPERTY, PersistenceConstant.DERBY);
         System.setProperty(PersistenceConstant.EMBEDDED_STORAGE, "true");
         datasourceConfiguration.initialize(context);
         assertTrue(DatasourceConfiguration.isEmbeddedStorage());
@@ -89,8 +88,7 @@ class DatasourceConfigurationTest {
         EnvUtil.setIsStandalone(false);
         DatasourceConfiguration.embeddedStorage = false;
         System.setProperty(PersistenceConstant.EMBEDDED_STORAGE, "true");
-        environment.setProperty(PersistenceConstant.DATASOURCE_PLATFORM_PROPERTY,
-            PersistenceConstant.DERBY);
+        environment.setProperty(PersistenceConstant.DATASOURCE_PLATFORM_PROPERTY, PersistenceConstant.DERBY);
         datasourceConfiguration.initialize(context);
         assertTrue(DatasourceConfiguration.isEmbeddedStorage());
         assertFalse(DatasourceConfiguration.isUseExternalDb());
@@ -98,8 +96,7 @@ class DatasourceConfigurationTest {
     
     @Test
     void testInitializeForMySqlForStandaloneMode() {
-        environment.setProperty(PersistenceConstant.DATASOURCE_PLATFORM_PROPERTY,
-            PersistenceConstant.MYSQL);
+        environment.setProperty(PersistenceConstant.DATASOURCE_PLATFORM_PROPERTY, PersistenceConstant.MYSQL);
         datasourceConfiguration.initialize(context);
         assertFalse(DatasourceConfiguration.isEmbeddedStorage());
         assertTrue(DatasourceConfiguration.isUseExternalDb());
@@ -110,8 +107,7 @@ class DatasourceConfigurationTest {
     void testInitializeForMySqlForClusterMode() {
         EnvUtil.setIsStandalone(false);
         DatasourceConfiguration.embeddedStorage = false;
-        environment.setProperty(PersistenceConstant.DATASOURCE_PLATFORM_PROPERTY,
-            PersistenceConstant.MYSQL);
+        environment.setProperty(PersistenceConstant.DATASOURCE_PLATFORM_PROPERTY, PersistenceConstant.MYSQL);
         datasourceConfiguration.initialize(context);
         assertFalse(DatasourceConfiguration.isEmbeddedStorage());
         assertTrue(DatasourceConfiguration.isUseExternalDb());

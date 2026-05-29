@@ -48,8 +48,7 @@ public class DefaultHistoryConfigCleaner implements HistoryConfigCleaner {
     
     private HistoryConfigInfoPersistService getHistoryConfigInfoPersistService() {
         if (historyConfigInfoPersistService == null) {
-            historyConfigInfoPersistService =
-                ApplicationUtils.getBean(HistoryConfigInfoPersistService.class);
+            historyConfigInfoPersistService = ApplicationUtils.getBean(HistoryConfigInfoPersistService.class);
         }
         return historyConfigInfoPersistService;
     }

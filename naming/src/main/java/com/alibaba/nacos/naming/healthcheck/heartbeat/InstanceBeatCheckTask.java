@@ -46,8 +46,7 @@ public class InstanceBeatCheckTask implements Interceptable {
         CHECKERS.addAll(NacosServiceLoader.load(InstanceBeatChecker.class));
     }
     
-    public InstanceBeatCheckTask(IpPortBasedClient client, Service service,
-        HealthCheckInstancePublishInfo instancePublishInfo) {
+    public InstanceBeatCheckTask(IpPortBasedClient client, Service service, HealthCheckInstancePublishInfo instancePublishInfo) {
         this.client = client;
         this.service = service;
         this.instancePublishInfo = instancePublishInfo;

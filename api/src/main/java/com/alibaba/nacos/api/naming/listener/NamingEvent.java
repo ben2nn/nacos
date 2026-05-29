@@ -40,8 +40,7 @@ public class NamingEvent implements Event {
         this.instances = instances;
     }
     
-    public NamingEvent(String serviceName, String groupName, String clusters,
-        List<Instance> instances) {
+    public NamingEvent(String serviceName, String groupName, String clusters, List<Instance> instances) {
         this.serviceName = serviceName;
         this.groupName = groupName;
         this.clusters = clusters;

@@ -66,8 +66,7 @@ class NacosJwtParserTest {
     
     @Test
     void testParseWith48Key() {
-        NacosJwtParser parser =
-            new NacosJwtParser(encode("SecretKey012345678901234567890120124568aa9012345"));
+        NacosJwtParser parser = new NacosJwtParser(encode("SecretKey012345678901234567890120124568aa9012345"));
         String token = parser.jwtBuilder().setUserName("nacos").setExpiredTime(100L).compact();
         
         assertTrue(token.startsWith(NacosSignatureAlgorithm.HS384.getHeader()));
@@ -75,8 +74,7 @@ class NacosJwtParserTest {
     
     @Test
     void testParseWith64Key() {
-        NacosJwtParser parser = new NacosJwtParser(
-            encode("SecretKey012345678901234567SecretKey0123456789012345678901289012"));
+        NacosJwtParser parser = new NacosJwtParser(encode("SecretKey012345678901234567SecretKey0123456789012345678901289012"));
         String token = parser.jwtBuilder().setUserName("nacos").setExpiredTime(100L).compact();
         
         assertTrue(token.startsWith(NacosSignatureAlgorithm.HS512.getHeader()));
@@ -84,8 +82,7 @@ class NacosJwtParserTest {
     
     @Test
     void testGetExpireTimeInSeconds() throws AccessException {
-        NacosJwtParser parser = new NacosJwtParser(
-            encode("SecretKey012345678901234567SecretKey0123456789012345678901289012"));
+        NacosJwtParser parser = new NacosJwtParser(encode("SecretKey012345678901234567SecretKey0123456789012345678901289012"));
         String token = parser.jwtBuilder().setUserName("nacos").setExpiredTime(100L).compact();
         long expiredTimeSeconds = parser.getExpireTimeInSeconds(token);
         assertTrue(expiredTimeSeconds * 1000 - System.currentTimeMillis() > 0);

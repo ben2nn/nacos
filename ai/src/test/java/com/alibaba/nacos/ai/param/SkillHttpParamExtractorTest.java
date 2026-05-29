@@ -52,8 +52,7 @@ class SkillHttpParamExtractorTest {
     void extractParamWithSkillName() throws NacosException {
         when(request.getParameter("namespaceId")).thenReturn("testNs");
         when(request.getParameter("skillName")).thenReturn("Skill_Name");
-        when(request.getParameterMap())
-            .thenReturn(Map.of("skillName", new String[] {"Skill_Name"}));
+        when(request.getParameterMap()).thenReturn(Map.of("skillName", new String[] {"Skill_Name"}));
         
         List<ParamInfo> actual = httpParamExtractor.extractParam(request);
         assertEquals(1, actual.size());

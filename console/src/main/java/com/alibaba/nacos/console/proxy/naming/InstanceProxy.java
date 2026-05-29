@@ -56,12 +56,10 @@ public class InstanceProxy {
      * @throws IllegalArgumentException if the deployment type is invalid
      * @throws NacosException           if the list operation fails
      */
-    public Page<? extends Instance> listInstances(String namespaceId,
-        String serviceNameWithoutGroup, String groupName,
-        String clusterName, int page, int pageSize) throws NacosException {
-        return instanceHandler.listInstances(namespaceId, serviceNameWithoutGroup, groupName,
-            clusterName, page,
-            pageSize);
+    public Page<? extends Instance> listInstances(String namespaceId, String serviceNameWithoutGroup, String groupName,
+            String clusterName, int page, int pageSize) throws NacosException {
+        return instanceHandler.listInstances(namespaceId, serviceNameWithoutGroup, groupName, clusterName, page,
+                pageSize);
     }
     
     /**
@@ -75,16 +73,5 @@ public class InstanceProxy {
     public void updateInstance(InstanceForm instanceForm, Instance instance) throws NacosException {
         instanceHandler.updateInstance(instanceForm, instance);
     }
-    
-    /**
-     * Removes an instance.
-     *
-     * @param instanceForm the form containing instance data
-     * @param instance     the instance to remove
-     * @throws NacosException           if the remove operation fails
-     * @throws IllegalArgumentException if the deployment type is invalid
-     */
-    public void removeInstance(InstanceForm instanceForm, Instance instance) throws NacosException {
-        instanceHandler.removeInstance(instanceForm, instance);
-    }
 }
+

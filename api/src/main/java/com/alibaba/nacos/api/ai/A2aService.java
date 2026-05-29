@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.api.ai;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.api.ai.constant.AiConstants;
 import com.alibaba.nacos.api.ai.listener.AbstractNacosAgentCardListener;
 import com.alibaba.nacos.api.ai.model.a2a.AgentCard;
@@ -41,7 +40,6 @@ public interface A2aService {
      * @return agent card with nacos extension detail
      * @throws NacosException if request parameter is invalid or agent card not found or handle error
      */
-    @Since("3.1.0")
     default AgentCardDetailInfo getAgentCard(String agentName) throws NacosException {
         return getAgentCard(agentName, StringUtils.EMPTY);
     }
@@ -54,9 +52,7 @@ public interface A2aService {
      * @return agent card with nacos extension detail
      * @throws NacosException if request parameter is invalid or agent card not found or handle error
      */
-    @Since("3.1.0")
-    default AgentCardDetailInfo getAgentCard(String agentName, String version)
-        throws NacosException {
+    default AgentCardDetailInfo getAgentCard(String agentName, String version) throws NacosException {
         return getAgentCard(agentName, version, StringUtils.EMPTY);
     }
     
@@ -71,9 +67,7 @@ public interface A2aService {
      * @return agent card with nacos extension detail
      * @throws NacosException if request parameter is invalid or agent card not found or handle error
      */
-    @Since("3.1.0")
-    AgentCardDetailInfo getAgentCard(String agentName, String version, String registrationType)
-        throws NacosException;
+    AgentCardDetailInfo getAgentCard(String agentName, String version, String registrationType) throws NacosException;
     
     /**
      * Release new agent card or new version with default service type endpoint.
@@ -87,7 +81,6 @@ public interface A2aService {
      * @param agentCard agent card need to release
      * @throws NacosException if request parameter is invalid or handle error
      */
-    @Since("3.1.0")
     default void releaseAgentCard(AgentCard agentCard) throws NacosException {
         releaseAgentCard(agentCard, AiConstants.A2a.A2A_ENDPOINT_TYPE_SERVICE);
     }
@@ -106,9 +99,7 @@ public interface A2aService {
      *                         {@link AiConstants.A2a#A2A_ENDPOINT_TYPE_SERVICE}
      * @throws NacosException if request parameter is invalid or handle error
      */
-    @Since("3.1.0")
-    default void releaseAgentCard(AgentCard agentCard, String registrationType)
-        throws NacosException {
+    default void releaseAgentCard(AgentCard agentCard, String registrationType) throws NacosException {
         releaseAgentCard(agentCard, registrationType, false);
     }
     
@@ -129,9 +120,7 @@ public interface A2aService {
      *                         will be set as latest.
      * @throws NacosException if request parameter is invalid or handle error
      */
-    @Since("3.1.0")
-    void releaseAgentCard(AgentCard agentCard, String registrationType, boolean setAsLatest)
-        throws NacosException;
+    void releaseAgentCard(AgentCard agentCard, String registrationType, boolean setAsLatest) throws NacosException;
     
     /**
      * Register endpoint to agent card.
@@ -142,11 +131,9 @@ public interface A2aService {
      * @param port      port of this endpoint
      * @throws NacosException if request parameter is invalid or handle error or agent not found
      */
-    @Since("3.1.0")
     default void registerAgentEndpoint(String agentName, String version, String address, int port)
-        throws NacosException {
-        registerAgentEndpoint(agentName, version, address, port,
-            AiConstants.A2a.A2A_ENDPOINT_DEFAULT_TRANSPORT);
+            throws NacosException {
+        registerAgentEndpoint(agentName, version, address, port, AiConstants.A2a.A2A_ENDPOINT_DEFAULT_TRANSPORT);
     }
     
     /**
@@ -159,10 +146,8 @@ public interface A2aService {
      * @param transport supported transport, according to A2A protocol, it should be `JSONRPC`, `GRPC` and `HTTP+JSON`
      * @throws NacosException if request parameter is invalid or handle error or agent not found
      */
-    @Since("3.1.0")
-    default void registerAgentEndpoint(String agentName, String version, String address, int port,
-        String transport)
-        throws NacosException {
+    default void registerAgentEndpoint(String agentName, String version, String address, int port, String transport)
+            throws NacosException {
         registerAgentEndpoint(agentName, version, address, port, transport, StringUtils.EMPTY);
     }
     
@@ -177,10 +162,8 @@ public interface A2aService {
      * @param path      The path of endpoint request
      * @throws NacosException if request parameter is invalid or handle error or agent not found
      */
-    @Since("3.1.0")
-    default void registerAgentEndpoint(String agentName, String version, String address, int port,
-        String transport,
-        String path) throws NacosException {
+    default void registerAgentEndpoint(String agentName, String version, String address, int port, String transport,
+            String path) throws NacosException {
         registerAgentEndpoint(agentName, version, address, port, transport, path, false);
     }
     
@@ -196,10 +179,8 @@ public interface A2aService {
      * @param supportTls whether support tls
      * @throws NacosException if request parameter is invalid or handle error or agent not found
      */
-    @Since("3.1.0")
-    default void registerAgentEndpoint(String agentName, String version, String address, int port,
-        String transport,
-        String path, boolean supportTls) throws NacosException {
+    default void registerAgentEndpoint(String agentName, String version, String address, int port, String transport,
+            String path, boolean supportTls) throws NacosException {
         AgentEndpoint agentEndpoint = new AgentEndpoint();
         agentEndpoint.setAddress(address);
         agentEndpoint.setPort(port);
@@ -217,7 +198,6 @@ public interface A2aService {
      * @param endpoint  endpoint info
      * @throws NacosException if request parameter is invalid or handle error or agent not found
      */
-    @Since("3.1.0")
     void registerAgentEndpoint(String agentName, AgentEndpoint endpoint) throws NacosException;
     
     /**
@@ -233,9 +213,7 @@ public interface A2aService {
      * @throws NacosException if request parameter is invalid or handle error or agent not found
      * @since 3.1.1
      */
-    @Since("3.1.1")
-    void registerAgentEndpoint(String agentName, Collection<AgentEndpoint> endpoints)
-        throws NacosException;
+    void registerAgentEndpoint(String agentName, Collection<AgentEndpoint> endpoints) throws NacosException;
     
     /**
      * Deregister endpoint from agent card which registered by this client.
@@ -251,9 +229,8 @@ public interface A2aService {
      * @param port      port of this endpoint
      * @throws NacosException if request parameter is invalid or handle error or agent not found
      */
-    @Since("3.1.0")
     default void deregisterAgentEndpoint(String agentName, String version, String address, int port)
-        throws NacosException {
+            throws NacosException {
         AgentEndpoint agentEndpoint = new AgentEndpoint();
         agentEndpoint.setAddress(address);
         agentEndpoint.setPort(port);
@@ -273,7 +250,6 @@ public interface A2aService {
      * @param endpoint  endpoint info
      * @throws NacosException if request parameter is invalid or handle error or agent not found
      */
-    @Since("3.1.0")
     void deregisterAgentEndpoint(String agentName, AgentEndpoint endpoint) throws NacosException;
     
     /**
@@ -284,10 +260,8 @@ public interface A2aService {
      * @return current agent card when subscribe success
      * @throws NacosException if request parameter is invalid or handle error
      */
-    @Since("3.1.0")
-    default AgentCardDetailInfo subscribeAgentCard(String agentName,
-        AbstractNacosAgentCardListener agentCardListener)
-        throws NacosException {
+    default AgentCardDetailInfo subscribeAgentCard(String agentName, AbstractNacosAgentCardListener agentCardListener)
+            throws NacosException {
         return subscribeAgentCard(agentName, StringUtils.EMPTY, agentCardListener);
     }
     
@@ -300,9 +274,8 @@ public interface A2aService {
      * @return current agent card when subscribe success, nullable if agent card not found
      * @throws NacosException if request parameter is invalid or handle error
      */
-    @Since("3.1.0")
     AgentCardDetailInfo subscribeAgentCard(String agentName, String version,
-        AbstractNacosAgentCardListener agentCardListener) throws NacosException;
+            AbstractNacosAgentCardListener agentCardListener) throws NacosException;
     
     /**
      * Unsubscribe agent card.
@@ -311,10 +284,8 @@ public interface A2aService {
      * @param agentCardListener the callback listener for agent card
      * @throws NacosException if request parameter is invalid or handle error
      */
-    @Since("3.1.0")
-    default void unsubscribeAgentCard(String agentName,
-        AbstractNacosAgentCardListener agentCardListener)
-        throws NacosException {
+    default void unsubscribeAgentCard(String agentName, AbstractNacosAgentCardListener agentCardListener)
+            throws NacosException {
         unsubscribeAgentCard(agentName, StringUtils.EMPTY, agentCardListener);
     }
     
@@ -326,8 +297,6 @@ public interface A2aService {
      * @param agentCardListener the callback listener for agent card
      * @throws NacosException if request parameter is invalid or handle error
      */
-    @Since("3.1.0")
-    void unsubscribeAgentCard(String agentName, String version,
-        AbstractNacosAgentCardListener agentCardListener)
-        throws NacosException;
+    void unsubscribeAgentCard(String agentName, String version, AbstractNacosAgentCardListener agentCardListener)
+            throws NacosException;
 }

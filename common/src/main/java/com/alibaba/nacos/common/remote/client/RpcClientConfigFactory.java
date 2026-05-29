@@ -46,9 +46,7 @@ public class RpcClientConfigFactory implements RpcConfigFactory {
     }
     
     @Override
-    public GrpcClientConfig createGrpcClientConfig(Properties properties,
-        Map<String, String> labels) {
-        return DefaultGrpcClientConfig.newBuilder().setLabels(labels)
-            .buildSdkFromProperties(properties).build();
+    public GrpcClientConfig createGrpcClientConfig(Properties properties, Map<String, String> labels) {
+        return DefaultGrpcClientConfig.newBuilder().setLabels(labels).buildSdkFromProperties(properties).build();
     }
 }

@@ -78,8 +78,7 @@ public class RestResult<T> implements Serializable {
     
     @Override
     public String toString() {
-        return "RestResult{" + "code=" + code + ", message='" + message + '\'' + ", data=" + data
-            + '}';
+        return "RestResult{" + "code=" + code + ", message='" + message + '\'' + ", data=" + data + '}';
     }
     
     public static <T> ResResultBuilder<T> builder() {

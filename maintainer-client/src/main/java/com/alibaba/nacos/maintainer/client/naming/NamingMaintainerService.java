@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.maintainer.client.naming;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.alibaba.nacos.api.naming.pojo.Service;
@@ -34,8 +33,7 @@ import java.util.Map;
  * @author Nacos
  */
 public interface NamingMaintainerService
-    extends CoreMaintainerService, ServiceMaintainerService, InstanceMaintainerService,
-    NamingClientMaintainerService, Closeable {
+        extends CoreMaintainerService, ServiceMaintainerService, InstanceMaintainerService, NamingClientMaintainerService, Closeable {
     
     /**
      * Get system metrics.
@@ -44,7 +42,6 @@ public interface NamingMaintainerService
      * @return the metrics information
      * @throws NacosException if an error occurs
      */
-    @Since("3.0.0")
     MetricsInfo getMetrics(boolean onlyStatus) throws NacosException;
     
     /**
@@ -55,7 +52,6 @@ public interface NamingMaintainerService
      * @return the result of the operation
      * @throws NacosException if an error occurs
      */
-    @Since("3.0.0")
     String setLogLevel(String logName, String logLevel) throws NacosException;
     
     /**
@@ -83,7 +79,6 @@ public interface NamingMaintainerService
      * @return the result of the operation
      * @throws NacosException if an error occurs
      */
-    @Since("3.0.0")
     String updateInstanceHealthStatus(Service service, Instance instance) throws NacosException;
     
     /**
@@ -92,7 +87,6 @@ public interface NamingMaintainerService
      * @return a map of health checkers
      * @throws NacosException if an error occurs
      */
-    @Since("3.0.0")
     Map<String, AbstractHealthChecker> getHealthCheckers() throws NacosException;
     
     /**
@@ -108,6 +102,5 @@ public interface NamingMaintainerService
      * @return the result of the operation
      * @throws NacosException if an error occurs
      */
-    @Since("3.0.0")
     String updateCluster(Service service, ClusterInfo cluster) throws NacosException;
 }

@@ -45,6 +45,7 @@ public interface ConfigInfoTagPersistService {
     
     //------------------------------------------insert---------------------------------------------//
     
+    
     /**
      * get config info state.
      *
@@ -54,9 +55,8 @@ public interface ConfigInfoTagPersistService {
      * @param tag    tag.
      * @return config info state.
      */
-    ConfigInfoStateWrapper findConfigInfo4TagState(final String dataId, final String group,
-        final String tenant,
-        String tag);
+    ConfigInfoStateWrapper findConfigInfo4TagState(final String dataId, final String group, final String tenant,
+            String tag);
     
     /**
      * Add tag configuration information and publish data change events.
@@ -67,8 +67,7 @@ public interface ConfigInfoTagPersistService {
      * @param srcUser    user
      * @return config operation result.
      */
-    ConfigOperateResult addConfigInfo4Tag(ConfigInfo configInfo, String tag, String srcIp,
-        String srcUser);
+    ConfigOperateResult addConfigInfo4Tag(ConfigInfo configInfo, String tag, String srcIp, String srcUser);
     
     /**
      * insert or update tag config.
@@ -79,9 +78,8 @@ public interface ConfigInfoTagPersistService {
      * @param srcUser    user
      * @return config operation result.
      */
-    ConfigOperateResult insertOrUpdateTag(final ConfigInfo configInfo, final String tag,
-        final String srcIp,
-        final String srcUser);
+    ConfigOperateResult insertOrUpdateTag(final ConfigInfo configInfo, final String tag, final String srcIp,
+            final String srcUser);
     
     /**
      * insert or update tag config cas.
@@ -92,9 +90,8 @@ public interface ConfigInfoTagPersistService {
      * @param srcUser    user.
      * @return config operation result.
      */
-    ConfigOperateResult insertOrUpdateTagCas(final ConfigInfo configInfo, final String tag,
-        final String srcIp,
-        final String srcUser);
+    ConfigOperateResult insertOrUpdateTagCas(final ConfigInfo configInfo, final String tag, final String srcIp,
+            final String srcUser);
     //------------------------------------------delete---------------------------------------------//
     
     /**
@@ -107,9 +104,8 @@ public interface ConfigInfoTagPersistService {
      * @param srcIp   remote ip
      * @param srcUser user
      */
-    void removeConfigInfoTag(final String dataId, final String group, final String tenant,
-        final String tag,
-        final String srcIp, final String srcUser);
+    void removeConfigInfoTag(final String dataId, final String group, final String tenant, final String tag,
+            final String srcIp, final String srcUser);
     //------------------------------------------update---------------------------------------------//
     
     /**
@@ -121,8 +117,7 @@ public interface ConfigInfoTagPersistService {
      * @param srcUser    user
      * @return config operation result.
      */
-    ConfigOperateResult updateConfigInfo4Tag(ConfigInfo configInfo, String tag, String srcIp,
-        String srcUser);
+    ConfigOperateResult updateConfigInfo4Tag(ConfigInfo configInfo, String tag, String srcIp, String srcUser);
     
     /**
      * Update tag configuration information.
@@ -133,8 +128,7 @@ public interface ConfigInfoTagPersistService {
      * @param srcUser    user
      * @return success or not.
      */
-    ConfigOperateResult updateConfigInfo4TagCas(ConfigInfo configInfo, String tag, String srcIp,
-        String srcUser);
+    ConfigOperateResult updateConfigInfo4TagCas(ConfigInfo configInfo, String tag, String srcIp, String srcUser);
     //------------------------------------------select---------------------------------------------//
     
     /**
@@ -146,9 +140,8 @@ public interface ConfigInfoTagPersistService {
      * @param tag    tag
      * @return {@link ConfigInfo4Tag}
      */
-    ConfigInfoTagWrapper findConfigInfo4Tag(final String dataId, final String group,
-        final String tenant,
-        final String tag);
+    ConfigInfoTagWrapper findConfigInfo4Tag(final String dataId, final String group, final String tenant,
+            final String tag);
     
     /**
      * Returns the number of beta configuration items.

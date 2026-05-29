@@ -25,8 +25,7 @@ class RemoteExceptionTest {
     
     @Test
     void testConnectionAlreadyClosedException() {
-        ConnectionAlreadyClosedException exception =
-            new ConnectionAlreadyClosedException("test message");
+        ConnectionAlreadyClosedException exception = new ConnectionAlreadyClosedException("test message");
         
         assertEquals(600, exception.getErrCode());
         assertEquals("errCode: 600, errMsg: test message ", exception.getMessage());

@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.console.controller.v3.ai;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.ai.constant.Constants;
 import com.alibaba.nacos.ai.form.AiResourceFilterableForm;
 import com.alibaba.nacos.ai.form.agentspecs.admin.AgentSpecBizTagsUpdateForm;
@@ -82,7 +81,6 @@ public class ConsoleAgentSpecController {
      * @return result of the get operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @GetMapping
     @Secured(action = ActionTypes.READ, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<AgentSpecMeta> getAgentSpec(AgentSpecForm form) throws NacosException {
@@ -97,7 +95,6 @@ public class ConsoleAgentSpecController {
      * @return full agentspec content for the specified version
      * @throws NacosException if the agentspec or version not found
      */
-    @Since("3.2.0")
     @GetMapping("/version")
     @Secured(action = ActionTypes.READ, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<AgentSpec> getAgentSpecVersion(AgentSpecForm form) throws NacosException {
@@ -112,7 +109,6 @@ public class ConsoleAgentSpecController {
      * @return result of the deletion operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @DeleteMapping
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> deleteAgentSpec(AgentSpecForm form) throws NacosException {
@@ -129,16 +125,14 @@ public class ConsoleAgentSpecController {
      * @return result of the list operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.1")
     @GetMapping("/list")
     @Secured(action = ActionTypes.READ, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<Page<AgentSpecSummary>> listAgentSpecs(AgentSpecListForm agentSpecListForm,
-        AiResourceFilterableForm filterableForm, PageForm pageForm) throws NacosException {
+            AiResourceFilterableForm filterableForm, PageForm pageForm) throws NacosException {
         agentSpecListForm.validate();
         filterableForm.validate();
         pageForm.validate();
-        return Result
-            .success(agentSpecProxy.listAgentSpecs(agentSpecListForm, filterableForm, pageForm));
+        return Result.success(agentSpecProxy.listAgentSpecs(agentSpecListForm, filterableForm, pageForm));
     }
     
     /**
@@ -150,19 +144,16 @@ public class ConsoleAgentSpecController {
      * @return result of the upload operation
      * @throws NacosException if the upload fails
      */
-    @Since("3.2.0")
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     @ExtractorManager.Extractor(httpExtractor = ExtractorManager.DefaultHttpExtractor.class)
     public Result<String> uploadAgentSpec(HttpServletRequest request,
-        @RequestParam(value = "namespaceId", required = false) String namespaceId,
-        @RequestParam(value = "overwrite", required = false,
-            defaultValue = "false") boolean overwrite,
-        @RequestParam("file") MultipartFile file) throws NacosException {
+            @RequestParam(value = "namespaceId", required = false) String namespaceId,
+            @RequestParam(value = "overwrite", required = false, defaultValue = "false") boolean overwrite,
+            @RequestParam("file") MultipartFile file) throws NacosException {
         namespaceId = NamespaceUtil.processNamespaceParameter(namespaceId);
         byte[] zipBytes = AgentSpecRequestUtil.validateAndExtractZipBytes(file);
-        String agentSpecName =
-            agentSpecProxy.uploadAgentSpecFromZip(namespaceId, zipBytes, overwrite);
+        String agentSpecName = agentSpecProxy.uploadAgentSpecFromZip(namespaceId, zipBytes, overwrite);
         return Result.success(agentSpecName);
     }
     
@@ -173,7 +164,6 @@ public class ConsoleAgentSpecController {
      * @return created draft version
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @PostMapping("/draft")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> createDraft(AgentSpecDraftCreateForm form) throws NacosException {
@@ -188,7 +178,6 @@ public class ConsoleAgentSpecController {
      * @return result of the update operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @PutMapping("/draft")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> updateDraft(AgentSpecUpdateForm form) throws NacosException {
@@ -204,7 +193,6 @@ public class ConsoleAgentSpecController {
      * @return result of the deletion operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @DeleteMapping("/draft")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> deleteDraft(AgentSpecForm form) throws NacosException {
@@ -220,7 +208,6 @@ public class ConsoleAgentSpecController {
      * @return submit result
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @PostMapping("/submit")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> submit(AgentSpecSubmitForm form) throws NacosException {
@@ -235,7 +222,6 @@ public class ConsoleAgentSpecController {
      * @return result of the publish operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @PostMapping("/publish")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> publish(AgentSpecPublishForm form) throws NacosException {
@@ -245,33 +231,16 @@ public class ConsoleAgentSpecController {
     }
     
     /**
-     * Force-publish an agentspec version, bypassing pipeline validation. Accepts draft, reviewing, and reviewed
-     * versions. Restricted to admin users only (apiType = ADMIN_API enforces global admin check).
+     * Force-publish an agentspec version, bypassing pipeline validation. Accepts draft (pipeline-rejected) and
+     * reviewing (pipeline in-progress) versions. Restricted to admin users only (apiType = ADMIN_API enforces global
+     * admin check).
      */
-    @Since("3.2.1")
     @PostMapping("/force-publish")
     @Secured(resource = CONSOLE_RESOURCE_NAME_PREFIX
-        + "agentspecs", action = ActionTypes.WRITE, signType = SignType.CONSOLE,
-        apiType = ApiType.CONSOLE_API)
+            + "agentspecs", action = ActionTypes.WRITE, signType = SignType.CONSOLE, apiType = ApiType.CONSOLE_API)
     public Result<String> forcePublish(AgentSpecPublishForm form) throws NacosException {
         form.validate();
         agentSpecProxy.forcePublish(form);
-        return Result.success("ok");
-    }
-    
-    /**
-     * Re-edit a reviewed agent spec version, transitioning it back to draft status.
-     *
-     * @param form publish form
-     * @return result of the redraft operation
-     * @throws NacosException if the operation fails
-     */
-    @Since("3.2.2")
-    @PostMapping("/redraft")
-    @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
-    public Result<String> redraft(AgentSpecPublishForm form) throws NacosException {
-        form.validate();
-        agentSpecProxy.redraft(form);
         return Result.success("ok");
     }
     
@@ -282,7 +251,6 @@ public class ConsoleAgentSpecController {
      * @return result of the update operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @PutMapping("/labels")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> updateLabels(AgentSpecLabelsUpdateForm form) throws NacosException {
@@ -294,7 +262,6 @@ public class ConsoleAgentSpecController {
     /**
      * Update agentspec biz tags without changing version status.
      */
-    @Since("3.2.0")
     @PutMapping("/biz-tags")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> updateBizTags(AgentSpecBizTagsUpdateForm form) throws NacosException {
@@ -310,7 +277,6 @@ public class ConsoleAgentSpecController {
      * @return result of the operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @PostMapping("/online")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> online(AgentSpecOnlineForm form) throws NacosException {
@@ -326,7 +292,6 @@ public class ConsoleAgentSpecController {
      * @return result of the update operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @PutMapping("/scope")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> updateScope(AgentSpecScopeForm form) throws NacosException {
@@ -342,7 +307,6 @@ public class ConsoleAgentSpecController {
      * @return result of the operation
      * @throws NacosException if the operation fails
      */
-    @Since("3.2.0")
     @PostMapping("/offline")
     @Secured(action = ActionTypes.WRITE, signType = SignType.AI, apiType = ApiType.CONSOLE_API)
     public Result<String> offline(AgentSpecOnlineForm form) throws NacosException {

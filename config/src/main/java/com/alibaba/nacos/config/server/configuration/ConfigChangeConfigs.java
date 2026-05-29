@@ -43,7 +43,7 @@ public class ConfigChangeConfigs extends Subscriber<ServerConfigChangeEvent> {
     
     private static final String PREFIX = ConfigChangeConstants.NACOS_CORE_CONFIG_PLUGIN_PREFIX;
     
-    private volatile Map<String, Properties> configPluginProperties = new HashMap<>();
+    private Map<String, Properties> configPluginProperties = new HashMap<>();
     
     public ConfigChangeConfigs() {
         NotifyCenter.registerSubscriber(this);
@@ -53,15 +53,14 @@ public class ConfigChangeConfigs extends Subscriber<ServerConfigChangeEvent> {
     private void refreshPluginProperties() {
         try {
             Map<String, Properties> newProperties = new HashMap<>(3);
-            Properties properties =
-                PropertiesUtil.getPropertiesWithPrefix(EnvUtil.getEnvironment(), PREFIX);
+            Properties properties = PropertiesUtil.getPropertiesWithPrefix(EnvUtil.getEnvironment(), PREFIX);
             if (properties != null) {
                 for (String each : properties.stringPropertyNames()) {
                     int typeIndex = each.indexOf('.');
                     String type = each.substring(0, typeIndex);
                     String subKey = each.substring(typeIndex + 1);
                     newProperties.computeIfAbsent(type, key -> new Properties())
-                        .setProperty(subKey, properties.getProperty(each));
+                            .setProperty(subKey, properties.getProperty(each));
                 }
             }
             configPluginProperties = newProperties;
@@ -71,14 +70,13 @@ public class ConfigChangeConfigs extends Subscriber<ServerConfigChangeEvent> {
     }
     
     public Properties getPluginProperties(String configPluginType) {
-        Properties properties = configPluginProperties.get(configPluginType);
-        if (properties == null) {
+        if (!configPluginProperties.containsKey(configPluginType)) {
             LOGGER.warn(
-                "[ConfigChangeConfigs]Can't find config plugin properties for type {}, will use empty properties",
-                configPluginType);
+                    "[ConfigChangeConfigs]Can't find config plugin properties for type {}, will use empty properties",
+                    configPluginType);
             return new Properties();
         }
-        return properties;
+        return configPluginProperties.get(configPluginType);
     }
     
     @Override

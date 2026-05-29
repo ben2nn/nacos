@@ -25,7 +25,6 @@ import java.util.Properties;
  * @author Nacos
  */
 public interface LoginProcessor {
-    
     /**
      * send request to server and get result.
      *

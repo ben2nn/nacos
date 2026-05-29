@@ -32,8 +32,7 @@ class PathRequestConditionTest {
     
     @Test
     void testPathRequestCondition() {
-        PathRequestCondition pathRequestCondition =
-            new PathRequestCondition("method" + REQUEST_PATH_SEPARATOR + "path");
+        PathRequestCondition pathRequestCondition = new PathRequestCondition("method" + REQUEST_PATH_SEPARATOR + "path");
         assertTrue(pathRequestCondition.toString().contains("path"));
     }
 }

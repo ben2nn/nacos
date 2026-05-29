@@ -27,8 +27,7 @@ import java.util.HashMap;
  */
 public class HistoryConfigCleanerManager {
     
-    private static HashMap<String, HistoryConfigCleaner> historyConfigCleanerMap =
-        new HashMap<String, HistoryConfigCleaner>();
+    private static HashMap<String, HistoryConfigCleaner> historyConfigCleanerMap = new HashMap<String, HistoryConfigCleaner>();
     
     static {
         NacosServiceLoader.load(HistoryConfigCleaner.class).forEach(historyConfigCleaner -> {

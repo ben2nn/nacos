@@ -27,6 +27,5 @@ import com.alibaba.nacos.plugin.visibility.spi.QueryAdvisor;
  */
 public interface VisibilityAdvisorConverter {
     
-    QueryCondition convert(QueryCondition condition, String identity, QueryAdvisor advisor,
-        VisibilityQueryContext context);
+    QueryCondition convert(QueryCondition condition, String identity, QueryAdvisor advisor, VisibilityQueryContext context);
 }

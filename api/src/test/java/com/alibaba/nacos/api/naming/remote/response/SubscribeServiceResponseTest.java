@@ -40,8 +40,7 @@ class SubscribeServiceResponseTest {
     
     @Test
     void testSerializeSuccessResponse() throws JsonProcessingException {
-        SubscribeServiceResponse response =
-            new SubscribeServiceResponse(200, null, new ServiceInfo());
+        SubscribeServiceResponse response = new SubscribeServiceResponse(200, null, new ServiceInfo());
         String json = mapper.writeValueAsString(response);
         assertTrue(json.contains("\"serviceInfo\":{"));
         assertTrue(json.contains("\"resultCode\":200"));
@@ -61,8 +60,7 @@ class SubscribeServiceResponseTest {
     
     @Test
     void testDeserialize() throws JsonProcessingException {
-        String json =
-            "{\"resultCode\":200,\"errorCode\":0,\"serviceInfo\":{\"cacheMillis\":1000,\"hosts\":[],"
+        String json = "{\"resultCode\":200,\"errorCode\":0,\"serviceInfo\":{\"cacheMillis\":1000,\"hosts\":[],"
                 + "\"lastRefTime\":0,\"checksum\":\"\",\"allIPs\":false,\"reachProtectionThreshold\":false,"
                 + "\"valid\":true},\"success\":true}";
         SubscribeServiceResponse response = mapper.readValue(json, SubscribeServiceResponse.class);

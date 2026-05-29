@@ -45,6 +45,5 @@ public interface ConfigChangeParser {
      * @return key and change item map
      * @throws IOException io exception
      */
-    Map<String, ConfigChangeItem> doParse(String oldContent, String newContent, String type)
-        throws IOException;
+    Map<String, ConfigChangeItem> doParse(String oldContent, String newContent, String type) throws IOException;
 }

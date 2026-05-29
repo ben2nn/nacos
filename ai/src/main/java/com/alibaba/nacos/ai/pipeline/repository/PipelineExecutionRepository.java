@@ -59,8 +59,7 @@ public interface PipelineExecutionRepository {
      * @param version      the resource version
      * @return the most recent matching execution record, or null if not found
      */
-    PipelineExecution findByResource(String resourceType, String resourceName, String namespaceId,
-        String version);
+    PipelineExecution findByResource(String resourceType, String resourceName, String namespaceId, String version);
     
     /**
      * Find pipeline execution records by resource information with pagination support.
@@ -76,9 +75,8 @@ public interface PipelineExecutionRepository {
      * @param limit        the maximum number of records to return
      * @return list of matching execution records
      */
-    List<PipelineExecution> findByResourceWithPage(String resourceType, String resourceName,
-        String namespaceId,
-        String version, int offset, int limit);
+    List<PipelineExecution> findByResourceWithPage(String resourceType, String resourceName, String namespaceId,
+            String version, int offset, int limit);
     
     /**
      * Count pipeline execution records by resource information.
@@ -91,6 +89,5 @@ public interface PipelineExecutionRepository {
      * @param version      the resource version (optional, ignored if blank)
      * @return the count of matching execution records
      */
-    int countByResource(String resourceType, String resourceName, String namespaceId,
-        String version);
+    int countByResource(String resourceType, String resourceName, String namespaceId, String version);
 }

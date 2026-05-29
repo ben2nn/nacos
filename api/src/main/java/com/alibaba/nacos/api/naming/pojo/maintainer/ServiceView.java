@@ -85,10 +85,8 @@ public class ServiceView {
     
     @Override
     public String toString() {
-        return "ServiceView{" + "name='" + name + '\'' + ", groupName='" + groupName + '\''
-            + ", clusterCount="
-            + clusterCount + ", ipCount=" + ipCount + ", healthyInstanceCount="
-            + healthyInstanceCount
-            + ", triggerFlag='" + triggerFlag + '\'' + '}';
+        return "ServiceView{" + "name='" + name + '\'' + ", groupName='" + groupName + '\'' + ", clusterCount="
+                + clusterCount + ", ipCount=" + ipCount + ", healthyInstanceCount=" + healthyInstanceCount
+                + ", triggerFlag='" + triggerFlag + '\'' + '}';
     }
 }

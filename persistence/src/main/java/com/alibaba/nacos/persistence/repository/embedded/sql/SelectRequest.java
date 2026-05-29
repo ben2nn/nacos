@@ -70,9 +70,8 @@ public class SelectRequest implements Serializable {
     
     @Override
     public String toString() {
-        return "SelectRequest{" + "queryType=" + queryType + ", sql='" + sql + '\'' + ", args="
-            + Arrays.toString(args)
-            + ", className='" + className + '\'' + '}';
+        return "SelectRequest{" + "queryType=" + queryType + ", sql='" + sql + '\'' + ", args=" + Arrays.toString(args)
+                + ", className='" + className + '\'' + '}';
     }
     
     public static SelectRequestBuilder builder() {

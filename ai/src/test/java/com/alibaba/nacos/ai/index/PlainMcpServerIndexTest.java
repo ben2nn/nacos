@@ -68,8 +68,7 @@ class PlainMcpServerIndexTest {
     
     @BeforeEach
     void setUp() {
-        plainMcpServerIndex =
-            new PlainMcpServerIndex(namespaceOperationService, configDetailService,
+        plainMcpServerIndex = new PlainMcpServerIndex(namespaceOperationService, configDetailService,
                 configQueryChainService);
     }
     
@@ -80,13 +79,11 @@ class PlainMcpServerIndexTest {
     @Test
     void searchMcpServerByNameWithNamespaceIdByAccurateNotFound() {
         Page<ConfigInfo> searchPage = mockConfigInfo(0, 0, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
-        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_ACCURATE), eq(1),
-            eq(10), isNull(),
-            eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
-            anyMap())).thenReturn(searchPage);
+        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_ACCURATE), eq(1), eq(10), isNull(),
+                eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
+                anyMap())).thenReturn(searchPage);
         Page<McpServerIndexData> result = plainMcpServerIndex.searchMcpServerByNameWithPage(
-            AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, "mcpName", Constants.MCP_LIST_SEARCH_ACCURATE, 1,
-            10);
+                AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, "mcpName", Constants.MCP_LIST_SEARCH_ACCURATE, 1, 10);
         assertEquals(0, result.getTotalCount());
         assertEquals(1, result.getPageNumber());
         assertEquals(0, result.getPagesAvailable());
@@ -96,13 +93,11 @@ class PlainMcpServerIndexTest {
     @Test
     void searchMcpServerByNameWithNamespaceIdByAccurate() {
         Page<ConfigInfo> searchPage = mockConfigInfo(1, 1, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
-        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_ACCURATE), eq(1),
-            eq(10), isNull(),
-            eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
-            anyMap())).thenReturn(searchPage);
+        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_ACCURATE), eq(1), eq(10), isNull(),
+                eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
+                anyMap())).thenReturn(searchPage);
         Page<McpServerIndexData> result = plainMcpServerIndex.searchMcpServerByNameWithPage(
-            AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, "mcpName", Constants.MCP_LIST_SEARCH_ACCURATE, 1,
-            10);
+                AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, "mcpName", Constants.MCP_LIST_SEARCH_ACCURATE, 1, 10);
         assertEquals(1, result.getTotalCount());
         assertEquals(1, result.getPageNumber());
         assertEquals(1, result.getPagesAvailable());
@@ -112,12 +107,11 @@ class PlainMcpServerIndexTest {
     @Test
     void searchMcpServerByNameWithNamespaceIdByBlur() {
         Page<ConfigInfo> searchPage = mockConfigInfo(10, 10, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
-        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_BLUR), eq(1),
-            eq(10), eq("*"),
-            eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
-            anyMap())).thenReturn(searchPage);
+        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_BLUR), eq(1), eq(10), eq("*"),
+                eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
+                anyMap())).thenReturn(searchPage);
         Page<McpServerIndexData> result = plainMcpServerIndex.searchMcpServerByNameWithPage(
-            AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, null, Constants.MCP_LIST_SEARCH_BLUR, 1, 10);
+                AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, null, Constants.MCP_LIST_SEARCH_BLUR, 1, 10);
         assertEquals(10, result.getTotalCount());
         assertEquals(1, result.getPageNumber());
         assertEquals(1, result.getPagesAvailable());
@@ -126,15 +120,13 @@ class PlainMcpServerIndexTest {
     
     @Test
     void searchMcpServerByNameWithMultiplePagesFirstPage() {
-        Page<ConfigInfo> searchPage =
-            mockConfigInfoWithPagination(25, 10, 1, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
-        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_BLUR), eq(1),
-            eq(10), eq("*"),
-            eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
-            anyMap())).thenReturn(searchPage);
+        Page<ConfigInfo> searchPage = mockConfigInfoWithPagination(25, 10, 1, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
+        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_BLUR), eq(1), eq(10), eq("*"),
+                eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
+                anyMap())).thenReturn(searchPage);
         
         Page<McpServerIndexData> result = plainMcpServerIndex.searchMcpServerByNameWithPage(
-            AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, null, Constants.MCP_LIST_SEARCH_BLUR, 1, 10);
+                AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, null, Constants.MCP_LIST_SEARCH_BLUR, 1, 10);
         
         assertEquals(25, result.getTotalCount());
         assertEquals(1, result.getPageNumber());
@@ -144,15 +136,13 @@ class PlainMcpServerIndexTest {
     
     @Test
     void searchMcpServerByNameWithMultiplePagesSecondPage() {
-        Page<ConfigInfo> searchPage =
-            mockConfigInfoWithPagination(25, 10, 2, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
-        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_BLUR), eq(2),
-            eq(10), eq("*"),
-            eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
-            anyMap())).thenReturn(searchPage);
+        Page<ConfigInfo> searchPage = mockConfigInfoWithPagination(25, 10, 2, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
+        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_BLUR), eq(2), eq(10), eq("*"),
+                eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
+                anyMap())).thenReturn(searchPage);
         
         Page<McpServerIndexData> result = plainMcpServerIndex.searchMcpServerByNameWithPage(
-            AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, null, Constants.MCP_LIST_SEARCH_BLUR, 2, 10);
+                AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, null, Constants.MCP_LIST_SEARCH_BLUR, 2, 10);
         
         assertEquals(25, result.getTotalCount());
         assertEquals(2, result.getPageNumber());
@@ -162,15 +152,13 @@ class PlainMcpServerIndexTest {
     
     @Test
     void searchMcpServerByNameWithMultiplePagesLastPage() {
-        Page<ConfigInfo> searchPage =
-            mockConfigInfoWithPagination(25, 5, 3, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
-        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_BLUR), eq(3),
-            eq(10), eq("*"),
-            eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
-            anyMap())).thenReturn(searchPage);
+        Page<ConfigInfo> searchPage = mockConfigInfoWithPagination(25, 5, 3, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
+        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_BLUR), eq(3), eq(10), eq("*"),
+                eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
+                anyMap())).thenReturn(searchPage);
         
         Page<McpServerIndexData> result = plainMcpServerIndex.searchMcpServerByNameWithPage(
-            AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, null, Constants.MCP_LIST_SEARCH_BLUR, 3, 10);
+                AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, null, Constants.MCP_LIST_SEARCH_BLUR, 3, 10);
         
         assertEquals(25, result.getTotalCount());
         assertEquals(3, result.getPageNumber());
@@ -188,7 +176,7 @@ class PlainMcpServerIndexTest {
         String id = UUID.randomUUID().toString();
         when(namespaceOperationService.getNamespaceList()).thenReturn(mockNamespaceList(1, false));
         when(configQueryChainService.handle(any(ConfigQueryChainRequest.class))).thenReturn(
-            mockConfigQueryChainResponse(null));
+                mockConfigQueryChainResponse(null));
         assertNull(plainMcpServerIndex.getMcpServerById(id));
     }
     
@@ -198,7 +186,7 @@ class PlainMcpServerIndexTest {
         when(namespaceOperationService.getNamespaceList()).thenReturn(mockNamespaceList(1, false));
         McpServerBasicInfo mcpServerBasicInfo = mockServerVersionInfo(id);
         when(configQueryChainService.handle(any(ConfigQueryChainRequest.class))).thenReturn(
-            mockConfigQueryChainResponse(mcpServerBasicInfo));
+                mockConfigQueryChainResponse(mcpServerBasicInfo));
         McpServerIndexData result = plainMcpServerIndex.getMcpServerById(id);
         assertEquals(id, result.getId());
         assertEquals("namespaceId-0", result.getNamespaceId());
@@ -207,23 +195,19 @@ class PlainMcpServerIndexTest {
     @Test
     void getMcpServerByNameNotFound() {
         Page<ConfigInfo> countPage = mockConfigInfo(0, 0, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
-        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_ACCURATE), eq(1),
-            eq(1), isNull(),
-            eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
-            anyMap())).thenReturn(countPage);
-        assertNull(plainMcpServerIndex.getMcpServerByName(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE,
-            "mcpName"));
+        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_ACCURATE), eq(1), eq(1), isNull(),
+                eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
+                anyMap())).thenReturn(countPage);
+        assertNull(plainMcpServerIndex.getMcpServerByName(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, "mcpName"));
     }
     
     @Test
     void getMcpServerByNameFound() {
         Page<ConfigInfo> countPage = mockConfigInfo(1, 1, AiConstants.Mcp.MCP_DEFAULT_NAMESPACE);
-        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_ACCURATE), eq(1),
-            eq(1), isNull(),
-            eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
-            anyMap())).thenReturn(countPage);
-        McpServerIndexData result =
-            plainMcpServerIndex.getMcpServerByName(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE,
+        when(configDetailService.findConfigInfoPage(eq(Constants.MCP_LIST_SEARCH_ACCURATE), eq(1), eq(1), isNull(),
+                eq(Constants.MCP_SERVER_VERSIONS_GROUP), eq(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE),
+                anyMap())).thenReturn(countPage);
+        McpServerIndexData result = plainMcpServerIndex.getMcpServerByName(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE,
                 "mcpName");
         assertNotNull(result);
         assertEquals(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, result.getNamespaceId());
@@ -233,14 +217,12 @@ class PlainMcpServerIndexTest {
     @Test
     void removeMcpServerByName() {
         assertDoesNotThrow(
-            () -> plainMcpServerIndex.removeMcpServerByName(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE,
-                "mcpName"));
+                () -> plainMcpServerIndex.removeMcpServerByName(AiConstants.Mcp.MCP_DEFAULT_NAMESPACE, "mcpName"));
     }
     
     @Test
     void removeMcpServerById() {
-        assertDoesNotThrow(
-            () -> plainMcpServerIndex.removeMcpServerById(UUID.randomUUID().toString()));
+        assertDoesNotThrow(() -> plainMcpServerIndex.removeMcpServerById(UUID.randomUUID().toString()));
     }
     
     private ConfigQueryChainResponse mockConfigQueryChainResponse(Object obj) {
@@ -281,29 +263,25 @@ class PlainMcpServerIndexTest {
         for (int i = 0; i < size; i++) {
             ConfigInfo configInfo = new ConfigInfo();
             configInfo.setTenant(namespaceId);
-            configInfo.setContent(
-                JacksonUtils.toJson(mockServerVersionInfo(UUID.randomUUID().toString())));
+            configInfo.setContent(JacksonUtils.toJson(mockServerVersionInfo(UUID.randomUUID().toString())));
             list.add(configInfo);
         }
         mockConfigInfo.setPageItems(list);
         return mockConfigInfo;
     }
     
-    private Page<ConfigInfo> mockConfigInfoWithPagination(int total, int currentPageSize,
-        int pageNumber,
-        String namespaceId) {
+    private Page<ConfigInfo> mockConfigInfoWithPagination(int total, int currentPageSize, int pageNumber,
+            String namespaceId) {
         Page<ConfigInfo> mockConfigInfo = new Page<>();
         mockConfigInfo.setTotalCount(total);
         mockConfigInfo.setPageNumber(pageNumber);
-        mockConfigInfo
-            .setPagesAvailable((int) Math.ceil((double) total / (double) currentPageSize));
+        mockConfigInfo.setPagesAvailable((int) Math.ceil((double) total / (double) currentPageSize));
         
         List<ConfigInfo> list = new LinkedList<>();
         for (int i = 0; i < currentPageSize; i++) {
             ConfigInfo configInfo = new ConfigInfo();
             configInfo.setTenant(namespaceId);
-            configInfo.setContent(
-                JacksonUtils.toJson(mockServerVersionInfo(UUID.randomUUID().toString())));
+            configInfo.setContent(JacksonUtils.toJson(mockServerVersionInfo(UUID.randomUUID().toString())));
             list.add(configInfo);
         }
         mockConfigInfo.setPageItems(list);

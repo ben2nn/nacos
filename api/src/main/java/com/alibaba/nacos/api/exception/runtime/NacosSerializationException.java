@@ -38,8 +38,7 @@ public class NacosSerializationException extends NacosRuntimeException {
     }
     
     public NacosSerializationException(Class<?> serializedClass) {
-        super(SERIALIZE_ERROR_CODE,
-            String.format(MSG_FOR_SPECIFIED_CLASS, serializedClass.getName()));
+        super(SERIALIZE_ERROR_CODE, String.format(MSG_FOR_SPECIFIED_CLASS, serializedClass.getName()));
         this.serializedClass = serializedClass;
     }
     
@@ -48,8 +47,7 @@ public class NacosSerializationException extends NacosRuntimeException {
     }
     
     public NacosSerializationException(Class<?> serializedClass, Throwable throwable) {
-        super(SERIALIZE_ERROR_CODE,
-            String.format(MSG_FOR_SPECIFIED_CLASS, serializedClass.getName()), throwable);
+        super(SERIALIZE_ERROR_CODE, String.format(MSG_FOR_SPECIFIED_CLASS, serializedClass.getName()), throwable);
         this.serializedClass = serializedClass;
     }
     

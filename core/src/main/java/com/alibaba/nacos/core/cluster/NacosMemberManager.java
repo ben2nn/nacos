@@ -42,3 +42,4 @@ public interface NacosMemberManager {
      */
     Collection<Member> allMembers();
 }
+

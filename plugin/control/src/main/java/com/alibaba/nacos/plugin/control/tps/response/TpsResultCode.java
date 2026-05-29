@@ -40,4 +40,5 @@ public class TpsResultCode {
      */
     public static final int CHECK_SKIP = 100;
     
+    
 }

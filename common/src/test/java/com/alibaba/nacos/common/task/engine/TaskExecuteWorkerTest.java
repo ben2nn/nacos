@@ -80,7 +80,6 @@ class TaskExecuteWorkerTest {
         AtomicInteger counter = new AtomicInteger(0);
         
         AbstractExecuteTask task = new AbstractExecuteTask() {
-            
             @Override
             public void run() {
                 counter.incrementAndGet();

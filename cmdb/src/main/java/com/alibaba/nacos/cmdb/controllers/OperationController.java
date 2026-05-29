@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.cmdb.controllers;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.cmdb.memory.CmdbProvider;
 import com.alibaba.nacos.cmdb.utils.UtilsAndCommons;
 import com.alibaba.nacos.core.utils.WebUtils;
@@ -47,7 +46,6 @@ public class OperationController {
      * @return query result
      * @throws Exception exception
      */
-    @Since("0.7.0")
     @RequestMapping(value = "/label", method = RequestMethod.GET)
     public String queryLabel(HttpServletRequest request) throws Exception {
         String entry = WebUtils.required(request, "entry");

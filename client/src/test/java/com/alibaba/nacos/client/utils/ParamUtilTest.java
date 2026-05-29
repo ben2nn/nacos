@@ -28,7 +28,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ParamUtilTest {
@@ -145,10 +144,5 @@ class ParamUtilTest {
     void testSimplyEnvNameNotOverLimit() {
         String expect = "test";
         assertEquals(expect, ParamUtil.simplyEnvNameIfOverLimit(expect));
-    }
-    
-    @Test
-    void testConstructor() {
-        assertNotNull(new ParamUtil());
     }
 }

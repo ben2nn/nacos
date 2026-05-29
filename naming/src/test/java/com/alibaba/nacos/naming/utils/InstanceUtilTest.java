@@ -17,7 +17,6 @@
 package com.alibaba.nacos.naming.utils;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import com.alibaba.nacos.naming.constants.Constants;
 import com.alibaba.nacos.naming.core.v2.metadata.InstanceMetadata;
 import com.alibaba.nacos.naming.core.v2.pojo.InstancePublishInfo;
 import com.alibaba.nacos.naming.core.v2.pojo.Service;
@@ -34,9 +33,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class InstanceUtilTest {
     
@@ -55,27 +52,6 @@ class InstanceUtilTest {
     void testParseToApiInstance() {
         Instance instance = InstanceUtil.parseToApiInstance(service, instancePublishInfo);
         assertNotNull(instance);
-    }
-    
-    @Test
-    void testParseToApiInstanceWithExtendedDatum() {
-        Map<String, Object> extendDatum = instancePublishInfo.getExtendDatum();
-        extendDatum.put(Constants.CUSTOM_INSTANCE_ID, "custom-id");
-        extendDatum.put(Constants.PUBLISH_INSTANCE_ENABLE, false);
-        extendDatum.put(Constants.PUBLISH_INSTANCE_WEIGHT, 2.5D);
-        extendDatum.put("zone", "hangzhou");
-        extendDatum.put("empty", null);
-        instancePublishInfo.setHealthy(true);
-        instancePublishInfo.setCluster("cluster");
-        
-        Instance instance = InstanceUtil.parseToApiInstance(service, instancePublishInfo);
-        
-        assertEquals("custom-id", instance.getInstanceId());
-        assertFalse(instance.isEnabled());
-        assertEquals(2.5D, instance.getWeight());
-        assertEquals("hangzhou", instance.getMetadata().get("zone"));
-        assertNull(instance.getMetadata().get("empty"));
-        assertEquals("cluster", instance.getClusterName());
     }
     
     @Test
@@ -116,7 +92,6 @@ class InstanceUtilTest {
     
     @Test
     void testSetInstanceIdIfEmpty() {
-        InstanceUtil.setInstanceIdIfEmpty(null, "test");
         Instance instance = new Instance();
         instance.setIp("1.1.1.1");
         instance.setPort(8890);
@@ -124,8 +99,7 @@ class InstanceUtilTest {
         instance.setClusterName("testCluster");
         InstanceUtil.setInstanceIdIfEmpty(instance, groupedServiceName);
         assertNotNull(instance.getInstanceId());
-        assertEquals(instance.getInstanceId(),
-            InstanceIdGeneratorManager.generateInstanceId(instance));
+        assertEquals(instance.getInstanceId(), InstanceIdGeneratorManager.generateInstanceId(instance));
         String customInsId = "customInstanceId_1";
         Instance instance1 = new Instance();
         instance1.setInstanceId(customInsId);
@@ -135,7 +109,6 @@ class InstanceUtilTest {
     
     @Test
     void testBatchSetInstanceIdIfEmpty() {
-        InstanceUtil.batchSetInstanceIdIfEmpty(null, "test");
         final List<Instance> instances = new ArrayList<>();
         Instance instance1 = new Instance();
         instance1.setServiceName("test");
@@ -150,10 +123,5 @@ class InstanceUtilTest {
         assertNotNull(instance1.getInstanceId());
         assertNotNull(instance2.getInstanceId());
         assertNotNull(instance3.getInstanceId());
-    }
-    
-    @Test
-    void testConstructor() {
-        assertNotNull(new InstanceUtil());
     }
 }

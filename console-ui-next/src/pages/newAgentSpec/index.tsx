@@ -380,7 +380,7 @@ export default function NewAgentSpecPage() {
 
     setModified(true);
     setCreateNodeOpen(false);
-  }, [createNodeFallbackType, createNodeMode, createNodePath, createNodeType, files, folderExists, t]);
+  }, [createNodeMode, createNodePath, createNodeType, files, folderExists, t]);
 
   const handleDeleteNode = useCallback(
     (key: string, nodeType: 'file' | 'folder') => {
@@ -731,12 +731,11 @@ export default function NewAgentSpecPage() {
       if (!result) {
         return;
       }
-      const params = new URLSearchParams({ namespaceId });
-      navigate(`/agentspec/${encodeURIComponent(result.name)}?${params}`);
+      navigate(`/agentspec/${encodeURIComponent(result.name)}`);
     } finally {
       setSaving(false);
     }
-  }, [navigate, namespaceId, persistDraft]);
+  }, [navigate, persistDraft]);
 
   // ===== Loading state =====
   if (!loaded) {

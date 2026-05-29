@@ -44,8 +44,7 @@ import java.util.Map;
  *
  * @author xiweng.yy
  */
-public class NacosUserServiceRemoteImpl extends AbstractCachedUserService
-    implements NacosUserService {
+public class NacosUserServiceRemoteImpl extends AbstractCachedUserService implements NacosUserService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(NacosUserServiceRemoteImpl.class);
     
@@ -73,37 +72,34 @@ public class NacosUserServiceRemoteImpl extends AbstractCachedUserService
         Query query = Query.newInstance().addParam("username", username);
         Map<String, String> body = Map.of("newPassword", password);
         try {
-            HttpRestResult<String> result = nacosRestTemplate.putForm(
-                buildRemoteUserUrlPath(AuthConstants.USER_PATH),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, body, String.class);
+            HttpRestResult<String> result = nacosRestTemplate.putForm(buildRemoteUserUrlPath(AuthConstants.USER_PATH),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, body, String.class);
             RemoteServerUtil.singleCheckResult(result);
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
     @Override
     public Page<User> getUsers(int pageNo, int pageSize, String username) {
         Query query = Query.newInstance().addParam("username", username).addParam("pageNo", pageNo)
-            .addParam("pageSize", pageSize).addParam("search", "accurate");
+                .addParam("pageSize", pageSize).addParam("search", "accurate");
         return getUserPageFromRemote(query);
     }
     
     @Override
     public Page<User> findUsers(String username, int pageNo, int pageSize) {
         Query query = Query.newInstance().addParam("username", username).addParam("pageNo", pageNo)
-            .addParam("pageSize", pageSize).addParam("search", "blur");
+                .addParam("pageSize", pageSize).addParam("search", "blur");
         return getUserPageFromRemote(query);
     }
     
     @Override
     public User getUser(String username) {
-        User cached = getCachedUserMap().get(username);
-        if (cached != null) {
-            return cached;
+        if (getCachedUserMap().containsKey(username)) {
+            return getCachedUserMap().get(username);
         }
         reload();
         return getCachedUserMap().get(username);
@@ -114,18 +110,16 @@ public class NacosUserServiceRemoteImpl extends AbstractCachedUserService
         Query query = Query.newInstance().addParam("username", username);
         try {
             HttpRestResult<String> httpResult = nacosRestTemplate.get(
-                buildRemoteUserUrlPath(AuthConstants.USER_PATH + "/search"),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
+                    buildRemoteUserUrlPath(AuthConstants.USER_PATH + "/search"),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
             RemoteServerUtil.singleCheckResult(httpResult);
-            Result<List<String>> result =
-                JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
-                });
+            Result<List<String>> result = JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
+            });
             return result.getData();
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
@@ -140,15 +134,13 @@ public class NacosUserServiceRemoteImpl extends AbstractCachedUserService
         Query query = Query.newInstance().addParam("username", username);
         Map<String, String> body = Map.of("password", password);
         try {
-            HttpRestResult<String> result = nacosRestTemplate.postForm(
-                buildRemoteUserUrlPath(AuthConstants.USER_PATH),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, body, String.class);
+            HttpRestResult<String> result = nacosRestTemplate.postForm(buildRemoteUserUrlPath(AuthConstants.USER_PATH),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, body, String.class);
             RemoteServerUtil.singleCheckResult(result);
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
@@ -156,15 +148,13 @@ public class NacosUserServiceRemoteImpl extends AbstractCachedUserService
         Map<String, String> body = Map.of("password", password);
         try {
             HttpRestResult<String> result = nacosRestTemplate.postForm(
-                buildRemoteUserUrlPath(AuthConstants.USER_PATH + "/admin"),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), Query.newInstance(), body,
-                String.class);
+                    buildRemoteUserUrlPath(AuthConstants.USER_PATH + "/admin"),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), Query.newInstance(), body, String.class);
             RemoteServerUtil.singleCheckResult(result);
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
@@ -173,38 +163,34 @@ public class NacosUserServiceRemoteImpl extends AbstractCachedUserService
         rejectReservedUsername(username);
         Query query = Query.newInstance().addParam("username", username);
         try {
-            HttpRestResult<String> result =
-                nacosRestTemplate.delete(buildRemoteUserUrlPath(AuthConstants.USER_PATH),
+            HttpRestResult<String> result = nacosRestTemplate.delete(buildRemoteUserUrlPath(AuthConstants.USER_PATH),
                     RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
             RemoteServerUtil.singleCheckResult(result);
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
     private String buildRemoteUserUrlPath(String apiPath) {
         return RequestUrlConstants.HTTP_PREFIX + RemoteServerUtil.getOneNacosServerAddress()
-            + RemoteServerUtil.getRemoteServerContextPath() + apiPath;
+                + RemoteServerUtil.getRemoteServerContextPath() + apiPath;
     }
     
     private Page<User> getUserPageFromRemote(Query query) {
         try {
             HttpRestResult<String> httpResult = nacosRestTemplate.get(
-                buildRemoteUserUrlPath(AuthConstants.USER_PATH + "/list"),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
+                    buildRemoteUserUrlPath(AuthConstants.USER_PATH + "/list"),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
             RemoteServerUtil.singleCheckResult(httpResult);
-            Result<Page<User>> result =
-                JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
-                });
+            Result<Page<User>> result = JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
+            });
             return result.getData();
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
 }

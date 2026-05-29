@@ -56,8 +56,7 @@ public interface NamespaceHandler {
      * @return true if the namespace was successfully created, otherwise false
      * @throws NacosException if there is an issue creating the namespace
      */
-    Boolean createNamespace(String namespaceId, String namespaceName, String namespaceDesc)
-        throws NacosException;
+    Boolean createNamespace(String namespaceId, String namespaceName, String namespaceDesc) throws NacosException;
     
     /**
      * Update an existing namespace.
@@ -86,3 +85,4 @@ public interface NamespaceHandler {
      */
     Boolean checkNamespaceIdExist(String namespaceId) throws NacosException;
 }
+

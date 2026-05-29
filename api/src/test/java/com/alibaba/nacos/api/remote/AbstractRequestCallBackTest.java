@@ -33,7 +33,6 @@ class AbstractRequestCallBackTest {
     @Test
     void testAbstractPushCallBack() {
         AbstractRequestCallBack callBack = new AbstractRequestCallBack() {
-            
             @Override
             public Executor getExecutor() {
                 return null;

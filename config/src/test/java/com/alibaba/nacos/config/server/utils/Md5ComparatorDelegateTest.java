@@ -70,17 +70,15 @@ class Md5ComparatorDelegateTest {
     
     @Test
     public void test() {
-        envUtilMockedStatic.when(() -> EnvUtil.getProperty("nacos.config.cache.type", "nacos"))
-            .thenReturn("lalala");
+        envUtilMockedStatic.when(() -> EnvUtil.getProperty("nacos.config.cache.type", "nacos")).thenReturn("lalala");
         nacosServiceLoaderMockedStatic.when(() -> NacosServiceLoader.load(Md5Comparator.class))
-            .thenReturn(Collections.singletonList(nacosMd5Comparator));
+                .thenReturn(Collections.singletonList(nacosMd5Comparator));
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
         HashMap<String, ConfigListenState> clientMd5Map = new HashMap<>();
-        nacosMd5ComparatorMockedConstruction =
-            mockConstruction(NacosMd5Comparator.class, (mock, context) -> {
-                when(mock.compareMd5(request, response, clientMd5Map)).thenReturn(null);
-            });
+        nacosMd5ComparatorMockedConstruction = mockConstruction(NacosMd5Comparator.class, (mock, context) -> {
+            when(mock.compareMd5(request, response, clientMd5Map)).thenReturn(null);
+        });
         Md5ComparatorDelegate.getInstance().compareMd5(request, response, clientMd5Map);
         verify(nacosMd5Comparator, times(0)).compareMd5(request, response, clientMd5Map);
         nacosMd5ComparatorMockedConstruction.close();
@@ -89,10 +87,9 @@ class Md5ComparatorDelegateTest {
     @Test
     public void test2() throws Exception {
         when(nacosMd5Comparator.getName()).thenReturn("nacos");
-        envUtilMockedStatic.when(() -> EnvUtil.getProperty("nacos.config.cache.type", "nacos"))
-            .thenReturn("nacos");
+        envUtilMockedStatic.when(() -> EnvUtil.getProperty("nacos.config.cache.type", "nacos")).thenReturn("nacos");
         nacosServiceLoaderMockedStatic.when(() -> NacosServiceLoader.load(Md5Comparator.class))
-            .thenReturn(Collections.singletonList(nacosMd5Comparator));
+                .thenReturn(Collections.singletonList(nacosMd5Comparator));
         Constructor constructor = Md5ComparatorDelegate.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         Field field = Md5ComparatorDelegate.class.getDeclaredField("INSTANCE");
@@ -107,9 +104,8 @@ class Md5ComparatorDelegateTest {
     }
     
     private void setStaticFinalField(Field finalField, Object value)
-        throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method getDeclaredFields0 =
-            Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
         getDeclaredFields0.setAccessible(true);
         Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
         Field modifiers = null;

@@ -39,8 +39,7 @@ public class PrometheusUtils {
      * Assemble arrayNodes for prometheus sd api.
      */
     public static void assembleArrayNodes(Set<Instance> targetSet, ArrayNode arrayNode) {
-        Map<String, List<Instance>> groupingInsMap =
-            targetSet.stream().collect(groupingBy(Instance::getClusterName));
+        Map<String, List<Instance>> groupingInsMap = targetSet.stream().collect(groupingBy(Instance::getClusterName));
         groupingInsMap.forEach((key, value) -> {
             for (Instance instance : value) {
                 ObjectNode jsonNode = assembleInstanceToArrayNode(key, instance);
@@ -65,8 +64,7 @@ public class PrometheusUtils {
         //export metadata
         Map<String, String> metadata = instance.getMetadata();
         // auto convert label names contain with "." and "-" to "_"
-        metadata = metadata.entrySet().stream().collect(Collectors
-            .toMap(e -> e.getKey().replace(".", "_").replace("-", "_"), e -> e.getValue()));
+        metadata = metadata.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().replace(".", "_").replace("-", "_"), e -> e.getValue()));
         
         metadata.forEach(labelNode::put);
         ObjectNode jsonNode = JacksonUtils.createEmptyJsonNode();

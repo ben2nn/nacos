@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.maintainer.client.config;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.api.exception.NacosException;
 
 /**
@@ -32,7 +31,6 @@ public interface ConfigOpsMaintainerService {
      * @return A success message or error details.
      * @throws NacosException if the operation fails.
      */
-    @Since("3.0.0")
     String updateLocalCacheFromStore() throws NacosException;
     
     /**
@@ -43,6 +41,5 @@ public interface ConfigOpsMaintainerService {
      * @return A success message or error details.
      * @throws NacosException if the operation fails.
      */
-    @Since("3.0.0")
     String setLogLevel(String logName, String logLevel) throws NacosException;
 }

@@ -80,8 +80,7 @@ class RequestUtilTest {
     @Test
     void testGetSrcUserNameFromContext() {
         IdentityContext identityContext = new IdentityContext();
-        identityContext.setParameter(
-            com.alibaba.nacos.plugin.auth.constant.Constants.Identity.IDENTITY_ID, "test");
+        identityContext.setParameter(com.alibaba.nacos.plugin.auth.constant.Constants.Identity.IDENTITY_ID, "test");
         RequestContextHolder.getContext().getAuthContext().setIdentityContext(identityContext);
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         assertEquals("test", RequestUtil.getSrcUserName(request));

@@ -72,8 +72,7 @@ class NamespaceTest {
     
     @Test
     void testConstructorWithAllParams() {
-        Namespace namespace =
-            new Namespace("testNamespace", "testShowName", "testDesc", 100, 50, 1);
+        Namespace namespace = new Namespace("testNamespace", "testShowName", "testDesc", 100, 50, 1);
         
         assertEquals("testNamespace", namespace.getNamespace());
         assertEquals("testShowName", namespace.getNamespaceShowName());
@@ -104,15 +103,13 @@ class NamespaceTest {
     
     @Test
     void testSerialize() throws Exception {
-        Namespace namespace =
-            new Namespace("testNamespace", "testShowName", "testDesc", 100, 50, 1);
+        Namespace namespace = new Namespace("testNamespace", "testShowName", "testDesc", 100, 50, 1);
         String json = mapper.writeValueAsString(namespace);
         
         Namespace deserializedNamespace = mapper.readValue(json, Namespace.class);
         
         assertEquals(namespace.getNamespace(), deserializedNamespace.getNamespace());
-        assertEquals(namespace.getNamespaceShowName(),
-            deserializedNamespace.getNamespaceShowName());
+        assertEquals(namespace.getNamespaceShowName(), deserializedNamespace.getNamespaceShowName());
         assertEquals(namespace.getNamespaceDesc(), deserializedNamespace.getNamespaceDesc());
         assertEquals(namespace.getQuota(), deserializedNamespace.getQuota());
         assertEquals(namespace.getConfigCount(), deserializedNamespace.getConfigCount());
@@ -122,7 +119,7 @@ class NamespaceTest {
     @Test
     void testDeserialize() throws Exception {
         String json = "{\"namespace\":\"testNamespace\",\"namespaceShowName\":\"testShowName\","
-            + "\"namespaceDesc\":\"testDesc\",\"quota\":100,\"configCount\":50,\"type\":1}";
+                + "\"namespaceDesc\":\"testDesc\",\"quota\":100,\"configCount\":50,\"type\":1}";
         Namespace namespace = mapper.readValue(json, Namespace.class);
         
         assertEquals("testNamespace", namespace.getNamespace());

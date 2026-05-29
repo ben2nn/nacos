@@ -37,7 +37,6 @@ class EncryptionHandlerTest {
     @BeforeEach
     void setUp() {
         mockEncryptionPluginService = new EncryptionPluginService() {
-            
             @Override
             public String encrypt(String secretKey, String content) {
                 return secretKey + content;
@@ -79,8 +78,7 @@ class EncryptionHandlerTest {
     
     @Test
     void testDecryptHandler() {
-        Pair<String, String> pair =
-            EncryptionHandler.decryptHandler("test-dataId", "12345678", "content");
+        Pair<String, String> pair = EncryptionHandler.decryptHandler("test-dataId", "12345678", "content");
         assertNotNull(pair);
     }
     
@@ -88,8 +86,7 @@ class EncryptionHandlerTest {
     void testCornerCaseDataIdAlgoParse() {
         String dataId = "cipher-";
         Pair<String, String> pair = EncryptionHandler.encryptHandler(dataId, "content");
-        assertNotNull(pair,
-            "should not throw exception when parsing enc algo for dataId '" + dataId + "'");
+        assertNotNull(pair, "should not throw exception when parsing enc algo for dataId '" + dataId + "'");
     }
     
     @Test
@@ -98,8 +95,7 @@ class EncryptionHandlerTest {
         String content = "content";
         Pair<String, String> pair = EncryptionHandler.encryptHandler(dataId, content);
         assertNotNull(pair);
-        assertEquals(content, pair.getSecond(),
-            "should return original content if algorithm is not defined.");
+        assertEquals(content, pair.getSecond(), "should return original content if algorithm is not defined.");
     }
     
     @Test
@@ -108,8 +104,7 @@ class EncryptionHandlerTest {
         String content = "content";
         Pair<String, String> pair = EncryptionHandler.decryptHandler(dataId, "", content);
         assertNotNull(pair);
-        assertEquals(content, pair.getSecond(),
-            "should return original content if algorithm is not defined.");
+        assertEquals(content, pair.getSecond(), "should return original content if algorithm is not defined.");
     }
     
     @Test
@@ -119,10 +114,8 @@ class EncryptionHandlerTest {
         String sec = mockEncryptionPluginService.generateSecretKey();
         Pair<String, String> pair = EncryptionHandler.encryptHandler(dataId, content);
         assertNotNull(pair);
-        assertEquals(mockEncryptionPluginService.encrypt(sec, content), pair.getSecond(),
-            "should return encrypted content.");
-        assertEquals(mockEncryptionPluginService.encryptSecretKey(sec), pair.getFirst(),
-            "should return encrypted secret key.");
+        assertEquals(mockEncryptionPluginService.encrypt(sec, content), pair.getSecond(), "should return encrypted content.");
+        assertEquals(mockEncryptionPluginService.encryptSecretKey(sec), pair.getFirst(), "should return encrypted secret key.");
     }
     
     @Test

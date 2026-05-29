@@ -54,8 +54,7 @@ public class AuthHeaderUtil {
             return;
         }
         if (StringUtils.isNotBlank(authConfig.getServerIdentityKey())) {
-            request.putHeader(authConfig.getServerIdentityKey(),
-                authConfig.getServerIdentityValue());
+            request.putHeader(authConfig.getServerIdentityKey(), authConfig.getServerIdentityValue());
         }
     }
     

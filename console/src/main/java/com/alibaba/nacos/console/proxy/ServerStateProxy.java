@@ -65,3 +65,4 @@ public class ServerStateProxy {
         return serverStateHandler.getConsoleUiGuide();
     }
 }
+

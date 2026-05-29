@@ -27,8 +27,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  *
  * @author xiweng.yy
  */
-public class DatasourceConfiguration
-    implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class DatasourceConfiguration implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     
     /**
      * Standalone mode uses DB.
@@ -60,9 +59,8 @@ public class DatasourceConfiguration
         // External data sources are used by default in cluster mode
         String platform = DatasourcePlatformUtil.getDatasourcePlatform("");
         boolean useExternalStorage =
-            !PersistenceConstant.EMPTY_DATASOURCE_PLATFORM.equalsIgnoreCase(platform)
-                && !PersistenceConstant.DERBY
-                    .equalsIgnoreCase(platform);
+                !PersistenceConstant.EMPTY_DATASOURCE_PLATFORM.equalsIgnoreCase(platform) && !PersistenceConstant.DERBY
+                        .equalsIgnoreCase(platform);
         setUseExternalDb(useExternalStorage);
         
         // must initialize after setUseExternalDb
@@ -73,8 +71,7 @@ public class DatasourceConfiguration
         if (isUseExternalDb()) {
             setEmbeddedStorage(false);
         } else {
-            boolean embeddedStorage =
-                isEmbeddedStorage() || Boolean.getBoolean(PersistenceConstant.EMBEDDED_STORAGE);
+            boolean embeddedStorage = isEmbeddedStorage() || Boolean.getBoolean(PersistenceConstant.EMBEDDED_STORAGE);
             setEmbeddedStorage(embeddedStorage);
             
             // If the embedded data source storage is not turned on, it is automatically

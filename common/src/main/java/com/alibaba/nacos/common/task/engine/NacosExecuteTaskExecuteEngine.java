@@ -29,8 +29,7 @@ import java.util.Collection;
  *
  * @author xiweng.yy
  */
-public class NacosExecuteTaskExecuteEngine
-    extends AbstractNacosTaskExecuteEngine<AbstractExecuteTask> {
+public class NacosExecuteTaskExecuteEngine extends AbstractNacosTaskExecuteEngine<AbstractExecuteTask> {
     
     private final TaskExecuteWorker[] executeWorkers;
     
@@ -42,8 +41,7 @@ public class NacosExecuteTaskExecuteEngine
         super(logger);
         executeWorkers = new TaskExecuteWorker[dispatchWorkerCount];
         for (int mod = 0; mod < dispatchWorkerCount; ++mod) {
-            executeWorkers[mod] =
-                new TaskExecuteWorker(name, mod, dispatchWorkerCount, getEngineLog());
+            executeWorkers[mod] = new TaskExecuteWorker(name, mod, dispatchWorkerCount, getEngineLog());
         }
     }
     
@@ -88,8 +86,7 @@ public class NacosExecuteTaskExecuteEngine
     
     @Override
     public Collection<Object> getAllTaskKeys() {
-        throw new UnsupportedOperationException(
-            "ExecuteTaskEngine do not support get all task keys");
+        throw new UnsupportedOperationException("ExecuteTaskEngine do not support get all task keys");
     }
     
     @Override

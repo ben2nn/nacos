@@ -27,9 +27,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * param checker to manager Extractor.
@@ -82,11 +81,9 @@ public class ExtractorManager {
         }
     }
     
-    private static Map<Class<? extends AbstractRpcParamExtractor>, AbstractRpcParamExtractor> rpcManager =
-        new ConcurrentHashMap<>();
+    private static HashMap<Class<? extends AbstractRpcParamExtractor>, AbstractRpcParamExtractor> rpcManager = new HashMap<>();
     
-    private static Map<Class<? extends AbstractHttpParamExtractor>, AbstractHttpParamExtractor> httpManager =
-        new ConcurrentHashMap<>();
+    private static HashMap<Class<? extends AbstractHttpParamExtractor>, AbstractHttpParamExtractor> httpManager = new HashMap<>();
     
     static {
         NacosServiceLoader.load(AbstractHttpParamExtractor.class).forEach(checker -> {
@@ -98,12 +95,10 @@ public class ExtractorManager {
     }
     
     public static AbstractRpcParamExtractor getRpcExtractor(Extractor extractor) {
-        return rpcManager.computeIfAbsent(extractor.rpcExtractor(),
-            (key) -> new DefaultGrpcExtractor());
+        return rpcManager.computeIfAbsent(extractor.rpcExtractor(), (key) -> new DefaultGrpcExtractor());
     }
     
     public static AbstractHttpParamExtractor getHttpExtractor(Extractor extractor) {
-        return httpManager.computeIfAbsent(extractor.httpExtractor(),
-            (key) -> new DefaultHttpExtractor());
+        return httpManager.computeIfAbsent(extractor.httpExtractor(), (key) -> new DefaultHttpExtractor());
     }
 }

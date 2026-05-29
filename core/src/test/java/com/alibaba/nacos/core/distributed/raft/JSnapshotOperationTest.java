@@ -33,7 +33,6 @@ class JSnapshotOperationTest {
     @Test
     void testBuildMetadataWithNull() throws Exception {
         JSnapshotOperation op = new JSnapshotOperation() {
-            
             @Override
             public void onSnapshotSave(SnapshotWriter writer, Closure done) {
             }
@@ -56,7 +55,6 @@ class JSnapshotOperationTest {
         LocalFileMeta meta = new LocalFileMeta();
         meta.append("key", "value");
         JSnapshotOperation op = new JSnapshotOperation() {
-            
             @Override
             public void onSnapshotSave(SnapshotWriter writer, Closure done) {
             }

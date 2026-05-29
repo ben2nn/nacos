@@ -45,8 +45,7 @@ public class ConfigChangeListenContext {
     /**
      * connectionId-> group key set.
      */
-    private ConcurrentHashMap<String, HashMap<String, ConfigListenState>> connectionIdContext =
-        new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, HashMap<String, ConfigListenState>> connectionIdContext = new ConcurrentHashMap<>();
     
     /**
      * add listen.
@@ -54,15 +53,13 @@ public class ConfigChangeListenContext {
      * @param groupKey     groupKey.
      * @param connectionId connectionId.
      */
-    public synchronized void addListen(String groupKey, String md5, String connectionId,
-        boolean isNamespaceTransfer) {
+    public synchronized void addListen(String groupKey, String md5, String connectionId, boolean isNamespaceTransfer) {
         // 1.add groupKeyContext
         groupKeyContext.computeIfAbsent(groupKey, k -> new HashSet<>()).add(connectionId);
         // 2.add connectionIdContext
         ConfigListenState listenState = new ConfigListenState(md5);
         listenState.setNamespaceTransfer(isNamespaceTransfer);
-        connectionIdContext.computeIfAbsent(connectionId, k -> new HashMap<>(16)).put(groupKey,
-            listenState);
+        connectionIdContext.computeIfAbsent(connectionId, k -> new HashMap<>(16)).put(groupKey, listenState);
     }
     
     /**
@@ -133,7 +130,7 @@ public class ConfigChangeListenContext {
             return;
         }
         for (Map.Entry<String, String> groupKey : listenKeys.entrySet()) {
-            
+
             Set<String> connectionIds = groupKeyContext.get(groupKey.getKey());
             if (CollectionUtils.isNotEmpty(connectionIds)) {
                 connectionIds.remove(connectionId);
@@ -143,7 +140,7 @@ public class ConfigChangeListenContext {
             } else {
                 groupKeyContext.remove(groupKey.getKey());
             }
-            
+
         }
         connectionIdContext.remove(connectionId);
     }
@@ -155,8 +152,7 @@ public class ConfigChangeListenContext {
      * @return listen group keys of the connection id, key:group key,value:md5
      */
     public synchronized Map<String, String> getListenKeys(String connectionId) {
-        HashMap<String, ConfigListenState> stringStringHashMap =
-            connectionIdContext.get(connectionId);
+        HashMap<String, ConfigListenState> stringStringHashMap = connectionIdContext.get(connectionId);
         if (stringStringHashMap != null) {
             HashMap<String, String> md5Map = new HashMap<>(stringStringHashMap.size());
             for (Map.Entry<String, ConfigListenState> entry : stringStringHashMap.entrySet()) {
@@ -184,10 +180,8 @@ public class ConfigChangeListenContext {
         return groupKeyContexts == null ? null : groupKeyContexts.get(groupKey);
     }
     
-    public synchronized HashMap<String, ConfigListenState> getConfigListenStates(
-        String connectionId) {
-        HashMap<String, ConfigListenState> configListenStateHashMap =
-            connectionIdContext.get(connectionId);
+    public synchronized HashMap<String, ConfigListenState> getConfigListenStates(String connectionId) {
+        HashMap<String, ConfigListenState> configListenStateHashMap = connectionIdContext.get(connectionId);
         return configListenStateHashMap == null ? null : new HashMap<>(configListenStateHashMap);
     }
     

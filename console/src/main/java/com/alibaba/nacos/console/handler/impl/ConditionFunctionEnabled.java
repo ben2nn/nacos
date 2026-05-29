@@ -45,20 +45,7 @@ public class ConditionFunctionEnabled implements Condition {
             return true;
         }
         // configured function mode not empty and equals target function mode, means target function is enabled
-        if (functionMode.equalsIgnoreCase(targetFunctionMode)) {
-            return true;
-        }
-        // microservice mode enables both config and naming
-        if (EnvUtil.FUNCTION_MODE_MICROSERVICE.equalsIgnoreCase(functionMode)) {
-            return EnvUtil.FUNCTION_MODE_CONFIG.equalsIgnoreCase(targetFunctionMode)
-                || EnvUtil.FUNCTION_MODE_NAMING.equalsIgnoreCase(targetFunctionMode);
-        }
-        // ai mode depends on both config and naming
-        if (EnvUtil.FUNCTION_MODE_AI.equalsIgnoreCase(functionMode)) {
-            return EnvUtil.FUNCTION_MODE_CONFIG.equalsIgnoreCase(targetFunctionMode)
-                || EnvUtil.FUNCTION_MODE_NAMING.equalsIgnoreCase(targetFunctionMode);
-        }
-        return false;
+        return functionMode.equalsIgnoreCase(targetFunctionMode);
     }
     
     public static class ConditionNamingEnabled extends ConditionFunctionEnabled {
@@ -78,7 +65,7 @@ public class ConditionFunctionEnabled implements Condition {
     public static class ConditionAiEnabled extends ConditionFunctionEnabled {
         
         public ConditionAiEnabled() {
-            super(EnvUtil.FUNCTION_MODE_AI);
+            super("");
         }
     }
 }

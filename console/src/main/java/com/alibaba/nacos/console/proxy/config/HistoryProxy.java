@@ -58,9 +58,8 @@ public class HistoryProxy {
      * @return the detailed configuration history information
      * @throws NacosException if any error occurs during the operation
      */
-    public ConfigHistoryDetailInfo getConfigHistoryInfo(String dataId, String group,
-        String namespaceId, Long nid)
-        throws NacosException {
+    public ConfigHistoryDetailInfo getConfigHistoryInfo(String dataId, String group, String namespaceId, Long nid)
+            throws NacosException {
         return historyHandler.getConfigHistoryInfo(dataId, group, namespaceId, nid);
     }
     
@@ -75,9 +74,8 @@ public class HistoryProxy {
      * @return the paginated list of configuration history
      * @throws NacosException if any error occurs during the operation
      */
-    public Page<ConfigHistoryBasicInfo> listConfigHistory(String dataId, String group,
-        String namespaceId, Integer pageNo,
-        Integer pageSize) throws NacosException {
+    public Page<ConfigHistoryBasicInfo> listConfigHistory(String dataId, String group, String namespaceId, Integer pageNo,
+            Integer pageSize) throws NacosException {
         return historyHandler.listConfigHistory(dataId, group, namespaceId, pageNo, pageSize);
     }
     
@@ -91,9 +89,8 @@ public class HistoryProxy {
      * @return the previous configuration history information
      * @throws NacosException if any error occurs during the operation
      */
-    public ConfigHistoryDetailInfo getPreviousConfigHistoryInfo(String dataId, String group,
-        String namespaceId, Long id)
-        throws NacosException {
+    public ConfigHistoryDetailInfo getPreviousConfigHistoryInfo(String dataId, String group, String namespaceId, Long id)
+            throws NacosException {
         return historyHandler.getPreviousConfigHistoryInfo(dataId, group, namespaceId, id);
     }
     

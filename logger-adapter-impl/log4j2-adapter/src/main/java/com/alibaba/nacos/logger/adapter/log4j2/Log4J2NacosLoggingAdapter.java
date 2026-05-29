@@ -116,8 +116,7 @@ public class Log4J2NacosLoggingAdapter implements NacosLoggingAdapter {
                 configurator.configure(loggerContext, configUri);
                 
             } catch (Exception e) {
-                throw new IllegalStateException(
-                    "Could not initialize Log4J2 logging from " + location, e);
+                throw new IllegalStateException("Could not initialize Log4J2 logging from " + location, e);
             }
         }
     }

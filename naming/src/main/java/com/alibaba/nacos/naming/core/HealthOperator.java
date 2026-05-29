@@ -44,13 +44,11 @@ public interface HealthOperator {
      * @deprecated use {@link #updateHealthStatusForPersistentInstance(String, String, String, String, String, int, boolean)} replaced
      */
     @Deprecated
-    default void updateHealthStatusForPersistentInstance(String namespace, String fullServiceName,
-        String clusterName,
-        String ip, int port, boolean healthy) throws NacosException {
+    default void updateHealthStatusForPersistentInstance(String namespace, String fullServiceName, String clusterName,
+            String ip, int port, boolean healthy) throws NacosException {
         String groupName = NamingUtils.getGroupName(fullServiceName);
         String serviceName = NamingUtils.getServiceName(fullServiceName);
-        updateHealthStatusForPersistentInstance(namespace, groupName, serviceName, clusterName, ip,
-            port, healthy);
+        updateHealthStatusForPersistentInstance(namespace, groupName, serviceName, clusterName, ip, port, healthy);
     }
     
     /**
@@ -67,9 +65,8 @@ public interface HealthOperator {
      * @param healthy         health status of instance
      * @throws NacosException any exception during updating
      */
-    void updateHealthStatusForPersistentInstance(String namespace, String groupName,
-        String serviceName,
-        String clusterName, String ip, int port, boolean healthy) throws NacosException;
+    void updateHealthStatusForPersistentInstance(String namespace, String groupName, String serviceName,
+            String clusterName, String ip, int port, boolean healthy) throws NacosException;
     
     /**
      * Retrieves a map of available health checkers.

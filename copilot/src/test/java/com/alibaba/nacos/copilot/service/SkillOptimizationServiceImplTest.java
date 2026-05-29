@@ -58,21 +58,19 @@ class SkillOptimizationServiceImplTest {
         // Given
         SkillOptimizationRequest request = new SkillOptimizationRequest();
         request.setSkill(null);
-        StreamResponseCallback<SkillOptimizationResponse> callback =
-            new StreamResponseCallback<SkillOptimizationResponse>() {
-                
-                @Override
-                public void onNext(SkillOptimizationResponse response) {
-                }
-                
-                @Override
-                public void onError(Throwable t) {
-                }
-                
-                @Override
-                public void onComplete() {
-                }
-            };
+        StreamResponseCallback<SkillOptimizationResponse> callback = new StreamResponseCallback<SkillOptimizationResponse>() {
+            @Override
+            public void onNext(SkillOptimizationResponse response) {
+            }
+            
+            @Override
+            public void onError(Throwable t) {
+            }
+            
+            @Override
+            public void onComplete() {
+            }
+        };
         
         // When
         skillOptimizationService.optimizeSkillStream(request, callback);
@@ -86,21 +84,19 @@ class SkillOptimizationServiceImplTest {
         // Given
         SkillOptimizationRequest request = createValidRequest();
         when(agentManager.isEnabled()).thenReturn(false);
-        StreamResponseCallback<SkillOptimizationResponse> callback =
-            new StreamResponseCallback<SkillOptimizationResponse>() {
-                
-                @Override
-                public void onNext(SkillOptimizationResponse response) {
-                }
-                
-                @Override
-                public void onError(Throwable t) {
-                }
-                
-                @Override
-                public void onComplete() {
-                }
-            };
+        StreamResponseCallback<SkillOptimizationResponse> callback = new StreamResponseCallback<SkillOptimizationResponse>() {
+            @Override
+            public void onNext(SkillOptimizationResponse response) {
+            }
+            
+            @Override
+            public void onError(Throwable t) {
+            }
+            
+            @Override
+            public void onComplete() {
+            }
+        };
         
         // When
         skillOptimizationService.optimizeSkillStream(request, callback);
@@ -119,25 +115,23 @@ class SkillOptimizationServiceImplTest {
         when(agentManager.createAgent(anyString())).thenReturn(mockAgent);
         
         reactor.core.publisher.Flux<io.agentscope.core.agent.Event> mockFlux =
-            reactor.core.publisher.Flux.empty();
+                reactor.core.publisher.Flux.empty();
         when(mockAgent.stream(any(java.util.List.class),
-            any(io.agentscope.core.agent.StreamOptions.class))).thenReturn(mockFlux);
+                any(io.agentscope.core.agent.StreamOptions.class))).thenReturn(mockFlux);
         
-        StreamResponseCallback<SkillOptimizationResponse> callback =
-            new StreamResponseCallback<SkillOptimizationResponse>() {
-                
-                @Override
-                public void onNext(SkillOptimizationResponse response) {
-                }
-                
-                @Override
-                public void onError(Throwable t) {
-                }
-                
-                @Override
-                public void onComplete() {
-                }
-            };
+        StreamResponseCallback<SkillOptimizationResponse> callback = new StreamResponseCallback<SkillOptimizationResponse>() {
+            @Override
+            public void onNext(SkillOptimizationResponse response) {
+            }
+            
+            @Override
+            public void onError(Throwable t) {
+            }
+            
+            @Override
+            public void onComplete() {
+            }
+        };
         
         // When
         skillOptimizationService.optimizeSkillStream(request, callback);
@@ -154,26 +148,24 @@ class SkillOptimizationServiceImplTest {
         io.agentscope.core.ReActAgent mockAgent = mock(io.agentscope.core.ReActAgent.class);
         when(agentManager.createAgent(anyString())).thenReturn(mockAgent);
         
-        reactor.core.publisher.Flux<io.agentscope.core.agent.Event> mockFlux =
-            reactor.core.publisher.Flux.empty();
-        when(mockAgent.stream(any(java.util.List.class),
-            any(io.agentscope.core.agent.StreamOptions.class))).thenReturn(mockFlux);
+        reactor.core.publisher.Flux<io.agentscope.core.agent.Event> mockFlux = 
+                reactor.core.publisher.Flux.empty();
+        when(mockAgent.stream(any(java.util.List.class), 
+                any(io.agentscope.core.agent.StreamOptions.class))).thenReturn(mockFlux);
         
-        StreamResponseCallback<SkillOptimizationResponse> callback =
-            new StreamResponseCallback<SkillOptimizationResponse>() {
-                
-                @Override
-                public void onNext(SkillOptimizationResponse response) {
-                }
-                
-                @Override
-                public void onError(Throwable t) {
-                }
-                
-                @Override
-                public void onComplete() {
-                }
-            };
+        StreamResponseCallback<SkillOptimizationResponse> callback = new StreamResponseCallback<SkillOptimizationResponse>() {
+            @Override
+            public void onNext(SkillOptimizationResponse response) {
+            }
+            
+            @Override
+            public void onError(Throwable t) {
+            }
+            
+            @Override
+            public void onComplete() {
+            }
+        };
         
         // When
         skillOptimizationService.optimizeSkillStream(request, callback);
@@ -190,26 +182,24 @@ class SkillOptimizationServiceImplTest {
         io.agentscope.core.ReActAgent mockAgent = mock(io.agentscope.core.ReActAgent.class);
         when(agentManager.createAgent(anyString())).thenReturn(mockAgent);
         
-        reactor.core.publisher.Flux<io.agentscope.core.agent.Event> mockFlux =
-            reactor.core.publisher.Flux.empty();
-        when(mockAgent.stream(any(java.util.List.class),
-            any(io.agentscope.core.agent.StreamOptions.class))).thenReturn(mockFlux);
+        reactor.core.publisher.Flux<io.agentscope.core.agent.Event> mockFlux = 
+                reactor.core.publisher.Flux.empty();
+        when(mockAgent.stream(any(java.util.List.class), 
+                any(io.agentscope.core.agent.StreamOptions.class))).thenReturn(mockFlux);
         
-        StreamResponseCallback<SkillOptimizationResponse> callback =
-            new StreamResponseCallback<SkillOptimizationResponse>() {
-                
-                @Override
-                public void onNext(SkillOptimizationResponse response) {
-                }
-                
-                @Override
-                public void onError(Throwable t) {
-                }
-                
-                @Override
-                public void onComplete() {
-                }
-            };
+        StreamResponseCallback<SkillOptimizationResponse> callback = new StreamResponseCallback<SkillOptimizationResponse>() {
+            @Override
+            public void onNext(SkillOptimizationResponse response) {
+            }
+            
+            @Override
+            public void onError(Throwable t) {
+            }
+            
+            @Override
+            public void onComplete() {
+            }
+        };
         
         // When
         skillOptimizationService.optimizeSkillStream(request, callback);
@@ -226,26 +216,24 @@ class SkillOptimizationServiceImplTest {
         io.agentscope.core.ReActAgent mockAgent = mock(io.agentscope.core.ReActAgent.class);
         when(agentManager.createAgent(anyString())).thenReturn(mockAgent);
         
-        reactor.core.publisher.Flux<io.agentscope.core.agent.Event> mockFlux =
-            reactor.core.publisher.Flux.empty();
-        when(mockAgent.stream(any(java.util.List.class),
-            any(io.agentscope.core.agent.StreamOptions.class))).thenReturn(mockFlux);
+        reactor.core.publisher.Flux<io.agentscope.core.agent.Event> mockFlux = 
+                reactor.core.publisher.Flux.empty();
+        when(mockAgent.stream(any(java.util.List.class), 
+                any(io.agentscope.core.agent.StreamOptions.class))).thenReturn(mockFlux);
         
-        StreamResponseCallback<SkillOptimizationResponse> callback =
-            new StreamResponseCallback<SkillOptimizationResponse>() {
-                
-                @Override
-                public void onNext(SkillOptimizationResponse response) {
-                }
-                
-                @Override
-                public void onError(Throwable t) {
-                }
-                
-                @Override
-                public void onComplete() {
-                }
-            };
+        StreamResponseCallback<SkillOptimizationResponse> callback = new StreamResponseCallback<SkillOptimizationResponse>() {
+            @Override
+            public void onNext(SkillOptimizationResponse response) {
+            }
+            
+            @Override
+            public void onError(Throwable t) {
+            }
+            
+            @Override
+            public void onComplete() {
+            }
+        };
         
         // When
         skillOptimizationService.optimizeSkillStream(request, callback);
@@ -261,21 +249,19 @@ class SkillOptimizationServiceImplTest {
         when(agentManager.isEnabled()).thenReturn(true);
         when(agentManager.createAgent(anyString())).thenReturn(null);
         
-        StreamResponseCallback<SkillOptimizationResponse> callback =
-            new StreamResponseCallback<SkillOptimizationResponse>() {
-                
-                @Override
-                public void onNext(SkillOptimizationResponse response) {
-                }
-                
-                @Override
-                public void onError(Throwable t) {
-                }
-                
-                @Override
-                public void onComplete() {
-                }
-            };
+        StreamResponseCallback<SkillOptimizationResponse> callback = new StreamResponseCallback<SkillOptimizationResponse>() {
+            @Override
+            public void onNext(SkillOptimizationResponse response) {
+            }
+            
+            @Override
+            public void onError(Throwable t) {
+            }
+            
+            @Override
+            public void onComplete() {
+            }
+        };
         
         // When
         skillOptimizationService.optimizeSkillStream(request, callback);
@@ -292,8 +278,7 @@ class SkillOptimizationServiceImplTest {
         Skill skill = new Skill();
         skill.setName("test-skill");
         skill.setDescription("Test description");
-        skill.setSkillMd(
-            "---\nname: test-skill\ndescription: Test description\n---\n\nTest instruction");
+        skill.setSkillMd("---\nname: test-skill\ndescription: Test description\n---\n\nTest instruction");
         request.setSkill(skill);
         request.setTargetFileName("SKILL.md");
         return request;
@@ -304,13 +289,11 @@ class SkillOptimizationServiceImplTest {
      */
     private SkillOptimizationRequest createValidRequestWithHistory() {
         SkillOptimizationRequest request = createValidRequest();
-        com.alibaba.nacos.copilot.model.ConversationHistory history =
-            new com.alibaba.nacos.copilot.model.ConversationHistory();
+        com.alibaba.nacos.copilot.model.ConversationHistory history = new com.alibaba.nacos.copilot.model.ConversationHistory();
         history.setTitle("Test Conversation");
         history.setContext("Test context");
         
-        com.alibaba.nacos.copilot.model.ConversationMessage message =
-            new com.alibaba.nacos.copilot.model.ConversationMessage();
+        com.alibaba.nacos.copilot.model.ConversationMessage message = new com.alibaba.nacos.copilot.model.ConversationMessage();
         message.setType("user");
         message.setContent("User input");
         history.setMessages(java.util.Collections.singletonList(message));

@@ -25,8 +25,7 @@ class AiMaintainerFactoryTest {
     
     @Test
     void createAiMaintainerServiceWithNullProperties() {
-        assertThrows(NacosException.class,
-            () -> AiMaintainerFactory.createAiMaintainerService(null),
-            "properties is null");
+        assertThrows(NacosException.class, () -> AiMaintainerFactory.createAiMaintainerService(null),
+                "properties is null");
     }
 }

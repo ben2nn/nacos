@@ -4,7 +4,7 @@ export type PromptSearchMode = 'accurate' | 'blur';
 
 // ===== Prompt Version Status =====
 
-export type PromptVersionStatus = 'draft' | 'reviewing' | 'reviewed' | 'online' | 'offline';
+export type PromptVersionStatus = 'draft' | 'reviewing' | 'online' | 'offline';
 
 // ===== Prompt Variable =====
 
@@ -28,7 +28,6 @@ export interface PromptMetaSummary {
   reviewingVersion: string | null;
   onlineCnt: number;
   labels: Record<string, string>;
-  downloadCount: number | null;
 }
 
 // ===== Prompt Meta Info (governance detail) =====
@@ -48,7 +47,6 @@ export interface PromptVersionSummary {
   srcUser: string;
   gmtModified: number;
   publishPipelineInfo: string | null;
-  downloadCount: number | null;
 }
 
 // ===== Prompt Version Info (full detail) =====

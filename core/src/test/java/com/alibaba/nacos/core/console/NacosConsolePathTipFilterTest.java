@@ -92,10 +92,8 @@ class NacosConsolePathTipFilterTest {
         filter.doFilter(request, response, filterChain);
         response.getWriter().flush();
         String responseText = responseWriter.toString();
-        assertEquals(responseText,
-            String.format("Nacos Console default port is %s, and the path is %s.",
-                EnvUtil.getProperty("nacos.console.port"),
-                EnvUtil.getProperty("nacos.console.contextPath")));
+        assertEquals(responseText, String.format("Nacos Console default port is %s, and the path is %s.",
+                EnvUtil.getProperty("nacos.console.port"), EnvUtil.getProperty("nacos.console.contextPath")));
     }
     
     @Test
@@ -106,10 +104,8 @@ class NacosConsolePathTipFilterTest {
         filter.doFilter(request, response, filterChain);
         response.getWriter().flush();
         String responseText = responseWriter.toString();
-        assertEquals(responseText,
-            String.format("Nacos Console default port is %s, and the path is %s.",
-                EnvUtil.getProperty("nacos.console.port"),
-                EnvUtil.getProperty("nacos.console.contextPath")));
+        assertEquals(responseText, String.format("Nacos Console default port is %s, and the path is %s.",
+                EnvUtil.getProperty("nacos.console.port"), EnvUtil.getProperty("nacos.console.contextPath")));
     }
     
     @Test
@@ -138,10 +134,8 @@ class NacosConsolePathTipFilterTest {
         filter.doFilter(request, response, filterChain);
         response.getWriter().flush();
         String responseText = responseWriter.toString();
-        assertEquals(responseText,
-            String.format("Nacos Console default port is %s, and the path is %s.",
-                EnvUtil.getProperty("nacos.console.port"),
-                EnvUtil.getProperty("nacos.console.contextPath")));
+        assertEquals(responseText, String.format("Nacos Console default port is %s, and the path is %s.",
+                EnvUtil.getProperty("nacos.console.port"), EnvUtil.getProperty("nacos.console.contextPath")));
     }
     
     @Test
@@ -152,10 +146,8 @@ class NacosConsolePathTipFilterTest {
         filter.doFilter(request, response, filterChain);
         response.getWriter().flush();
         String responseText = responseWriter.toString();
-        assertEquals(responseText,
-            String.format("Nacos Console default port is %s, and the path is %s.",
-                EnvUtil.getProperty("nacos.console.port"),
-                EnvUtil.getProperty("nacos.console.contextPath")));
+        assertEquals(responseText, String.format("Nacos Console default port is %s, and the path is %s.",
+                EnvUtil.getProperty("nacos.console.port"), EnvUtil.getProperty("nacos.console.contextPath")));
     }
     
     @Test
@@ -184,10 +176,8 @@ class NacosConsolePathTipFilterTest {
         filter.doFilter(request, response, filterChain);
         response.getWriter().flush();
         String responseText = responseWriter.toString();
-        assertEquals(responseText,
-            String.format("Nacos Console default port is %s, and the path is %s.",
-                EnvUtil.getProperty("nacos.console.port"),
-                EnvUtil.getProperty("nacos.console.contextPath")));
+        assertEquals(responseText, String.format("Nacos Console default port is %s, and the path is %s.",
+                EnvUtil.getProperty("nacos.console.port"), EnvUtil.getProperty("nacos.console.contextPath")));
     }
     
     @Test
@@ -198,10 +188,8 @@ class NacosConsolePathTipFilterTest {
         filter.doFilter(request, response, filterChain);
         response.getWriter().flush();
         String responseText = responseWriter.toString();
-        assertEquals(responseText,
-            String.format("Nacos Console default port is %s, and the path is %s.",
-                EnvUtil.getProperty("nacos.console.port"),
-                EnvUtil.getProperty("nacos.console.contextPath")));
+        assertEquals(responseText, String.format("Nacos Console default port is %s, and the path is %s.",
+                EnvUtil.getProperty("nacos.console.port"), EnvUtil.getProperty("nacos.console.contextPath")));
     }
     
     @Test
@@ -223,8 +211,7 @@ class NacosConsolePathTipFilterTest {
     }
     
     @Test
-    void testDoFilterWhenNotHttpRequestOrResponseDelegatesToChain()
-        throws IOException, ServletException {
+    void testDoFilterWhenNotHttpRequestOrResponseDelegatesToChain() throws IOException, ServletException {
         ServletRequest servletRequest = mock(ServletRequest.class);
         ServletResponse servletResponse = mock(ServletResponse.class);
         filter.doFilter(servletRequest, servletResponse, filterChain);
@@ -232,24 +219,21 @@ class NacosConsolePathTipFilterTest {
     }
     
     @Test
-    void testDoFilterWhenHttpRequestButNotHttpResponseDelegatesToChain()
-        throws IOException, ServletException {
+    void testDoFilterWhenHttpRequestButNotHttpResponseDelegatesToChain() throws IOException, ServletException {
         ServletResponse servletResponse = mock(ServletResponse.class);
         filter.doFilter(request, servletResponse, filterChain);
         verify(filterChain).doFilter(request, servletResponse);
     }
     
     @Test
-    void testDoFilterWhenHttpResponseButNotHttpRequestDelegatesToChain()
-        throws IOException, ServletException {
+    void testDoFilterWhenHttpResponseButNotHttpRequestDelegatesToChain() throws IOException, ServletException {
         ServletRequest servletRequest = mock(ServletRequest.class);
         filter.doFilter(servletRequest, response, filterChain);
         verify(filterChain).doFilter(servletRequest, response);
     }
     
     @Test
-    void testBlankServerContextPathReturnsTipWithDefaultPath()
-        throws IOException, ServletException {
+    void testBlankServerContextPathReturnsTipWithDefaultPath() throws IOException, ServletException {
         MockEnvironment env = new MockEnvironment();
         env.setProperty("nacos.server.main.port", "18848");
         env.setProperty("nacos.server.contextPath", "");
@@ -296,18 +280,15 @@ class NacosConsolePathTipFilterTest {
     }
     
     @Test
-    void testContextPathWithoutTrailingSlashNormalizedWithSlash()
-        throws IOException, ServletException {
+    void testContextPathWithoutTrailingSlashNormalizedWithSlash() throws IOException, ServletException {
         environment.setProperty("nacos.server.contextPath", "/nacos");
         when(request.getRequestURI()).thenReturn("/nacos/");
         responseWriter.getBuffer().setLength(0);
         filter.doFilter(request, response, filterChain);
         response.getWriter().flush();
         String responseText = responseWriter.toString();
-        assertEquals(responseText,
-            String.format("Nacos Console default port is %s, and the path is %s.",
-                EnvUtil.getProperty("nacos.console.port"),
-                EnvUtil.getProperty("nacos.console.contextPath")));
+        assertEquals(responseText, String.format("Nacos Console default port is %s, and the path is %s.",
+                EnvUtil.getProperty("nacos.console.port"), EnvUtil.getProperty("nacos.console.contextPath")));
     }
     
 }

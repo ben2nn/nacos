@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.core.controller.v3;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.api.annotation.NacosApi;
 import com.alibaba.nacos.api.common.ApiType;
 import com.alibaba.nacos.api.exception.api.NacosApiException;
@@ -59,8 +58,7 @@ public class CoreOpsControllerV3 {
     
     private final IdGeneratorManager idGeneratorManager;
     
-    public CoreOpsControllerV3(ProtocolManager protocolManager,
-        IdGeneratorManager idGeneratorManager) {
+    public CoreOpsControllerV3(ProtocolManager protocolManager, IdGeneratorManager idGeneratorManager) {
         this.protocolManager = protocolManager;
         this.idGeneratorManager = idGeneratorManager;
     }
@@ -75,11 +73,9 @@ public class CoreOpsControllerV3 {
      * @param form RaftCommandForm
      * @return {@link RestResult}
      */
-    @Since("3.0.0")
     @PostMapping(value = "/raft")
     @Secured(resource = Commons.NACOS_ADMIN_CORE_CONTEXT_V3
-        + "/ops", action = ActionTypes.WRITE, signType = SignType.CONSOLE,
-        apiType = ApiType.ADMIN_API)
+            + "/ops", action = ActionTypes.WRITE, signType = SignType.CONSOLE, apiType = ApiType.ADMIN_API)
     public Result<String> raftOps(@RequestBody RaftCommandForm form) throws NacosApiException {
         form.validate();
         return Result.success(protocolManager.getCpProtocol().execute(form.toMap()).getData());
@@ -90,11 +86,9 @@ public class CoreOpsControllerV3 {
      *
      * @return {@link RestResult}
      */
-    @Since("3.0.0")
     @GetMapping(value = "/ids")
     @Secured(resource = Commons.NACOS_ADMIN_CORE_CONTEXT_V3
-        + "/ops", action = ActionTypes.WRITE, signType = SignType.CONSOLE,
-        apiType = ApiType.ADMIN_API)
+            + "/ops", action = ActionTypes.WRITE, signType = SignType.CONSOLE, apiType = ApiType.ADMIN_API)
     public Result<List<IdGeneratorInfo>> ids() {
         List<IdGeneratorInfo> result = new ArrayList<>();
         idGeneratorManager.getGeneratorMap().forEach((resource, idGenerator) -> {
@@ -119,13 +113,10 @@ public class CoreOpsControllerV3 {
      * @return {@link Result}
      * @throws NacosApiException if parameters are invalid
      */
-    @Since("3.0.0")
     @PutMapping(value = "/log")
     @Secured(resource = Commons.NACOS_ADMIN_CORE_CONTEXT_V3
-        + "/ops", action = ActionTypes.WRITE, signType = SignType.CONSOLE,
-        apiType = ApiType.ADMIN_API)
-    public Result<Void> updateLog(@RequestBody LogUpdateRequest logUpdateRequest)
-        throws NacosApiException {
+            + "/ops", action = ActionTypes.WRITE, signType = SignType.CONSOLE, apiType = ApiType.ADMIN_API)
+    public Result<Void> updateLog(@RequestBody LogUpdateRequest logUpdateRequest) throws NacosApiException {
         logUpdateRequest.validate();
         Loggers.setLogLevel(logUpdateRequest.getLogName(), logUpdateRequest.getLogLevel());
         return Result.success();

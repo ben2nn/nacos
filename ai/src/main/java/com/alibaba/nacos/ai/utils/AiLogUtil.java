@@ -29,6 +29,5 @@ public class AiLogUtil {
     /**
      * AI resource trace log for auditing AI resource version operations.
      */
-    public static final Logger TRACE_LOG =
-        LoggerFactory.getLogger("com.alibaba.nacos.ai.resource.trace");
+    public static final Logger TRACE_LOG = LoggerFactory.getLogger("com.alibaba.nacos.ai.resource.trace");
 }

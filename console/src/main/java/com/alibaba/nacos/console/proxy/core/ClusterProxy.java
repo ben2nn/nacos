@@ -63,8 +63,7 @@ public class ClusterProxy {
                 return;
             }
             final String address = member.getAddress();
-            if (StringUtils.equals(address, ipKeyWord)
-                || StringUtils.startsWith(address, ipKeyWord)) {
+            if (StringUtils.equals(address, ipKeyWord) || StringUtils.startsWith(address, ipKeyWord)) {
                 result.add(member);
             }
         });
@@ -72,3 +71,4 @@ public class ClusterProxy {
         return result;
     }
 }
+

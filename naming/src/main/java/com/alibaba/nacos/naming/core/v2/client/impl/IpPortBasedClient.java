@@ -91,8 +91,7 @@ public class IpPortBasedClient extends AbstractClient {
     
     @Override
     public boolean isExpire(long currentTime) {
-        return isEphemeral() && getAllPublishedService().isEmpty()
-            && currentTime - getLastUpdatedTime() > ClientConfig
+        return isEphemeral() && getAllPublishedService().isEmpty() && currentTime - getLastUpdatedTime() > ClientConfig
                 .getInstance().getClientExpiredTime();
     }
     
@@ -110,8 +109,7 @@ public class IpPortBasedClient extends AbstractClient {
         }
     }
     
-    private HealthCheckInstancePublishInfo parseToHealthCheckInstance(
-        InstancePublishInfo instancePublishInfo) {
+    private HealthCheckInstancePublishInfo parseToHealthCheckInstance(InstancePublishInfo instancePublishInfo) {
         HealthCheckInstancePublishInfo result;
         if (instancePublishInfo instanceof HealthCheckInstancePublishInfo) {
             result = (HealthCheckInstancePublishInfo) instancePublishInfo;

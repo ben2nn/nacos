@@ -38,9 +38,8 @@ public class PipelineDetailForm implements NacosForm {
     @Override
     public void validate() throws NacosApiException {
         if (StringUtils.isBlank(pipelineId)) {
-            throw new NacosApiException(NacosApiException.INVALID_PARAM,
-                ErrorCode.PARAMETER_VALIDATE_ERROR,
-                "Required parameter 'pipelineId' is missing");
+            throw new NacosApiException(NacosApiException.INVALID_PARAM, ErrorCode.PARAMETER_VALIDATE_ERROR,
+                    "Required parameter 'pipelineId' is missing");
         }
     }
     

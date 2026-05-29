@@ -35,8 +35,7 @@ public class GenericType<T> {
     
     final Type capture() {
         Type superclass = getClass().getGenericSuperclass();
-        Preconditions.checkArgument(superclass instanceof ParameterizedType,
-            "%s isn't parameterized", superclass);
+        Preconditions.checkArgument(superclass instanceof ParameterizedType, "%s isn't parameterized", superclass);
         return ((ParameterizedType) superclass).getActualTypeArguments()[0];
     }
     

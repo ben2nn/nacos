@@ -25,7 +25,6 @@ import jakarta.servlet.http.HttpServletRequest;
  *
  * @author xiweng.yy
  */
-public abstract class AbstractHttpResourceParser
-    extends AbstractResourceParser<HttpServletRequest> {
-    
+public abstract class AbstractHttpResourceParser extends AbstractResourceParser<HttpServletRequest> {
+
 }

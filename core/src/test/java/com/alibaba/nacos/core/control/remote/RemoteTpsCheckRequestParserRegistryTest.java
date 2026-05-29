@@ -45,7 +45,6 @@ class RemoteTpsCheckRequestParserRegistryTest {
     @Test
     void testRegisterAndGetParser() {
         RemoteTpsCheckRequestParser parser = new RemoteTpsCheckRequestParser() {
-            
             @Override
             public TpsCheckRequest parse(Request request, RequestMeta meta) {
                 return new TpsCheckRequest();
@@ -62,8 +61,7 @@ class RemoteTpsCheckRequestParserRegistryTest {
             }
         };
         RemoteTpsCheckRequestParserRegistry.register(parser);
-        RemoteTpsCheckRequestParser found =
-            RemoteTpsCheckRequestParserRegistry.getParser(PARSER_NAME);
+        RemoteTpsCheckRequestParser found = RemoteTpsCheckRequestParserRegistry.getParser(PARSER_NAME);
         assertNotNull(found);
         assertSame(parser, found);
     }
@@ -76,7 +74,6 @@ class RemoteTpsCheckRequestParserRegistryTest {
     @Test
     void testRegisterReplacesPrevious() {
         RemoteTpsCheckRequestParser first = new RemoteTpsCheckRequestParser() {
-            
             @Override
             public TpsCheckRequest parse(Request request, RequestMeta meta) {
                 return new TpsCheckRequest();
@@ -93,7 +90,6 @@ class RemoteTpsCheckRequestParserRegistryTest {
             }
         };
         RemoteTpsCheckRequestParser second = new RemoteTpsCheckRequestParser() {
-            
             @Override
             public TpsCheckRequest parse(Request request, RequestMeta meta) {
                 return new TpsCheckRequest();

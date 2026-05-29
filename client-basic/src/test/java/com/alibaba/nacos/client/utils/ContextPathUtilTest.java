@@ -35,9 +35,4 @@ class ContextPathUtilTest {
         assertEquals("", ContextPathUtil.normalizeContextPath("/"));
         assertEquals("", ContextPathUtil.normalizeContextPath(""));
     }
-    
-    @Test
-    void testConstructor() {
-        new ContextPathUtil();
-    }
 }

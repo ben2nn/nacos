@@ -33,8 +33,7 @@ public class NamingMaintainerFactoryTest {
         String serverList = "localhost:8848";
         
         // Act
-        NamingMaintainerService service =
-            NamingMaintainerFactory.createNamingMaintainerService(serverList);
+        NamingMaintainerService service = NamingMaintainerFactory.createNamingMaintainerService(serverList);
         
         // Assert
         assertNotNull(service);
@@ -48,8 +47,7 @@ public class NamingMaintainerFactoryTest {
         properties.setProperty("serverAddr", "localhost:8848");
         
         // Act
-        NamingMaintainerService service =
-            NamingMaintainerFactory.createNamingMaintainerService(properties);
+        NamingMaintainerService service = NamingMaintainerFactory.createNamingMaintainerService(properties);
         
         // Assert
         assertNotNull(service);

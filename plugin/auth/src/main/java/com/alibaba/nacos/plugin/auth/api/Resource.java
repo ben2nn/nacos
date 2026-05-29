@@ -32,8 +32,7 @@ public class Resource implements Serializable {
     
     private static final long serialVersionUID = 925971662931204553L;
     
-    public static final Resource EMPTY_RESOURCE =
-        new Resource(StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY,
+    public static final Resource EMPTY_RESOURCE = new Resource(StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY,
             StringUtils.EMPTY, null);
     
     private final String namespaceId;
@@ -46,8 +45,7 @@ public class Resource implements Serializable {
     
     private final Properties properties;
     
-    public Resource(String namespaceId, String group, String name, String type,
-        Properties properties) {
+    public Resource(String namespaceId, String group, String name, String type, Properties properties) {
         this.namespaceId = namespaceId;
         this.group = group;
         this.name = name;
@@ -77,8 +75,7 @@ public class Resource implements Serializable {
     
     @Override
     public String toString() {
-        return "Resource{" + "namespaceId='" + namespaceId + '\'' + ", group='" + group + '\''
-            + ", name='" + name
-            + '\'' + ", type='" + type + '\'' + ", properties=" + properties + '}';
+        return "Resource{" + "namespaceId='" + namespaceId + '\'' + ", group='" + group + '\'' + ", name='" + name
+                + '\'' + ", type='" + type + '\'' + ", properties=" + properties + '}';
     }
 }

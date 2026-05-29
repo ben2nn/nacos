@@ -73,8 +73,7 @@ public class ProtoMessageUtil {
         } catch (Throwable ignore) {
         }
         
-        throw new ConsistencyException(
-            "The current array cannot be serialized to the corresponding object");
+        throw new ConsistencyException("The current array cannot be serialized to the corresponding object");
     }
     
     /**
@@ -85,11 +84,11 @@ public class ProtoMessageUtil {
      */
     public static WriteRequest convertToWriteRequest(Log log) {
         return WriteRequest.newBuilder().setKey(log.getKey()).setGroup(log.getGroup())
-            .setData(log.getData())
-            .setType(log.getType())
-            .setOperation(log.getOperation())
-            .putAllExtendInfo(log.getExtendInfoMap())
-            .build();
+                .setData(log.getData())
+                .setType(log.getType())
+                .setOperation(log.getOperation())
+                .putAllExtendInfo(log.getExtendInfoMap())
+                .build();
     }
     
     /**
@@ -100,9 +99,9 @@ public class ProtoMessageUtil {
      */
     public static ReadRequest convertToReadRequest(GetRequest request) {
         return ReadRequest.newBuilder()
-            .setGroup(request.getGroup())
-            .setData(request.getData())
-            .putAllExtendInfo(request.getExtendInfoMap())
-            .build();
+                .setGroup(request.getGroup())
+                .setData(request.getData())
+                .putAllExtendInfo(request.getExtendInfoMap())
+                .build();
     }
 }

@@ -55,8 +55,7 @@ class Log4J2NacosLoggingAdapterTest {
     @BeforeEach
     void setUp() throws Exception {
         log4J2NacosLoggingAdapter = new Log4J2NacosLoggingAdapter();
-        nacosLoggingProperties =
-            new NacosLoggingProperties("classpath:nacos-log4j2.xml", System.getProperties());
+        nacosLoggingProperties = new NacosLoggingProperties("classpath:nacos-log4j2.xml", System.getProperties());
         LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
         loggerContext.addPropertyChangeListener(propertyChangeListener);
     }
@@ -72,8 +71,7 @@ class Log4J2NacosLoggingAdapterTest {
     
     @Test
     void testIsAdaptedLogger() {
-        assertTrue(
-            log4J2NacosLoggingAdapter.isAdaptedLogger(org.apache.logging.slf4j.Log4jLogger.class));
+        assertTrue(log4J2NacosLoggingAdapter.isAdaptedLogger(org.apache.logging.slf4j.Log4jLogger.class));
         assertFalse(log4J2NacosLoggingAdapter.isAdaptedLogger(Logger.class));
     }
     
@@ -86,8 +84,7 @@ class Log4J2NacosLoggingAdapterTest {
     
     @Test
     void testGetDefaultConfigLocation() {
-        assertEquals("classpath:nacos-log4j2.xml",
-            log4J2NacosLoggingAdapter.getDefaultConfigLocation());
+        assertEquals("classpath:nacos-log4j2.xml", log4J2NacosLoggingAdapter.getDefaultConfigLocation());
     }
     
     @Test
@@ -111,8 +108,7 @@ class Log4J2NacosLoggingAdapterTest {
     @Test
     void testLoadConfigurationWithoutLocation() {
         System.setProperty("nacos.logging.default.config.enabled", "false");
-        nacosLoggingProperties =
-            new NacosLoggingProperties("classpath:nacos-log4j2.xml", System.getProperties());
+        nacosLoggingProperties = new NacosLoggingProperties("classpath:nacos-log4j2.xml", System.getProperties());
         log4J2NacosLoggingAdapter = new Log4J2NacosLoggingAdapter();
         log4J2NacosLoggingAdapter.loadConfiguration(nacosLoggingProperties);
         verify(propertyChangeListener, never()).propertyChange(any());
@@ -122,8 +118,7 @@ class Log4J2NacosLoggingAdapterTest {
     void testLoadConfigurationWithWrongLocation() {
         assertThrows(IllegalStateException.class, () -> {
             System.setProperty("nacos.logging.config", "http://localhost");
-            nacosLoggingProperties =
-                new NacosLoggingProperties("classpath:nacos-log4j2.xml", System.getProperties());
+            nacosLoggingProperties = new NacosLoggingProperties("classpath:nacos-log4j2.xml", System.getProperties());
             log4J2NacosLoggingAdapter = new Log4J2NacosLoggingAdapter();
             log4J2NacosLoggingAdapter.loadConfiguration(nacosLoggingProperties);
             verify(propertyChangeListener, never()).propertyChange(any());

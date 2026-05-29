@@ -41,8 +41,7 @@ public class NamespaceConfigInfoService extends AbstractNamespaceDetailInjector 
     public void injectDetail(Namespace namespace) {
         
         if (EnvUtil.getProperty(PropertiesConstant.DEFAULT_TENANT_QUOTA, Integer.class) != null) {
-            namespace.setQuota(
-                EnvUtil.getProperty(PropertiesConstant.DEFAULT_TENANT_QUOTA, Integer.class));
+            namespace.setQuota(EnvUtil.getProperty(PropertiesConstant.DEFAULT_TENANT_QUOTA, Integer.class));
         }
         
         // set config count.

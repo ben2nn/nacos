@@ -62,19 +62,18 @@ public final class ServiceUtil {
         ObjectNode serviceObject = JacksonUtils.createEmptyJsonNode();
         serviceObject.put(FieldsConstants.NAME, serviceDetailInfo.getServiceName());
         serviceObject.put(FieldsConstants.GROUP_NAME, serviceDetailInfo.getGroupName());
-        serviceObject.put(FieldsConstants.PROTECT_THRESHOLD,
-            serviceDetailInfo.getProtectThreshold());
+        serviceObject.put(FieldsConstants.PROTECT_THRESHOLD, serviceDetailInfo.getProtectThreshold());
         serviceObject.replace(FieldsConstants.SELECTOR,
-            JacksonUtils.transferToJsonNode(serviceDetailInfo.getSelector()));
+                JacksonUtils.transferToJsonNode(serviceDetailInfo.getSelector()));
         serviceObject.replace(FieldsConstants.METADATA,
-            JacksonUtils.transferToJsonNode(serviceDetailInfo.getMetadata()));
+                JacksonUtils.transferToJsonNode(serviceDetailInfo.getMetadata()));
         
         ObjectNode detailView = JacksonUtils.createEmptyJsonNode();
         detailView.replace(FieldsConstants.SERVICE, serviceObject);
         
         List<com.alibaba.nacos.api.naming.pojo.Cluster> clusters = new ArrayList<>();
         String groupedServiceName = NamingUtils.getGroupedName(serviceDetailInfo.getServiceName(),
-            serviceDetailInfo.getGroupName());
+                serviceDetailInfo.getGroupName());
         for (Map.Entry<String, ClusterInfo> entry : serviceDetailInfo.getClusterMap().entrySet()) {
             com.alibaba.nacos.api.naming.pojo.Cluster clusterView = new Cluster();
             clusterView.setName(entry.getKey());
@@ -99,8 +98,7 @@ public final class ServiceUtil {
      * @param serviceNameSet service name set
      * @return service name list by paged
      */
-    public static List<String> pageServiceName(int pageNo, int pageSize,
-        Collection<String> serviceNameSet) {
+    public static List<String> pageServiceName(int pageNo, int pageSize, Collection<String> serviceNameSet) {
         List<String> result = new ArrayList<>(serviceNameSet);
         int start = (pageNo - 1) * pageSize;
         if (start < 0) {
@@ -163,8 +161,7 @@ public final class ServiceUtil {
      * @param enableOnly  whether only select instance which enabled
      * @return new service info
      */
-    public static ServiceInfo selectInstances(ServiceInfo serviceInfo, boolean healthyOnly,
-        boolean enableOnly) {
+    public static ServiceInfo selectInstances(ServiceInfo serviceInfo, boolean healthyOnly, boolean enableOnly) {
         return selectInstances(serviceInfo, StringUtils.EMPTY, healthyOnly, enableOnly);
     }
     
@@ -176,8 +173,7 @@ public final class ServiceUtil {
      * @param healthyOnly whether only select instance which healthy
      * @return new service info
      */
-    public static ServiceInfo selectInstances(ServiceInfo serviceInfo, String cluster,
-        boolean healthyOnly) {
+    public static ServiceInfo selectInstances(ServiceInfo serviceInfo, String cluster, boolean healthyOnly) {
         return selectInstances(serviceInfo, cluster, healthyOnly, false);
     }
     
@@ -190,9 +186,8 @@ public final class ServiceUtil {
      * @param enableOnly  whether only select instance which enabled
      * @return new service info
      */
-    public static ServiceInfo selectInstances(ServiceInfo serviceInfo, String cluster,
-        boolean healthyOnly,
-        boolean enableOnly) {
+    public static ServiceInfo selectInstances(ServiceInfo serviceInfo, String cluster, boolean healthyOnly,
+            boolean enableOnly) {
         return doSelectInstances(serviceInfo, cluster, healthyOnly, enableOnly, null);
     }
     
@@ -204,12 +199,10 @@ public final class ServiceUtil {
      * @param subscriber subscriber
      * @return new service info
      */
-    public static ServiceInfo selectInstancesWithHealthyProtection(ServiceInfo serviceInfo,
-        ServiceMetadata serviceMetadata, Subscriber subscriber) {
-        return selectInstancesWithHealthyProtection(serviceInfo, serviceMetadata,
-            subscriber.getCluster(), false, false, subscriber.getIp());
+    public static ServiceInfo selectInstancesWithHealthyProtection(ServiceInfo serviceInfo, ServiceMetadata serviceMetadata, Subscriber subscriber) {
+        return selectInstancesWithHealthyProtection(serviceInfo, serviceMetadata, subscriber.getCluster(), false, false, subscriber.getIp());
     }
-    
+
     /**
      * Select instance of service info with healthy protection.
      *
@@ -221,13 +214,11 @@ public final class ServiceUtil {
      * @return new service info
      */
     public static ServiceInfo selectInstancesWithHealthyProtection(ServiceInfo serviceInfo,
-        ServiceMetadata serviceMetadata, boolean healthyOnly, boolean enableOnly,
-        Subscriber subscriber) {
-        return selectInstancesWithHealthyProtection(serviceInfo, serviceMetadata,
-            subscriber.getCluster(), healthyOnly,
-            enableOnly, subscriber.getIp());
+            ServiceMetadata serviceMetadata, boolean healthyOnly, boolean enableOnly, Subscriber subscriber) {
+        return selectInstancesWithHealthyProtection(serviceInfo, serviceMetadata, subscriber.getCluster(), healthyOnly,
+                enableOnly, subscriber.getIp());
     }
-    
+
     /**
      * Select instance of service info with healthy protection.
      *
@@ -239,9 +230,8 @@ public final class ServiceUtil {
      * @param subscriberIp subscriber ip address
      * @return new service info
      */
-    public static ServiceInfo selectInstancesWithHealthyProtection(ServiceInfo serviceInfo,
-        ServiceMetadata serviceMetadata, String cluster,
-        boolean healthyOnly, boolean enableOnly, String subscriberIp) {
+    public static ServiceInfo selectInstancesWithHealthyProtection(ServiceInfo serviceInfo, ServiceMetadata serviceMetadata, String cluster,
+            boolean healthyOnly, boolean enableOnly, String subscriberIp) {
         InstancesFilter filter = (filteredResult, allInstances, healthyCount) -> {
             if (serviceMetadata == null) {
                 return;
@@ -250,8 +240,7 @@ public final class ServiceUtil {
             int originalTotal = allInstances.size();
             // filter ips using selector
             SelectorManager selectorManager = ApplicationUtils.getBean(SelectorManager.class);
-            allInstances =
-                selectorManager.select(serviceMetadata.getSelector(), subscriberIp, allInstances);
+            allInstances = selectorManager.select(serviceMetadata.getSelector(), subscriberIp, allInstances);
             filteredResult.setHosts(allInstances);
             
             // will re-compute healthCount
@@ -270,11 +259,9 @@ public final class ServiceUtil {
                 threshold = 0F;
             }
             if ((float) newHealthyCount / allInstances.size() <= threshold) {
-                Loggers.SRV_LOG.warn("protect threshold reached, return all ips, service: {}",
-                    filteredResult.getName());
+                Loggers.SRV_LOG.warn("protect threshold reached, return all ips, service: {}", filteredResult.getName());
                 filteredResult.setReachProtectionThreshold(true);
-                List<com.alibaba.nacos.api.naming.pojo.Instance> filteredInstances =
-                    allInstances.stream()
+                List<com.alibaba.nacos.api.naming.pojo.Instance> filteredInstances = allInstances.stream()
                         .map(i -> {
                             if (!i.isHealthy()) {
                                 i = InstanceUtil.deepCopy(i);
@@ -289,7 +276,7 @@ public final class ServiceUtil {
         };
         return doSelectInstances(serviceInfo, cluster, healthyOnly, enableOnly, filter);
     }
-    
+
     /**
      * Select instance of service info.
      *
@@ -301,8 +288,8 @@ public final class ServiceUtil {
      * @return new service info
      */
     private static ServiceInfo doSelectInstances(ServiceInfo serviceInfo, String cluster,
-        boolean healthyOnly, boolean enableOnly,
-        InstancesFilter filter) {
+                                                 boolean healthyOnly, boolean enableOnly,
+                                                 InstancesFilter filter) {
         ServiceInfo result = new ServiceInfo();
         result.setName(serviceInfo.getName());
         result.setGroupName(serviceInfo.getGroupName());
@@ -310,8 +297,7 @@ public final class ServiceUtil {
         result.setLastRefTime(System.currentTimeMillis());
         result.setClusters(cluster);
         result.setReachProtectionThreshold(false);
-        Set<String> clusterSets =
-            com.alibaba.nacos.common.utils.StringUtils.isNotBlank(cluster) ? new HashSet<>(
+        Set<String> clusterSets = com.alibaba.nacos.common.utils.StringUtils.isNotBlank(cluster) ? new HashSet<>(
                 Arrays.asList(cluster.split(","))) : new HashSet<>();
         long healthyCount = 0L;
         // The instance list won't be modified almost time.
@@ -336,21 +322,19 @@ public final class ServiceUtil {
         return result;
     }
     
-    private static boolean checkCluster(Set<String> clusterSets,
-        com.alibaba.nacos.api.naming.pojo.Instance instance) {
+    private static boolean checkCluster(Set<String> clusterSets, com.alibaba.nacos.api.naming.pojo.Instance instance) {
         if (clusterSets.isEmpty()) {
             return true;
         }
         return clusterSets.contains(instance.getClusterName());
     }
     
-    private static boolean checkEnabled(boolean enableOnly,
-        com.alibaba.nacos.api.naming.pojo.Instance instance) {
+    private static boolean checkEnabled(boolean enableOnly, com.alibaba.nacos.api.naming.pojo.Instance instance) {
         return !enableOnly || instance.isEnabled();
     }
-    
+
     private interface InstancesFilter {
-        
+
         /**
          * Do customized filtering.
          *
@@ -359,9 +343,9 @@ public final class ServiceUtil {
          * @param healthyCount   healthy instances count filtered by cluster/enabled
          */
         void doFilter(ServiceInfo filteredResult,
-            List<com.alibaba.nacos.api.naming.pojo.Instance> allInstances,
-            long healthyCount);
-        
+                      List<com.alibaba.nacos.api.naming.pojo.Instance> allInstances,
+                      long healthyCount);
+
     }
-    
+
 }

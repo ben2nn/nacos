@@ -26,8 +26,7 @@ import com.alipay.sofa.jraft.rpc.RpcProcessor;
  *
  * @author <a href="mailto:liaochuntao@live.com">liaochuntao</a>
  */
-public class NacosWriteRequestProcessor extends AbstractProcessor
-    implements RpcProcessor<WriteRequest> {
+public class NacosWriteRequestProcessor extends AbstractProcessor implements RpcProcessor<WriteRequest> {
     
     private static final String INTEREST_NAME = WriteRequest.class.getName();
     

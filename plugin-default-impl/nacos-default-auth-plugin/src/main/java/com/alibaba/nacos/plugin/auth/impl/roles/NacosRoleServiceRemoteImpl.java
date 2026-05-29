@@ -44,8 +44,7 @@ import java.util.Map;
  *
  * @author xiweng.yy
  */
-public class NacosRoleServiceRemoteImpl extends AbstractCheckedRoleService
-    implements NacosRoleService {
+public class NacosRoleServiceRemoteImpl extends AbstractCheckedRoleService implements NacosRoleService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(NacosRoleServiceRemoteImpl.class);
     
@@ -64,39 +63,36 @@ public class NacosRoleServiceRemoteImpl extends AbstractCheckedRoleService
         Map<String, String> body = Map.of("role", role, "resource", resource, "action", action);
         try {
             HttpRestResult<String> result = nacosRestTemplate.postForm(
-                buildRemotePermissionUrlPath(AuthConstants.PERMISSION_PATH),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), null, body, String.class);
+                    buildRemotePermissionUrlPath(AuthConstants.PERMISSION_PATH),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), null, body, String.class);
             RemoteServerUtil.singleCheckResult(result);
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
     @Override
     public void deletePermission(String role, String resource, String action) {
         Query query = Query.newInstance().addParam("role", role).addParam("resource", resource)
-            .addParam("action", action);
+                .addParam("action", action);
         try {
             HttpRestResult<String> result = nacosRestTemplate.delete(
-                buildRemotePermissionUrlPath(AuthConstants.PERMISSION_PATH),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
+                    buildRemotePermissionUrlPath(AuthConstants.PERMISSION_PATH),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
             RemoteServerUtil.singleCheckResult(result);
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
     @Override
     public List<PermissionInfo> getPermissions(String role) {
-        List<PermissionInfo> cached = getCachedPermissionInfoMap().get(role);
-        if (cached != null) {
-            return cached;
+        if (getCachedPermissionInfoMap().containsKey(role)) {
+            return getCachedPermissionInfoMap().get(role);
         }
         reload();
         return getCachedPermissionInfoMap().get(role);
@@ -105,22 +101,21 @@ public class NacosRoleServiceRemoteImpl extends AbstractCheckedRoleService
     @Override
     public Page<PermissionInfo> getPermissions(String role, int pageNo, int pageSize) {
         Query query = Query.newInstance().addParam("role", role).addParam("pageNo", pageNo)
-            .addParam("pageSize", pageSize).addParam("search", "accurate");
+                .addParam("pageSize", pageSize).addParam("search", "accurate");
         return getPermissionInfoPageFromRemote(query);
     }
     
     @Override
     public Page<PermissionInfo> findPermissions(String role, int pageNo, int pageSize) {
         Query query = Query.newInstance().addParam("role", role).addParam("pageNo", pageNo)
-            .addParam("pageSize", pageSize).addParam("search", "blur");
+                .addParam("pageSize", pageSize).addParam("search", "blur");
         return getPermissionInfoPageFromRemote(query);
     }
     
     @Override
     public List<RoleInfo> getRoles(String username) {
-        List<RoleInfo> cached = getCachedRoleInfoMap().get(username);
-        if (cached != null) {
-            return cached;
+        if (getCachedRoleInfoMap().containsKey(username)) {
+            return getCachedRoleInfoMap().get(username);
         }
         reload();
         return getCachedRoleInfoMap().get(username);
@@ -129,15 +124,14 @@ public class NacosRoleServiceRemoteImpl extends AbstractCheckedRoleService
     @Override
     public Page<RoleInfo> getRoles(String username, String role, int pageNo, int pageSize) {
         Query query = Query.newInstance().addParam("username", username).addParam("role", role)
-            .addParam("pageNo", pageNo).addParam("pageSize", pageSize)
-            .addParam("search", "accurate");
+                .addParam("pageNo", pageNo).addParam("pageSize", pageSize).addParam("search", "accurate");
         return getRoleInfoPageFromRemote(query);
     }
     
     @Override
     public Page<RoleInfo> findRoles(String username, String role, int pageNo, int pageSize) {
         Query query = Query.newInstance().addParam("username", username).addParam("role", role)
-            .addParam("pageNo", pageNo).addParam("pageSize", pageSize).addParam("search", "blur");
+                .addParam("pageNo", pageNo).addParam("pageSize", pageSize).addParam("search", "blur");
         return getRoleInfoPageFromRemote(query);
     }
     
@@ -146,49 +140,45 @@ public class NacosRoleServiceRemoteImpl extends AbstractCheckedRoleService
         Query query = Query.newInstance().addParam("role", role);
         try {
             HttpRestResult<String> httpResult = nacosRestTemplate.get(
-                buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH + "/search"),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
+                    buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH + "/search"),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
             RemoteServerUtil.singleCheckResult(httpResult);
-            Result<List<String>> result =
-                JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
-                });
+            Result<List<String>> result = JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
+            });
             return result.getData();
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
     @Override
     public List<RoleInfo> getAllRoles() {
-        return getRoles(StringUtils.EMPTY, StringUtils.EMPTY, DEFAULT_PAGE_NO, Integer.MAX_VALUE)
-            .getPageItems();
+        return getRoles(StringUtils.EMPTY, StringUtils.EMPTY, DEFAULT_PAGE_NO, Integer.MAX_VALUE).getPageItems();
     }
     
     @Override
     public void addRole(String role, String username) {
         if (AuthConstants.GLOBAL_ADMIN_ROLE.equals(role)) {
             throw new IllegalArgumentException(
-                "role '" + AuthConstants.GLOBAL_ADMIN_ROLE + "' is not permitted to create!");
+                    "role '" + AuthConstants.GLOBAL_ADMIN_ROLE + "' is not permitted to create!");
         }
         if (AuthConstants.ANONYMOUS_ROLE.equals(role)) {
             throw new IllegalArgumentException(
-                "role '" + AuthConstants.ANONYMOUS_ROLE + "' is reserved by the system");
+                    "role '" + AuthConstants.ANONYMOUS_ROLE + "' is reserved by the system");
         }
         Map<String, String> body = Map.of("role", role, "username", username);
         try {
             HttpRestResult<String> httpResult = nacosRestTemplate.postForm(
-                buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), body, String.class);
+                    buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), body, String.class);
             RemoteServerUtil.singleCheckResult(httpResult);
             getCachedRoleSet().add(role);
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
@@ -197,15 +187,13 @@ public class NacosRoleServiceRemoteImpl extends AbstractCheckedRoleService
         rejectReservedRole(role);
         Query query = Query.newInstance().addParam("role", role).addParam("userName", userName);
         try {
-            HttpRestResult<String> result =
-                nacosRestTemplate.delete(buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH),
+            HttpRestResult<String> result = nacosRestTemplate.delete(buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH),
                     RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
             RemoteServerUtil.singleCheckResult(result);
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
@@ -214,16 +202,14 @@ public class NacosRoleServiceRemoteImpl extends AbstractCheckedRoleService
         rejectReservedRole(role);
         Query query = Query.newInstance().addParam("role", role);
         try {
-            HttpRestResult<String> result =
-                nacosRestTemplate.delete(buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH),
+            HttpRestResult<String> result = nacosRestTemplate.delete(buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH),
                     RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
             RemoteServerUtil.singleCheckResult(result);
             getCachedRoleSet().remove(role);
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
@@ -241,47 +227,43 @@ public class NacosRoleServiceRemoteImpl extends AbstractCheckedRoleService
     
     private String buildRemotePermissionUrlPath(String apiPath) {
         return RequestUrlConstants.HTTP_PREFIX + RemoteServerUtil.getOneNacosServerAddress()
-            + RemoteServerUtil.getRemoteServerContextPath() + apiPath;
+                + RemoteServerUtil.getRemoteServerContextPath() + apiPath;
     }
     
     private Page<PermissionInfo> getPermissionInfoPageFromRemote(Query query) {
         try {
             HttpRestResult<String> httpResult = nacosRestTemplate.get(
-                buildRemotePermissionUrlPath(AuthConstants.PERMISSION_PATH + "/list"),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
+                    buildRemotePermissionUrlPath(AuthConstants.PERMISSION_PATH + "/list"),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
             RemoteServerUtil.singleCheckResult(httpResult);
-            Result<Page<PermissionInfo>> result =
-                JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
-                });
+            Result<Page<PermissionInfo>> result = JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
+            });
             return result.getData();
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
     
     private String buildRemoteRoleUrlPath(String apiPath) {
         return RequestUrlConstants.HTTP_PREFIX + RemoteServerUtil.getOneNacosServerAddress()
-            + RemoteServerUtil.getRemoteServerContextPath() + apiPath;
+                + RemoteServerUtil.getRemoteServerContextPath() + apiPath;
     }
     
     private Page<RoleInfo> getRoleInfoPageFromRemote(Query query) {
         try {
             HttpRestResult<String> httpResult = nacosRestTemplate.get(
-                buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH + "/list"),
-                RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
+                    buildRemoteRoleUrlPath(AuthConstants.ROLE_PATH + "/list"),
+                    RemoteServerUtil.buildServerRemoteHeader(authConfigs), query, String.class);
             RemoteServerUtil.singleCheckResult(httpResult);
-            Result<Page<RoleInfo>> result =
-                JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
-                });
+            Result<Page<RoleInfo>> result = JacksonUtils.toObj(httpResult.getData(), new TypeReference<>() {
+            });
             return result.getData();
         } catch (NacosException e) {
             throw new NacosRuntimeException(e.getErrCode(), e.getErrMsg());
         } catch (Exception unpectedException) {
-            throw new NacosRuntimeException(NacosException.SERVER_ERROR,
-                unpectedException.getMessage());
+            throw new NacosRuntimeException(NacosException.SERVER_ERROR, unpectedException.getMessage());
         }
     }
 }

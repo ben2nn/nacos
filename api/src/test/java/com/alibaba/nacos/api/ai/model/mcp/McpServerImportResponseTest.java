@@ -117,8 +117,7 @@ class McpServerImportResponseTest extends BasicRequestTest {
     
     @Test
     void testDeserializeSuccessResponse() throws JsonProcessingException {
-        String json =
-            "{\"success\":true,\"totalCount\":5,\"successCount\":4,\"failedCount\":1,\"skippedCount\":0,"
+        String json = "{\"success\":true,\"totalCount\":5,\"successCount\":4,\"failedCount\":1,\"skippedCount\":0,"
                 + "\"results\":[{\"serverName\":\"server1\",\"serverId\":\"id1\",\"status\":\"success\"},"
                 + "{\"serverName\":\"server2\",\"status\":\"failed\",\"errorMessage\":\"Connection failed\"}]}";
         
@@ -146,8 +145,7 @@ class McpServerImportResponseTest extends BasicRequestTest {
     
     @Test
     void testDeserializeFailedResponse() throws JsonProcessingException {
-        String json =
-            "{\"success\":false,\"totalCount\":0,\"successCount\":0,\"failedCount\":0,\"skippedCount\":0,"
+        String json = "{\"success\":false,\"totalCount\":0,\"successCount\":0,\"failedCount\":0,\"skippedCount\":0,"
                 + "\"errorMessage\":\"Invalid import data format\",\"results\":[]}";
         
         McpServerImportResponse result = mapper.readValue(json, McpServerImportResponse.class);
@@ -164,8 +162,7 @@ class McpServerImportResponseTest extends BasicRequestTest {
     
     @Test
     void testDeserializePartialSuccessResponse() throws JsonProcessingException {
-        String json =
-            "{\"success\":true,\"totalCount\":3,\"successCount\":2,\"failedCount\":0,\"skippedCount\":1,"
+        String json = "{\"success\":true,\"totalCount\":3,\"successCount\":2,\"failedCount\":0,\"skippedCount\":1,"
                 + "\"results\":[{\"serverName\":\"existing-server\",\"status\":\"skipped\",\"conflictType\":\"duplicate_name\"}]}";
         
         McpServerImportResponse result = mapper.readValue(json, McpServerImportResponse.class);

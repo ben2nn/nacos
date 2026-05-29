@@ -50,8 +50,7 @@ class ContentUtilsTest {
             String content = "aa\rbbb";
             ContentUtils.verifyIncrementPubContent(content);
         });
-        assertTrue(exception.getMessage()
-            .contains("publish/delete content can not contain return and linefeed"));
+        assertTrue(exception.getMessage().contains("publish/delete content can not contain return and linefeed"));
     }
     
     @Test
@@ -69,8 +68,7 @@ class ContentUtilsTest {
             String content = "aa" + WORD_SEPARATOR + "bbb";
             ContentUtils.verifyIncrementPubContent(content);
         });
-        assertTrue(
-            exception.getMessage().contains("publish/delete content can not contain(char)2"));
+        assertTrue(exception.getMessage().contains("publish/delete content can not contain(char)2"));
     }
     
     @Test

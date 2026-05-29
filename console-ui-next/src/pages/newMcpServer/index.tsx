@@ -53,7 +53,6 @@ import type {
 } from '@/types/mcp';
 import { cn } from '@/lib/utils';
 import ToolManager from './tool-manager';
-import { resolveMcpEndpointUrl, shouldUseExistingService } from './endpoint-utils';
 
 const PROTOCOL_CARD_CONFIG: Record<string, { icon: typeof Terminal; label: string; color: string; bg: string; dot: string; ring: string }> = {
   stdio: {
@@ -252,35 +251,31 @@ export default function NewMcpServerPage() {
     setAllVersions(data.allVersions || []);
     setEnabled(data.enabled);
 
-    const resolvedFrontProtocol = data.frontProtocol || 'stdio';
-    if (resolvedFrontProtocol !== 'stdio') {
+    if (data.frontProtocol !== 'stdio') {
       // Determine restToMcpSwitch based on backend protocol field (consistent with original)
       const isRestToMcp = data.protocol === 'http' || data.protocol === 'https';
       setRestToMcpSwitch(isRestToMcp);
-      setSelectedService('');
-      setMcpEndpointUrl('');
-      setAddress('');
-      setPort('');
-      setExportPath(data.remoteServerConfig?.exportPath || '');
 
-      const useExistingService = isRestToMcp && shouldUseExistingService(data);
-      setUseExistService(useExistingService);
+      const hasServiceRef = !!data.remoteServerConfig?.serviceRef?.serviceName;
+      setUseExistService(hasServiceRef);
 
-      if (useExistingService) {
+      if (hasServiceRef) {
         const ref = data.remoteServerConfig!.serviceRef!;
         setSelectedService(`${ref.groupName || 'DEFAULT_GROUP'}@@${ref.serviceName}`);
         setTransportProtocol(ref.transportProtocol || 'http');
         setExportPath(data.remoteServerConfig!.exportPath || '');
       } else if (isRestToMcp && (data.backendEndpoints?.length ?? 0) > 0) {
         const ep = data.backendEndpoints![0];
-        setAddress(ep.address || '');
-        setPort(String(ep.port || ''));
-        setTransportProtocol(
-          ep.protocol || data.remoteServerConfig?.serviceRef?.transportProtocol || 'http'
-        );
+        setAddress(ep.address);
+        setPort(ep.port);
+        setTransportProtocol(ep.protocol || 'http');
       } else {
-        // Non-restToMcp: reconstruct endpoint URL from frontend endpoints or generated backend endpoint.
-        setMcpEndpointUrl(resolveMcpEndpointUrl(data));
+        // Non-restToMcp: reconstruct endpoint URL from frontend endpoints
+        const fep = data.frontendEndpoints?.[0] || data.remoteServerConfig?.frontEndpointConfigList?.[0];
+        if (fep) {
+          const url = `${fep.protocol}://${fep.address}${fep.port ? ':' + fep.port : ''}${fep.path || ''}`;
+          setMcpEndpointUrl(url);
+        }
       }
     } else {
       // Stdio: local server config
@@ -369,7 +364,7 @@ export default function NewMcpServerPage() {
     const serverSpec: Record<string, unknown> = {
       name: serverName.trim(),
       frontProtocol,
-      protocol: isStdio ? 'stdio' : restToMcpSwitch ? transportProtocol : frontProtocol,
+      protocol: isStdio ? 'stdio' : transportProtocol,
       description: description.trim() || undefined,
       enabled,
       versionDetail: { version: version.trim() },

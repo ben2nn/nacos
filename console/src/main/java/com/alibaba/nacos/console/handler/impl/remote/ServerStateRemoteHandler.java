@@ -42,10 +42,8 @@ public class ServerStateRemoteHandler extends AbstractServerStateHandler {
     }
     
     public Map<String, String> getServerState() throws NacosException {
-        Map<String, String> serverState =
-            this.clientHolder.getNamingMaintainerService().getServerState();
-        serverState.put(Constants.SERVER_PORT_STATE,
-            EnvUtil.getProperty("nacos.console.port", "8080"));
+        Map<String, String> serverState = this.clientHolder.getNamingMaintainerService().getServerState();
+        serverState.put(Constants.SERVER_PORT_STATE, EnvUtil.getProperty("nacos.console.port", "8080"));
         // Add current console states
         for (ModuleState each : ModuleStateHolder.getInstance().getAllModuleStates()) {
             each.getStates().forEach((s, o) -> serverState.put(s, null == o ? null : o.toString()));
@@ -53,3 +51,4 @@ public class ServerStateRemoteHandler extends AbstractServerStateHandler {
         return serverState;
     }
 }
+

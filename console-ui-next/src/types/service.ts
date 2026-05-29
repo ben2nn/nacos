@@ -110,16 +110,6 @@ export interface InstanceUpdateData {
   metadata?: string;
 }
 
-export interface InstanceDeleteData {
-  namespaceId: string;
-  serviceName: string;
-  groupName: string;
-  ip: string;
-  port: number;
-  clusterName: string;
-  ephemeral: boolean;
-}
-
 // ===== Subscriber =====
 
 export interface SubscriberInfo {

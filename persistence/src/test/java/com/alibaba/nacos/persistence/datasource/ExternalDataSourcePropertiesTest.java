@@ -28,8 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ExternalDataSourcePropertiesTest {
     
     @SuppressWarnings("checkstyle:linelength")
-    public static final String JDBC_URL =
-        "jdbc:mysql://127.0.0.1:3306/nacos_devtest?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC";
+    public static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/nacos_devtest?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC";
     
     public static final String PASSWORD = "nacos";
     
@@ -46,13 +45,12 @@ public class ExternalDataSourcePropertiesTest {
         environment.setProperty("db.user", USERNAME);
         environment.setProperty("db.password", PASSWORD);
         environment.setProperty("db.url.0", JDBC_URL);
-        List<HikariDataSource> dataSources =
-            new ExternalDataSourceProperties().build(environment, (dataSource -> {
-                assertEquals(dataSource.getJdbcUrl(), expectedDataSource.getJdbcUrl());
-                assertEquals(dataSource.getUsername(), expectedDataSource.getUsername());
-                assertEquals(dataSource.getPassword(), expectedDataSource.getPassword());
-                
-            }));
+        List<HikariDataSource> dataSources = new ExternalDataSourceProperties().build(environment, (dataSource -> {
+            assertEquals(dataSource.getJdbcUrl(), expectedDataSource.getJdbcUrl());
+            assertEquals(dataSource.getUsername(), expectedDataSource.getUsername());
+            assertEquals(dataSource.getPassword(), expectedDataSource.getPassword());
+            
+        }));
         assertEquals(1, dataSources.size());
     }
     
@@ -69,13 +67,12 @@ public class ExternalDataSourcePropertiesTest {
         environment.setProperty("db.password", PASSWORD);
         environment.setProperty("db.url.0", JDBC_URL);
         environment.setProperty("db.url.1", JDBC_URL);
-        List<HikariDataSource> dataSources =
-            new ExternalDataSourceProperties().build(environment, (dataSource -> {
-                assertEquals(dataSource.getJdbcUrl(), expectedDataSource.getJdbcUrl());
-                assertEquals(dataSource.getUsername(), expectedDataSource.getUsername());
-                assertEquals(dataSource.getPassword(), expectedDataSource.getPassword());
-                
-            }));
+        List<HikariDataSource> dataSources = new ExternalDataSourceProperties().build(environment, (dataSource -> {
+            assertEquals(dataSource.getJdbcUrl(), expectedDataSource.getJdbcUrl());
+            assertEquals(dataSource.getUsername(), expectedDataSource.getUsername());
+            assertEquals(dataSource.getPassword(), expectedDataSource.getPassword());
+            
+        }));
         assertEquals(2, dataSources.size());
     }
     
@@ -94,13 +91,12 @@ public class ExternalDataSourcePropertiesTest {
         environment.setProperty("db.password.1", PASSWORD);
         environment.setProperty("db.url.0", JDBC_URL);
         environment.setProperty("db.url.1", JDBC_URL);
-        List<HikariDataSource> dataSources =
-            new ExternalDataSourceProperties().build(environment, (dataSource -> {
-                assertEquals(dataSource.getJdbcUrl(), expectedDataSource.getJdbcUrl());
-                assertEquals(dataSource.getUsername(), expectedDataSource.getUsername());
-                assertEquals(dataSource.getPassword(), expectedDataSource.getPassword());
-                
-            }));
+        List<HikariDataSource> dataSources = new ExternalDataSourceProperties().build(environment, (dataSource -> {
+            assertEquals(dataSource.getJdbcUrl(), expectedDataSource.getJdbcUrl());
+            assertEquals(dataSource.getUsername(), expectedDataSource.getUsername());
+            assertEquals(dataSource.getPassword(), expectedDataSource.getPassword());
+            
+        }));
         assertEquals(2, dataSources.size());
     }
     
@@ -111,12 +107,10 @@ public class ExternalDataSourcePropertiesTest {
         environment.setProperty("db.user", USERNAME);
         environment.setProperty("db.password", PASSWORD);
         environment.setProperty("db.url.0", JDBC_URL);
-        List<HikariDataSource> dataSources =
-            new ExternalDataSourceProperties().build(environment, (dataSource -> {
-                dataSource.validate();
-                assertEquals(DataSourcePoolProperties.DEFAULT_MINIMUM_IDLE,
-                    dataSource.getMinimumIdle());
-            }));
+        List<HikariDataSource> dataSources = new ExternalDataSourceProperties().build(environment, (dataSource -> {
+            dataSource.validate();
+            assertEquals(DataSourcePoolProperties.DEFAULT_MINIMUM_IDLE, dataSource.getMinimumIdle());
+        }));
         assertEquals(1, dataSources.size());
     }
     
@@ -145,13 +139,12 @@ public class ExternalDataSourcePropertiesTest {
             environment.setProperty("db.user", USERNAME);
             environment.setProperty("db.password", PASSWORD);
             environment.setProperty("db.url.0", JDBC_URL);
-            List<HikariDataSource> dataSources =
-                new ExternalDataSourceProperties().build(environment, (dataSource -> {
-                    assertEquals(dataSource.getJdbcUrl(), expectedDataSource.getJdbcUrl());
-                    assertEquals(dataSource.getUsername(), expectedDataSource.getUsername());
-                    assertEquals(dataSource.getPassword(), expectedDataSource.getPassword());
-                    
-                }));
+            List<HikariDataSource> dataSources = new ExternalDataSourceProperties().build(environment, (dataSource -> {
+                assertEquals(dataSource.getJdbcUrl(), expectedDataSource.getJdbcUrl());
+                assertEquals(dataSource.getUsername(), expectedDataSource.getUsername());
+                assertEquals(dataSource.getPassword(), expectedDataSource.getPassword());
+                
+            }));
         });
     }
     

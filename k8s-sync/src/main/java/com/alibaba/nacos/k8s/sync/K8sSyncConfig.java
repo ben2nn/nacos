@@ -26,7 +26,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class K8sSyncConfig {
-    
     @Value("${nacos.k8s.sync.enabled:false}")
     private boolean enabled = false;
     

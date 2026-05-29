@@ -76,8 +76,7 @@ public class HttpRequestInstanceBuilder {
         return result;
     }
     
-    public HttpRequestInstanceBuilder setDefaultInstanceEphemeral(
-        boolean defaultInstanceEphemeral) {
+    public HttpRequestInstanceBuilder setDefaultInstanceEphemeral(boolean defaultInstanceEphemeral) {
         this.defaultInstanceEphemeral = defaultInstanceEphemeral;
         return this;
     }
@@ -94,11 +93,9 @@ public class HttpRequestInstanceBuilder {
         actualBuilder.setServiceName(WebUtils.required(request, CommonParams.SERVICE_NAME));
         actualBuilder.setIp(WebUtils.required(request, "ip"));
         actualBuilder.setPort(Integer.parseInt(WebUtils.required(request, "port")));
-        actualBuilder
-            .setHealthy(ConvertUtils.toBoolean(WebUtils.optional(request, "healthy", "true")));
+        actualBuilder.setHealthy(ConvertUtils.toBoolean(WebUtils.optional(request, "healthy", "true")));
         actualBuilder.setEphemeral(ConvertUtils
-            .toBoolean(
-                WebUtils.optional(request, "ephemeral", String.valueOf(defaultInstanceEphemeral))));
+                .toBoolean(WebUtils.optional(request, "ephemeral", String.valueOf(defaultInstanceEphemeral))));
         setWeight(request);
         setCluster(request);
         setEnabled(request);
@@ -109,9 +106,8 @@ public class HttpRequestInstanceBuilder {
         double weight = Double.parseDouble(WebUtils.optional(request, "weight", "1"));
         if (weight > Constants.MAX_WEIGHT_VALUE || weight < Constants.MIN_WEIGHT_VALUE) {
             throw new NacosException(NacosException.INVALID_PARAM,
-                "instance format invalid: The weights range from " + Constants.MIN_WEIGHT_VALUE
-                    + " to "
-                    + Constants.MAX_WEIGHT_VALUE);
+                    "instance format invalid: The weights range from " + Constants.MIN_WEIGHT_VALUE + " to "
+                            + Constants.MAX_WEIGHT_VALUE);
         }
         actualBuilder.setWeight(weight);
     }

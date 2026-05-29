@@ -39,8 +39,7 @@ public class NacosLockException extends RuntimeException {
         super(cause);
     }
     
-    public NacosLockException(String message, Throwable cause, boolean enableSuppression,
-        boolean writableStackTrace) {
+    public NacosLockException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

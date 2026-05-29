@@ -64,7 +64,6 @@ class NacosReadRequestProcessorTest {
         NacosReadRequestProcessor processor = new NacosReadRequestProcessor(serverWithNullTuple);
         final AtomicReference<Response> reference = new AtomicReference<>();
         RpcContext context = new RpcContext() {
-            
             @Override
             public void sendResponse(Object responseObj) {
                 reference.set((Response) responseObj);
@@ -90,13 +89,11 @@ class NacosReadRequestProcessorTest {
     @Test
     void testHandleRequestWhenNodeIsNotLeader() {
         when(followerNode.isLeader()).thenReturn(false);
-        JRaftServer.RaftGroupTuple tuple =
-            new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
+        JRaftServer.RaftGroupTuple tuple = new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
         when(serverWithFollowerNode.findTupleByGroup(anyString())).thenReturn(tuple);
         NacosReadRequestProcessor processor = new NacosReadRequestProcessor(serverWithFollowerNode);
         final AtomicReference<Response> reference = new AtomicReference<>();
         RpcContext context = new RpcContext() {
-            
             @Override
             public void sendResponse(Object responseObj) {
                 reference.set((Response) responseObj);
@@ -122,8 +119,7 @@ class NacosReadRequestProcessorTest {
     @Test
     void testHandleRequestWhenLeaderCallsExecute() {
         when(followerNode.isLeader()).thenReturn(true);
-        JRaftServer.RaftGroupTuple tuple =
-            new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
+        JRaftServer.RaftGroupTuple tuple = new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
         when(serverWithFollowerNode.findTupleByGroup(anyString())).thenReturn(tuple);
         doAnswer(invocation -> {
             FailoverClosure c = invocation.getArgument(2);
@@ -134,7 +130,6 @@ class NacosReadRequestProcessorTest {
         NacosReadRequestProcessor processor = new NacosReadRequestProcessor(serverWithFollowerNode);
         final AtomicReference<Response> reference = new AtomicReference<>();
         RpcContext context = new RpcContext() {
-            
             @Override
             public void sendResponse(Object responseObj) {
                 reference.set((Response) responseObj);

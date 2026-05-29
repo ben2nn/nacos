@@ -86,8 +86,7 @@ export default function AgentSpecManagementPage() {
   };
 
   const handleDetail = (name: string) => {
-    const params = new URLSearchParams({ namespaceId });
-    navigate(`/agentspec/${encodeURIComponent(name)}?${params}`);
+    navigate(`/agentspec/${encodeURIComponent(name)}`);
   };
 
   const handleDelete = async () => {
@@ -393,7 +392,7 @@ export default function AgentSpecManagementPage() {
         namespaceId={namespaceId}
         onSuccess={(name) => {
           loadData();
-          handleDetail(name);
+          navigate(`/agentspec/${encodeURIComponent(name)}`);
         }}
       />
 

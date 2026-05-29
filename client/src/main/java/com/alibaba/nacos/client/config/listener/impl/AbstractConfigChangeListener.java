@@ -37,3 +37,4 @@ public abstract class AbstractConfigChangeListener extends AbstractListener {
     public void receiveConfigInfo(final String configInfo) {
     }
 }
+

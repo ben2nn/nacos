@@ -59,8 +59,7 @@ public class TagGrayRule extends AbstractGrayRule {
     
     @Override
     public boolean match(Map<String, String> labels) {
-        return labels.containsKey(VIP_SERVER_TAG_LABEL)
-            && tagValue.equals(labels.get(VIP_SERVER_TAG_LABEL));
+        return labels.containsKey(VIP_SERVER_TAG_LABEL) && tagValue.equals(labels.get(VIP_SERVER_TAG_LABEL));
     }
     
     @Override

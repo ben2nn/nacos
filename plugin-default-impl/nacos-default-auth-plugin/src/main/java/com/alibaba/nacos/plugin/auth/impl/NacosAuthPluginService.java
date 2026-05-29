@@ -54,7 +54,6 @@ public class NacosAuthPluginService implements AuthPluginService {
     private static final Logger LOGGER = LoggerFactory.getLogger(NacosAuthPluginService.class);
     
     private static final List<String> IDENTITY_NAMES = new LinkedList<String>() {
-        
         {
             add(AuthConstants.AUTHORIZATION_HEADER);
             add(Constants.ACCESS_TOKEN);
@@ -134,10 +133,8 @@ public class NacosAuthPluginService implements AuthPluginService {
     }
     
     private String resolveToken(IdentityContext identityContext) {
-        String bearerToken =
-            identityContext.getParameter(AuthConstants.AUTHORIZATION_HEADER, StringUtils.EMPTY);
-        if (StringUtils.isNotBlank(bearerToken)
-            && bearerToken.startsWith(AuthConstants.TOKEN_PREFIX)) {
+        String bearerToken = identityContext.getParameter(AuthConstants.AUTHORIZATION_HEADER, StringUtils.EMPTY);
+        if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith(AuthConstants.TOKEN_PREFIX)) {
             return bearerToken.substring(AuthConstants.TOKEN_PREFIX.length());
         }
         
@@ -162,9 +159,8 @@ public class NacosAuthPluginService implements AuthPluginService {
     
     @Override
     public boolean isLoginEnabled() {
-        return NacosAuthConfigHolder.getInstance()
-            .getNacosAuthConfigByScope(ApiType.CONSOLE_API.name())
-            .isAuthEnabled();
+        return NacosAuthConfigHolder.getInstance().getNacosAuthConfigByScope(ApiType.CONSOLE_API.name())
+                .isAuthEnabled();
     }
     
     /**
@@ -178,8 +174,7 @@ public class NacosAuthPluginService implements AuthPluginService {
         for (NacosAuthConfig each : NacosAuthConfigHolder.getInstance().getAllNacosAuthConfig()) {
             authEnabled |= each.isAuthEnabled();
         }
-        boolean hasGlobalAdminRole =
-            ApplicationUtils.getBean(IAuthenticationManager.class).hasGlobalAdminRole();
+        boolean hasGlobalAdminRole = ApplicationUtils.getBean(IAuthenticationManager.class).hasGlobalAdminRole();
         return authEnabled && !hasGlobalAdminRole;
     }
     

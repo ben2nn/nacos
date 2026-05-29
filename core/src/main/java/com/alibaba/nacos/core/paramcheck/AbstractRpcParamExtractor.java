@@ -29,6 +29,7 @@ import java.util.List;
  */
 public abstract class AbstractRpcParamExtractor implements ParamExtractor<Request, ParamInfo> {
     
+    
     /**
      * Extract param.
      *

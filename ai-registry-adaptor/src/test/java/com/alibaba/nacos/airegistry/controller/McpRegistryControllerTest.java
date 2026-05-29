@@ -88,14 +88,13 @@ class McpRegistryControllerTest {
         // Execute
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers");
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response);
         assertNotNull(response.getServers());
         assertEquals(2, response.getServers().size());
@@ -115,16 +114,15 @@ class McpRegistryControllerTest {
         
         // Execute
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers")
-            .param("cursor", "10");
+                .param("cursor", "10");
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response);
         assertNotNull(response.getServers());
         assertEquals(3, response.getServers().size());
@@ -142,16 +140,15 @@ class McpRegistryControllerTest {
         
         // Execute
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers")
-            .param("limit", "5");
+                .param("limit", "5");
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response);
         assertEquals(5, response.getServers().size());
     }
@@ -168,16 +165,15 @@ class McpRegistryControllerTest {
         
         // Execute
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers")
-            .param("search", "filesystem");
+                .param("search", "filesystem");
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response);
         assertEquals(1, response.getServers().size());
     }
@@ -194,16 +190,15 @@ class McpRegistryControllerTest {
         
         // Execute
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers")
-            .param("updated_since", "2025-08-07T13:15:04.280Z");
+                .param("updated_since", "2025-08-07T13:15:04.280Z");
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response);
         assertEquals(2, response.getServers().size());
     }
@@ -220,16 +215,15 @@ class McpRegistryControllerTest {
         
         // Execute
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers")
-            .param("version", "1.2.3");
+                .param("version", "1.2.3");
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response);
         assertEquals(1, response.getServers().size());
     }
@@ -246,20 +240,19 @@ class McpRegistryControllerTest {
         
         // Execute
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers")
-            .param("cursor", "5")
-            .param("limit", "10")
-            .param("search", "test")
-            .param("updated_since", "2025-08-07T13:15:04.280Z")
-            .param("version", "1.0.0");
+                .param("cursor", "5")
+                .param("limit", "10")
+                .param("search", "test")
+                .param("updated_since", "2025-08-07T13:15:04.280Z")
+                .param("version", "1.0.0");
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response);
         assertEquals(3, response.getServers().size());
     }
@@ -277,14 +270,13 @@ class McpRegistryControllerTest {
         // Execute
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers");
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response);
         assertNotNull(response.getServers());
         assertEquals(0, response.getServers().size());
@@ -302,17 +294,15 @@ class McpRegistryControllerTest {
         when(nacosMcpRegistryService.getServerVersions(any(), any())).thenReturn(mockServerList);
         
         // Execute
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get("/v0/servers/{name}/versions", serverName);
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers/{name}/versions", serverName);
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response);
         assertNotNull(response.getServers());
         assertEquals(2, response.getServers().size());
@@ -328,17 +318,15 @@ class McpRegistryControllerTest {
         when(nacosMcpRegistryService.getServerVersions(any(), any())).thenReturn(null);
         
         // Execute
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get("/v0/servers/{name}/versions", serverName);
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers/{name}/versions", serverName);
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isNotFound())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpErrorResponse errorResponse =
-            JacksonUtils.toObj(responseContent, McpErrorResponse.class);
+        McpErrorResponse errorResponse = JacksonUtils.toObj(responseContent, McpErrorResponse.class);
         assertNotNull(errorResponse);
         assertEquals("Server not found", errorResponse.getError());
     }
@@ -352,18 +340,16 @@ class McpRegistryControllerTest {
         String serverName = "com.example%2Fmy-server";
         String version = "1.0.0";
         ServerResponse mockServerResponse = createMockServerResponse(serverName, version);
-        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version)))
-            .thenReturn(mockServerResponse);
+        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version))).thenReturn(mockServerResponse);
         
         // Execute
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}",
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}", 
                 serverName, version);
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
         ServerResponse response = JacksonUtils.toObj(responseContent, ServerResponse.class);
@@ -382,18 +368,16 @@ class McpRegistryControllerTest {
         String serverName = "com.example%2Fmy-server";
         String version = "latest";
         ServerResponse mockServerResponse = createMockServerResponse(serverName, "2.0.0");
-        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version)))
-            .thenReturn(mockServerResponse);
+        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version))).thenReturn(mockServerResponse);
         
         // Execute
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}",
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}", 
                 serverName, version);
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
         ServerResponse response = JacksonUtils.toObj(responseContent, ServerResponse.class);
@@ -410,20 +394,17 @@ class McpRegistryControllerTest {
         // Setup
         String serverName = "com.example%2Fmy-server";
         String version = "1.0.0%2B20130313144700";
-        ServerResponse mockServerResponse =
-            createMockServerResponse(serverName, "1.0.0+20130313144700");
-        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version)))
-            .thenReturn(mockServerResponse);
+        ServerResponse mockServerResponse = createMockServerResponse(serverName, "1.0.0+20130313144700");
+        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version))).thenReturn(mockServerResponse);
         
         // Execute
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}",
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}", 
                 serverName, version);
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
         ServerResponse response = JacksonUtils.toObj(responseContent, ServerResponse.class);
@@ -439,22 +420,19 @@ class McpRegistryControllerTest {
         // Setup
         String serverName = "com.example%2Fnonexistent";
         String version = "1.0.0";
-        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version)))
-            .thenReturn(null);
+        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version))).thenReturn(null);
         
         // Execute
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}",
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}", 
                 serverName, version);
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isNotFound())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpErrorResponse errorResponse =
-            JacksonUtils.toObj(responseContent, McpErrorResponse.class);
+        McpErrorResponse errorResponse = JacksonUtils.toObj(responseContent, McpErrorResponse.class);
         assertNotNull(errorResponse);
         assertEquals("Server not found", errorResponse.getError());
     }
@@ -467,22 +445,19 @@ class McpRegistryControllerTest {
         // Setup
         String serverName = "com.example%2Fmy-server";
         String version = "999.999.999";
-        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version)))
-            .thenReturn(null);
+        when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version))).thenReturn(null);
         
         // Execute
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}",
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}", 
                 serverName, version);
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isNotFound())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify
-        McpErrorResponse errorResponse =
-            JacksonUtils.toObj(responseContent, McpErrorResponse.class);
+        McpErrorResponse errorResponse = JacksonUtils.toObj(responseContent, McpErrorResponse.class);
         assertNotNull(errorResponse);
         assertEquals("Server not found", errorResponse.getError());
     }
@@ -498,7 +473,7 @@ class McpRegistryControllerTest {
         // Execute & Verify
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers");
         mockMvc.perform(builder)
-            .andExpect(status().isOk());
+                .andExpect(status().isOk());
     }
     
     /**
@@ -509,13 +484,12 @@ class McpRegistryControllerTest {
         // Setup
         String serverName = "com.example%2Fmy-server";
         when(nacosMcpRegistryService.getServerVersions(any(), any()))
-            .thenReturn(new McpRegistryServerList());
+                .thenReturn(new McpRegistryServerList());
         
         // Execute & Verify
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get("/v0/servers/{name}/versions", serverName);
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers/{name}/versions", serverName);
         mockMvc.perform(builder)
-            .andExpect(status().isOk());
+                .andExpect(status().isOk());
     }
     
     /**
@@ -528,14 +502,13 @@ class McpRegistryControllerTest {
         String version = "1.0.0";
         ServerResponse mockServerResponse = createMockServerResponse(serverName, version);
         when(nacosMcpRegistryService.getServer(eq(serverName), isNull(), eq(version)))
-            .thenReturn(mockServerResponse);
+                .thenReturn(mockServerResponse);
         
         // Execute & Verify
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}",
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers/{serverName}/versions/{version}", 
                 serverName, version);
         mockMvc.perform(builder)
-            .andExpect(status().isOk());
+                .andExpect(status().isOk());
     }
     
     /**
@@ -549,16 +522,15 @@ class McpRegistryControllerTest {
         
         // Execute with offset 10
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v0/servers")
-            .param("cursor", "10");
+                .param("cursor", "10");
         String responseContent = mockMvc.perform(builder)
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         
         // Verify cursor calculation: offset (10) + returned (5) = 15
-        McpRegistryServerList response =
-            JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
+        McpRegistryServerList response = JacksonUtils.toObj(responseContent, McpRegistryServerList.class);
         assertNotNull(response.getMetadata());
         assertEquals("15", response.getMetadata().getNextCursor());
         assertEquals(5, response.getMetadata().getCount());
@@ -569,16 +541,16 @@ class McpRegistryControllerTest {
      */
     private ServerResponse createMockServerResponse(String serverName, String version) {
         ServerResponse response = new ServerResponse();
-        com.alibaba.nacos.api.ai.model.mcp.registry.McpRegistryServerDetail server =
-            new com.alibaba.nacos.api.ai.model.mcp.registry.McpRegistryServerDetail();
+        com.alibaba.nacos.api.ai.model.mcp.registry.McpRegistryServerDetail server = 
+                new com.alibaba.nacos.api.ai.model.mcp.registry.McpRegistryServerDetail();
         server.setName(serverName);
         server.setDescription("Test MCP server description");
         server.setVersion(version);
         response.setServer(server);
         
         ServerResponse.Meta meta = new ServerResponse.Meta();
-        com.alibaba.nacos.api.ai.model.mcp.registry.OfficialMeta officialMeta =
-            new com.alibaba.nacos.api.ai.model.mcp.registry.OfficialMeta();
+        com.alibaba.nacos.api.ai.model.mcp.registry.OfficialMeta officialMeta = 
+                new com.alibaba.nacos.api.ai.model.mcp.registry.OfficialMeta();
         officialMeta.setStatus("active");
         officialMeta.setIsLatest(true);
         meta.setOfficial(officialMeta);
@@ -595,8 +567,9 @@ class McpRegistryControllerTest {
         List<ServerResponse> servers = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             ServerResponse serverResponse = createMockServerResponse(
-                "com.example%2Fserver-" + i,
-                "1.0." + i);
+                    "com.example%2Fserver-" + i, 
+                    "1.0." + i
+            );
             servers.add(serverResponse);
         }
         serverList.setServers(servers);

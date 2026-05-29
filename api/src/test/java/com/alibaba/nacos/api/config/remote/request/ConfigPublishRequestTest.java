@@ -60,8 +60,7 @@ class ConfigPublishRequestTest extends BasedConfigRequestTest {
     @Override
     @Test
     public void testDeserialize() throws JsonProcessingException {
-        String json =
-            "{\"headers\":{\"header1\":\"test_header1\"},\"dataId\":\"test_data\",\"group\":\"group\","
+        String json = "{\"headers\":{\"header1\":\"test_header1\"},\"dataId\":\"test_data\",\"group\":\"group\","
                 + "\"tenant\":\"test_tenant\",\"content\":\"content\",\"casMd5\":\"test_MD5\","
                 + "\"additionMap\":{\"appName\":\"appName\",\"tag\":\"tag\"},\"module\":\"config\"}";
         ConfigPublishRequest actual = mapper.readValue(json, ConfigPublishRequest.class);

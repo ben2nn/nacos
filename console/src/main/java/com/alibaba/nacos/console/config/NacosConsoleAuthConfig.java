@@ -68,8 +68,7 @@ public class NacosConsoleAuthConfig extends AbstractDynamicConfig implements Nac
     
     @Override
     public boolean isSupportServerIdentity() {
-        return StringUtils.isNotBlank(serverIdentityKey)
-            && StringUtils.isNotBlank(serverIdentityValue);
+        return StringUtils.isNotBlank(serverIdentityKey) && StringUtils.isNotBlank(serverIdentityValue);
     }
     
     @Override
@@ -84,13 +83,10 @@ public class NacosConsoleAuthConfig extends AbstractDynamicConfig implements Nac
     
     @Override
     protected void getConfigFromEnv() {
-        authEnabled = EnvUtil.getProperty(Constants.Auth.NACOS_CORE_AUTH_CONSOLE_ENABLED,
-            Boolean.class, true);
+        authEnabled = EnvUtil.getProperty(Constants.Auth.NACOS_CORE_AUTH_CONSOLE_ENABLED, Boolean.class, true);
         nacosAuthSystemType = EnvUtil.getProperty(Constants.Auth.NACOS_CORE_AUTH_SYSTEM_TYPE, "");
-        serverIdentityKey =
-            EnvUtil.getProperty(Constants.Auth.NACOS_CORE_AUTH_SERVER_IDENTITY_KEY, "");
-        serverIdentityValue =
-            EnvUtil.getProperty(Constants.Auth.NACOS_CORE_AUTH_SERVER_IDENTITY_VALUE, "");
+        serverIdentityKey = EnvUtil.getProperty(Constants.Auth.NACOS_CORE_AUTH_SERVER_IDENTITY_KEY, "");
+        serverIdentityValue = EnvUtil.getProperty(Constants.Auth.NACOS_CORE_AUTH_SERVER_IDENTITY_VALUE, "");
     }
     
     @Override
@@ -101,6 +97,6 @@ public class NacosConsoleAuthConfig extends AbstractDynamicConfig implements Nac
     @Override
     public String toString() {
         return "NacosConsoleAuthConfig{" + "authEnabled=" + authEnabled + ", nacosAuthSystemType='"
-            + nacosAuthSystemType + '\'' + '}';
+                + nacosAuthSystemType + '\'' + '}';
     }
 }

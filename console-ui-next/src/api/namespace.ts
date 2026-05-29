@@ -21,8 +21,8 @@ export interface NamespaceCreateData {
 }
 
 export interface NamespaceUpdateData {
-  namespaceId: string;
-  namespaceName: string;
+  namespace: string;
+  namespaceShowName: string;
   namespaceDesc?: string;
 }
 

@@ -59,8 +59,7 @@ class ServiceListRequestHandlerTest {
         serviceListRequest.setPageSize(10);
         serviceListRequest.setGroupName("B");
         ServiceListRequestHandler serviceListRequestHandler = new ServiceListRequestHandler();
-        ServiceListResponse serviceListResponse =
-            serviceListRequestHandler.handle(serviceListRequest, new RequestMeta());
+        ServiceListResponse serviceListResponse = serviceListRequestHandler.handle(serviceListRequest, new RequestMeta());
         assertEquals(1, serviceListResponse.getCount());
         assertTrue(serviceListResponse.getServiceNames().contains("C"));
     }

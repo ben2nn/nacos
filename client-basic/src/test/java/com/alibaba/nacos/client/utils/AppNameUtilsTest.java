@@ -72,9 +72,4 @@ class AppNameUtilsTest {
         String appName = AppNameUtils.getAppName();
         assertEquals("testAppName", appName);
     }
-    
-    @Test
-    void testConstructor() {
-        new AppNameUtils();
-    }
 }

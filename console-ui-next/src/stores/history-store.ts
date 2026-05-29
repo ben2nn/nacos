@@ -16,12 +16,7 @@ interface HistoryState {
 
 interface HistoryActions {
   fetchHistoryList: (dataId: string, groupName: string, namespaceId?: string) => Promise<void>;
-  fetchHistoryDetail: (
-    nid: string,
-    dataId: string,
-    groupName: string,
-    namespaceId?: string
-  ) => Promise<void>;
+  fetchHistoryDetail: (nid: string, dataId: string, groupName: string) => Promise<void>;
   setPage: (pageNo: number, pageSize?: number) => void;
   clearCurrentHistory: () => void;
   clearError: () => void;
@@ -72,12 +67,7 @@ export const useHistoryStore = create<HistoryStore>((set, get) => ({
     }
   },
 
-  fetchHistoryDetail: async (
-    nid: string,
-    dataId: string,
-    groupName: string,
-    namespaceId?: string
-  ) => {
+  fetchHistoryDetail: async (nid: string, dataId: string, groupName: string) => {
     set({ detailLoading: true, error: null });
 
     try {
@@ -85,7 +75,6 @@ export const useHistoryStore = create<HistoryStore>((set, get) => ({
         nid,
         dataId,
         groupName,
-        namespaceId,
       });
 
       const result = response as unknown as { data: ConfigHistory };

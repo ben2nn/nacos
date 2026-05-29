@@ -80,7 +80,6 @@ class RestResultUtilsTest {
     @Test
     void testBuildResult() {
         IResultCode mockCode = new IResultCode() {
-            
             @Override
             public int getCode() {
                 return 503;
@@ -95,8 +94,7 @@ class RestResultUtilsTest {
         assertRestResult(restResult, 503, "limited", "content", false);
     }
     
-    private void assertRestResult(RestResult restResult, int code, String message, Object data,
-        boolean isOk) {
+    private void assertRestResult(RestResult restResult, int code, String message, Object data, boolean isOk) {
         assertEquals(code, restResult.getCode());
         assertEquals(message, restResult.getMessage());
         assertEquals(data, restResult.getData());

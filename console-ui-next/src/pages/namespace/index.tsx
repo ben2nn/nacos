@@ -108,8 +108,8 @@ export default function NamespacePage() {
     setSaving(true);
     try {
       await namespaceApi.update({
-        namespaceId: selected.namespace,
-        namespaceName: formName.trim(),
+        namespace: selected.namespace,
+        namespaceShowName: formName.trim(),
         namespaceDesc: formDesc.trim(),
       });
       toast.success(t('namespace.updateSuccess'));

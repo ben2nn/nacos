@@ -86,12 +86,10 @@ class NacosApiExceptionHandlerTest {
     @Test
     void testNacosApiExceptionHandler() throws Exception {
         mockControllerThrowException(
-            new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.PARAMETER_MISSING,
-                "test"));
+                new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.PARAMETER_MISSING, "test"));
         ResultActions resultActions = mockMvc.perform(post("/v3/admin/core/namespace"));
         resultActions.andExpect(MockMvcResultMatchers.status().is(NacosException.INVALID_PARAM));
-        resultActions
-            .andExpect(new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_MISSING.getCode()));
+        resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_MISSING.getCode()));
     }
     
     @Test
@@ -109,19 +107,16 @@ class NacosApiExceptionHandlerTest {
         
         mockControllerThrowException(new NacosRuntimeException(NacosApiException.OVER_THRESHOLD));
         ResultActions resultActions2 = mockMvc.perform(post("/v3/admin/core/namespace"));
-        resultActions2
-            .andExpect(MockMvcResultMatchers.status().is(NacosApiException.OVER_THRESHOLD));
+        resultActions2.andExpect(MockMvcResultMatchers.status().is(NacosApiException.OVER_THRESHOLD));
         resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.SERVER_ERROR.getCode()));
     }
     
     @Test
     void handleHttpMessageNotReadableException() throws Exception {
-        mockControllerThrowException(
-            new HttpMessageNotReadableException("test", (HttpInputMessage) null));
+        mockControllerThrowException(new HttpMessageNotReadableException("test", (HttpInputMessage) null));
         ResultActions resultActions = mockMvc.perform(post("/v3/admin/core/namespace"));
         resultActions.andExpect(MockMvcResultMatchers.status().is(NacosApiException.INVALID_PARAM));
-        resultActions
-            .andExpect(new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_MISSING.getCode()));
+        resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_MISSING.getCode()));
     }
     
     @Test
@@ -129,8 +124,7 @@ class NacosApiExceptionHandlerTest {
         mockControllerThrowException(new HttpMessageConversionException("test"));
         ResultActions resultActions = mockMvc.perform(post("/v3/admin/core/namespace"));
         resultActions.andExpect(MockMvcResultMatchers.status().is(NacosApiException.INVALID_PARAM));
-        resultActions.andExpect(
-            new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_VALIDATE_ERROR.getCode()));
+        resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_VALIDATE_ERROR.getCode()));
     }
     
     @Test
@@ -138,8 +132,7 @@ class NacosApiExceptionHandlerTest {
         mockControllerThrowException(new NumberFormatException("test"));
         ResultActions resultActions = mockMvc.perform(post("/v3/admin/core/namespace"));
         resultActions.andExpect(MockMvcResultMatchers.status().is(NacosApiException.INVALID_PARAM));
-        resultActions.andExpect(
-            new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_VALIDATE_ERROR.getCode()));
+        resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_VALIDATE_ERROR.getCode()));
     }
     
     @Test
@@ -147,8 +140,7 @@ class NacosApiExceptionHandlerTest {
         mockControllerThrowException(new IllegalArgumentException("test"));
         ResultActions resultActions = mockMvc.perform(post("/v3/admin/core/namespace"));
         resultActions.andExpect(MockMvcResultMatchers.status().is(NacosApiException.INVALID_PARAM));
-        resultActions.andExpect(
-            new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_VALIDATE_ERROR.getCode()));
+        resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_VALIDATE_ERROR.getCode()));
     }
     
     @Test
@@ -156,8 +148,7 @@ class NacosApiExceptionHandlerTest {
         mockControllerThrowException(new MissingServletRequestParameterException("test", "test"));
         ResultActions resultActions = mockMvc.perform(post("/v3/admin/core/namespace"));
         resultActions.andExpect(MockMvcResultMatchers.status().is(NacosApiException.INVALID_PARAM));
-        resultActions
-            .andExpect(new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_MISSING.getCode()));
+        resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.PARAMETER_MISSING.getCode()));
     }
     
     @Test
@@ -165,8 +156,7 @@ class NacosApiExceptionHandlerTest {
         mockControllerThrowException(new HttpMediaTypeNotSupportedException("test"));
         ResultActions resultActions = mockMvc.perform(post("/v3/admin/core/namespace"));
         resultActions.andExpect(MockMvcResultMatchers.status().is(NacosApiException.INVALID_PARAM));
-        resultActions
-            .andExpect(new NacosResultErrorCodeMatcher(ErrorCode.MEDIA_TYPE_ERROR.getCode()));
+        resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.MEDIA_TYPE_ERROR.getCode()));
     }
     
     @Test
@@ -182,8 +172,7 @@ class NacosApiExceptionHandlerTest {
         mockControllerThrowException(new DataIntegrityViolationException("test"));
         ResultActions resultActions = mockMvc.perform(post("/v3/admin/core/namespace"));
         resultActions.andExpect(MockMvcResultMatchers.status().is(NacosApiException.SERVER_ERROR));
-        resultActions
-            .andExpect(new NacosResultErrorCodeMatcher(ErrorCode.DATA_ACCESS_ERROR.getCode()));
+        resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.DATA_ACCESS_ERROR.getCode()));
     }
     
     @Test
@@ -193,7 +182,7 @@ class NacosApiExceptionHandlerTest {
         resultActions.andExpect(MockMvcResultMatchers.status().is(NacosApiException.SERVER_ERROR));
         resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.SERVER_ERROR.getCode()));
     }
-    
+
     @Test
     void handleRuntimeExceptionWithNullMessage() throws Exception {
         mockControllerThrowException(new RuntimeException((String) null));
@@ -201,7 +190,7 @@ class NacosApiExceptionHandlerTest {
         resultActions.andExpect(MockMvcResultMatchers.status().isInternalServerError());
         resultActions.andExpect(new NacosResultErrorCodeMatcher(ErrorCode.SERVER_ERROR.getCode()));
     }
-    
+
     private void mockControllerThrowException(Exception exceptionClass) throws Exception {
         doThrow(exceptionClass).when(namespaceControllerV3).createNamespace(any());
     }
@@ -213,7 +202,7 @@ class NacosApiExceptionHandlerTest {
         private NacosResultErrorCodeMatcher(int errorCode) {
             this.errorCode = errorCode;
         }
-        
+
         @Override
         public void match(MvcResult result) throws Exception {
             String resultJson = result.getResponse().getContentAsString();

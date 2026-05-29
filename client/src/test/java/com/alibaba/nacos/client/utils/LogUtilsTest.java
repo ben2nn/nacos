@@ -29,9 +29,4 @@ class LogUtilsTest {
         assertNotNull(logger);
     }
     
-    @Test
-    void testConstructor() {
-        assertNotNull(new LogUtils());
-    }
-    
 }

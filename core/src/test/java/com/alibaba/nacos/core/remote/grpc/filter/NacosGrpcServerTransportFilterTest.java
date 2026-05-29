@@ -23,17 +23,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class NacosGrpcServerTransportFilterTest {
-    
+
     @Test
     void testConstants() {
         assertEquals("SDK", NacosGrpcServerTransportFilter.SDK_FILTER);
         assertEquals("CLUSTER", NacosGrpcServerTransportFilter.CLUSTER_FILTER);
     }
-    
+
     @Test
     void testConcreteFilterTypeAndTransportReady() {
         NacosGrpcServerTransportFilter filter = new NacosGrpcServerTransportFilter() {
-            
             @Override
             public String type() {
                 return "SDK";

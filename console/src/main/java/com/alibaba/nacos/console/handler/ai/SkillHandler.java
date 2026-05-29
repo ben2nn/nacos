@@ -27,8 +27,6 @@ import com.alibaba.nacos.ai.form.skills.admin.SkillPublishForm;
 import com.alibaba.nacos.ai.form.skills.admin.SkillScopeForm;
 import com.alibaba.nacos.ai.form.skills.admin.SkillSubmitForm;
 import com.alibaba.nacos.ai.form.skills.admin.SkillUpdateForm;
-import com.alibaba.nacos.ai.service.skills.SkillUploadRequest;
-import com.alibaba.nacos.api.ai.model.skills.BatchUploadResult;
 import com.alibaba.nacos.api.ai.model.skills.Skill;
 import com.alibaba.nacos.api.ai.model.skills.SkillMeta;
 import com.alibaba.nacos.api.ai.model.skills.SkillSummary;
@@ -87,31 +85,31 @@ public interface SkillHandler {
      * @return skill list
      * @throws NacosException nacos exception
      */
-    Page<SkillSummary> listSkills(SkillListForm skillListForm,
-        AiResourceFilterableForm filterableForm,
-        PageForm pageForm) throws NacosException;
+    Page<SkillSummary> listSkills(SkillListForm skillListForm, AiResourceFilterableForm filterableForm,
+            PageForm pageForm) throws NacosException;
     
     /**
      * Upload skill from zip file.
      *
-     * @param request upload request
+     * @param namespaceId namespace ID
+     * @param zipBytes    zip file bytes
      * @return skill name
      * @throws NacosException if upload failed
      */
-    String uploadSkillFromZip(SkillUploadRequest request) throws NacosException;
+    default String uploadSkillFromZip(String namespaceId, byte[] zipBytes) throws NacosException {
+        return uploadSkillFromZip(namespaceId, zipBytes, false);
+    }
     
     /**
-     * Batch upload multiple skills from a single zip file containing multiple skill subdirectories.
+     * Upload skill from zip file.
      *
      * @param namespaceId namespace ID
      * @param zipBytes    zip file bytes
-     * @param overwrite   whether to overwrite existing drafts
-     * @return batch upload result with succeeded and failed lists
-     * @throws NacosException if zip parsing fails entirely
+     * @param overwrite   whether to overwrite the current editable draft when the skill already exists
+     * @return skill name
+     * @throws NacosException if upload failed
      */
-    BatchUploadResult batchUploadSkillsFromZip(String namespaceId, byte[] zipBytes,
-        boolean overwrite)
-        throws NacosException;
+    String uploadSkillFromZip(String namespaceId, byte[] zipBytes, boolean overwrite) throws NacosException;
     
     /**
      * Create draft version based on latest or a specified version.
@@ -156,21 +154,13 @@ public interface SkillHandler {
     void publish(SkillPublishForm form) throws NacosException;
     
     /**
-     * Force-publish a skill version, bypassing pipeline validation. Accepts draft, reviewing, and reviewed versions.
-     * Should only be called by admin users.
+     * Force-publish a skill version, bypassing pipeline validation. Accepts draft (pipeline-rejected) and reviewing
+     * (pipeline in-progress) versions. Should only be called by admin users.
      *
      * @param form publish form
      * @throws NacosException nacos exception
      */
     void forcePublish(SkillPublishForm form) throws NacosException;
-    
-    /**
-     * Re-edit a reviewed version, transitioning it back to draft status.
-     *
-     * @param form publish form (contains namespace, skill name, version)
-     * @throws NacosException if operation failed
-     */
-    void redraft(SkillPublishForm form) throws NacosException;
     
     /**
      * Update runtime route labels without changing version status.

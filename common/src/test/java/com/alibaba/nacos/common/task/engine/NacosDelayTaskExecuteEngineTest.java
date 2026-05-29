@@ -50,11 +50,9 @@ class NacosDelayTaskExecuteEngineTest {
     
     @BeforeEach
     void setUp() throws Exception {
-        nacosDelayTaskExecuteEngine =
-            new NacosDelayTaskExecuteEngine(NacosDelayTaskExecuteEngineTest.class.getName());
+        nacosDelayTaskExecuteEngine = new NacosDelayTaskExecuteEngine(NacosDelayTaskExecuteEngineTest.class.getName());
         nacosDelayTaskExecuteEngine.setDefaultTaskProcessor(taskProcessor);
         abstractTask = new AbstractDelayTask() {
-            
             @Override
             public void merge(AbstractDelayTask task) {
             }
@@ -140,7 +138,6 @@ class NacosDelayTaskExecuteEngineTest {
         nacosDelayTaskExecuteEngine.addProcessor("test", testTaskProcessor);
         nacosDelayTaskExecuteEngine.addTask("test", abstractTask);
         nacosDelayTaskExecuteEngine.addTask("test", new AbstractDelayTask() {
-            
             @Override
             public void merge(AbstractDelayTask task) {
                 setLastProcessTime(task.getLastProcessTime());

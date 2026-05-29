@@ -30,8 +30,7 @@ class NacosLockFactoryTest {
     @Test
     void createAiServiceWithException() {
         NacosLockService.IS_THROW_EXCEPTION.set(true);
-        assertThrows(NacosException.class,
-            () -> NacosLockFactory.createLockService(new Properties()));
+        assertThrows(NacosException.class, () -> NacosLockFactory.createLockService(new Properties()));
     }
     
     @Test

@@ -79,17 +79,14 @@ public class ConsoleA2aControllerTest {
     
     @Test
     void testRegisterAgent() throws Exception {
-        String agentCardJson =
-            "{\"name\":\"test-agent\",\"version\":\"1.0.0\",\"protocolVersion\":\"1.0\",\"preferredTransport\":\"http\",\"url\":\"http://localhost:8080\"}";
+        String agentCardJson = "{\"name\":\"test-agent\",\"version\":\"1.0.0\",\"protocolVersion\":\"1.0\",\"preferredTransport\":\"http\",\"url\":\"http://localhost:8080\"}";
         
         try (MockedStatic<AgentRequestUtil> mockedUtil = mockStatic(AgentRequestUtil.class)) {
             AgentCard mockAgentCard = new AgentCard();
             mockAgentCard.setName("test-agent");
-            mockedUtil.when(() -> AgentRequestUtil.parseAgentCard(any(AgentCardForm.class)))
-                .thenReturn(mockAgentCard);
+            mockedUtil.when(() -> AgentRequestUtil.parseAgentCard(any(AgentCardForm.class))).thenReturn(mockAgentCard);
             
-            MockHttpServletRequestBuilder builder =
-                MockMvcRequestBuilders.post(Constants.A2A.CONSOLE_PATH)
+            MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post(Constants.A2A.CONSOLE_PATH)
                     .param("namespaceId", "test-namespace")
                     .param("agentName", "test-agent")
                     .param("agentCard", agentCardJson)
@@ -97,8 +94,7 @@ public class ConsoleA2aControllerTest {
             
             MockHttpServletResponse response = mockMvc.perform(builder).andReturn().getResponse();
             String actualValue = response.getContentAsString();
-            Result<String> result = JacksonUtils.toObj(actualValue, new TypeReference<>() {
-            });
+            Result<String> result = JacksonUtils.toObj(actualValue, new TypeReference<>() { });
             
             assertEquals(ErrorCode.SUCCESS.getCode(), result.getCode());
             assertEquals("ok", result.getData());
@@ -113,8 +109,7 @@ public class ConsoleA2aControllerTest {
         
         when(a2aProxy.getAgentCard(any(AgentForm.class))).thenReturn(mockDetailInfo);
         
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get(Constants.A2A.CONSOLE_PATH)
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get(Constants.A2A.CONSOLE_PATH)
                 .param("namespaceId", "test-namespace")
                 .param("agentName", "test-agent")
                 .param("version", "1.0.0")
@@ -122,8 +117,7 @@ public class ConsoleA2aControllerTest {
         
         MockHttpServletResponse response = mockMvc.perform(builder).andReturn().getResponse();
         String actualValue = response.getContentAsString();
-        Result<AgentCardDetailInfo> result = JacksonUtils.toObj(actualValue, new TypeReference<>() {
-        });
+        Result<AgentCardDetailInfo> result = JacksonUtils.toObj(actualValue, new TypeReference<>() { });
         
         assertEquals(ErrorCode.SUCCESS.getCode(), result.getCode());
         assertEquals("test-agent", result.getData().getName());
@@ -131,18 +125,15 @@ public class ConsoleA2aControllerTest {
     
     @Test
     void testUpdateAgentCard() throws Exception {
-        String agentCardJson =
-            "{\"name\":\"test-agent\",\"version\":\"1.0.1\",\"protocolVersion\":\"1.0\",\"preferredTransport\":\"http\",\"url\":\"http://localhost:8080\"}";
+        String agentCardJson = "{\"name\":\"test-agent\",\"version\":\"1.0.1\",\"protocolVersion\":\"1.0\",\"preferredTransport\":\"http\",\"url\":\"http://localhost:8080\"}";
         
         try (MockedStatic<AgentRequestUtil> mockedUtil = mockStatic(AgentRequestUtil.class)) {
             AgentCard mockAgentCard = new AgentCard();
             mockAgentCard.setName("test-agent");
             mockAgentCard.setVersion("1.0.1");
-            mockedUtil.when(() -> AgentRequestUtil.parseAgentCard(any(AgentCardUpdateForm.class)))
-                .thenReturn(mockAgentCard);
+            mockedUtil.when(() -> AgentRequestUtil.parseAgentCard(any(AgentCardUpdateForm.class))).thenReturn(mockAgentCard);
             
-            MockHttpServletRequestBuilder builder =
-                MockMvcRequestBuilders.put(Constants.A2A.CONSOLE_PATH)
+            MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put(Constants.A2A.CONSOLE_PATH)
                     .param("namespaceId", "test-namespace")
                     .param("agentName", "test-agent")
                     .param("agentCard", agentCardJson)
@@ -151,8 +142,7 @@ public class ConsoleA2aControllerTest {
             
             MockHttpServletResponse response = mockMvc.perform(builder).andReturn().getResponse();
             String actualValue = response.getContentAsString();
-            Result<String> result = JacksonUtils.toObj(actualValue, new TypeReference<>() {
-            });
+            Result<String> result = JacksonUtils.toObj(actualValue, new TypeReference<>() { });
             
             assertEquals(ErrorCode.SUCCESS.getCode(), result.getCode());
             assertEquals("ok", result.getData());
@@ -161,8 +151,7 @@ public class ConsoleA2aControllerTest {
     
     @Test
     void testDeleteAgent() throws Exception {
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.delete(Constants.A2A.CONSOLE_PATH)
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.delete(Constants.A2A.CONSOLE_PATH)
                 .param("namespaceId", "test-namespace")
                 .param("agentName", "test-agent")
                 .param("version", "1.0.0")
@@ -170,8 +159,7 @@ public class ConsoleA2aControllerTest {
         
         MockHttpServletResponse response = mockMvc.perform(builder).andReturn().getResponse();
         String actualValue = response.getContentAsString();
-        Result<String> result = JacksonUtils.toObj(actualValue, new TypeReference<>() {
-        });
+        Result<String> result = JacksonUtils.toObj(actualValue, new TypeReference<>() { });
         
         assertEquals(ErrorCode.SUCCESS.getCode(), result.getCode());
         assertEquals("ok", result.getData());
@@ -186,11 +174,9 @@ public class ConsoleA2aControllerTest {
         mockPage.setPageItems(Collections.singletonList(versionInfo));
         mockPage.setTotalCount(1);
         
-        when(a2aProxy.listAgents(any(AgentListForm.class), any(PageForm.class)))
-            .thenReturn(mockPage);
+        when(a2aProxy.listAgents(any(AgentListForm.class), any(PageForm.class))).thenReturn(mockPage);
         
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get(Constants.A2A.CONSOLE_PATH + "/list")
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get(Constants.A2A.CONSOLE_PATH + "/list")
                 .param("namespaceId", "test-namespace")
                 .param("agentName", "test")
                 .param("search", "blur")
@@ -199,9 +185,7 @@ public class ConsoleA2aControllerTest {
         
         MockHttpServletResponse response = mockMvc.perform(builder).andReturn().getResponse();
         String actualValue = response.getContentAsString();
-        Result<Page<AgentCardVersionInfo>> result =
-            JacksonUtils.toObj(actualValue, new TypeReference<>() {
-            });
+        Result<Page<AgentCardVersionInfo>> result = JacksonUtils.toObj(actualValue, new TypeReference<>() { });
         
         assertEquals(ErrorCode.SUCCESS.getCode(), result.getCode());
         assertEquals(1, result.getData().getTotalCount());
@@ -213,19 +197,15 @@ public class ConsoleA2aControllerTest {
         versionDetail.setVersion("1.0.0");
         versionDetail.setLatest(true);
         
-        when(a2aProxy.listAgentVersions("test-namespace", "test-agent"))
-            .thenReturn(Collections.singletonList(versionDetail));
+        when(a2aProxy.listAgentVersions("test-namespace", "test-agent")).thenReturn(Collections.singletonList(versionDetail));
         
-        MockHttpServletRequestBuilder builder =
-            MockMvcRequestBuilders.get(Constants.A2A.CONSOLE_PATH + "/version/list")
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get(Constants.A2A.CONSOLE_PATH + "/version/list")
                 .param("namespaceId", "test-namespace")
                 .param("agentName", "test-agent");
         
         MockHttpServletResponse response = mockMvc.perform(builder).andReturn().getResponse();
         String actualValue = response.getContentAsString();
-        Result<List<AgentVersionDetail>> result =
-            JacksonUtils.toObj(actualValue, new TypeReference<>() {
-            });
+        Result<List<AgentVersionDetail>> result = JacksonUtils.toObj(actualValue, new TypeReference<>() { });
         
         assertEquals(ErrorCode.SUCCESS.getCode(), result.getCode());
         assertEquals(1, result.getData().size());

@@ -62,8 +62,7 @@ class BatchInstanceRequestHandlerTest {
         batchInstanceRequest.setInstances(instanceList);
         RequestMeta requestMeta = new RequestMeta();
         batchInstanceRequestHandler.handle(batchInstanceRequest, requestMeta);
-        Mockito.verify(clientOperationService).batchRegisterInstance(Mockito.any(), Mockito.any(),
-            Mockito.anyString());
+        Mockito.verify(clientOperationService).batchRegisterInstance(Mockito.any(), Mockito.any(), Mockito.anyString());
         batchInstanceRequest.setType("google");
         try {
             batchInstanceRequestHandler.handle(batchInstanceRequest, requestMeta);

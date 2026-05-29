@@ -81,9 +81,8 @@ class GrpcConnectionTest {
     @BeforeEach
     void setUp() throws IOException {
         String ip = "1.1.1.1";
-        ConnectionMeta connectionMeta = new ConnectionMeta("connectId" + System.currentTimeMillis(),
-            ip, ip, 8888, 9848, "GRPC", "", "",
-            new HashMap<>());
+        ConnectionMeta connectionMeta = new ConnectionMeta("connectId" + System.currentTimeMillis(), ip, ip, 8888, 9848, "GRPC", "", "",
+                new HashMap<>());
         Mockito.when(channel.isOpen()).thenReturn(true);
         Mockito.when(channel.isActive()).thenReturn(true);
         connection = new GrpcConnection(connectionMeta, streamObserver, channel);
@@ -94,8 +93,7 @@ class GrpcConnectionTest {
     @Test
     void testStatusRuntimeException() {
         Mockito.doReturn(new DefaultEventLoop()).when(channel).eventLoop();
-        Mockito.doThrow(new StatusRuntimeException(Status.CANCELLED)).when(streamObserver)
-            .onNext(Mockito.any());
+        Mockito.doThrow(new StatusRuntimeException(Status.CANCELLED)).when(streamObserver).onNext(Mockito.any());
         Mockito.doReturn(true).when(streamObserver).isReady();
         
         try {
@@ -145,13 +143,11 @@ class GrpcConnectionTest {
         assertTrue(connection.isConnected());
         try {
             new Thread(new Runnable() {
-                
                 @Override
                 public void run() {
                     long start = System.currentTimeMillis();
                     while ((System.currentTimeMillis() - start < 3000L)) {
-                        Map<String, DefaultRequestFuture> stringDefaultRequestFutureMap =
-                            RpcAckCallbackSynchronizer.initContextIfNecessary(
+                        Map<String, DefaultRequestFuture> stringDefaultRequestFutureMap = RpcAckCallbackSynchronizer.initContextIfNecessary(
                                 connection.getMetaInfo().getConnectionId());
                         if (!stringDefaultRequestFutureMap.entrySet().iterator().hasNext()) {
                             try {
@@ -161,15 +157,11 @@ class GrpcConnectionTest {
                                 throw new RuntimeException(e);
                             }
                         }
-                        Map.Entry<String, DefaultRequestFuture> next =
-                            stringDefaultRequestFutureMap.entrySet().iterator().next();
-                        NotifySubscriberResponse notifySubscriberResponse =
-                            new NotifySubscriberResponse();
+                        Map.Entry<String, DefaultRequestFuture> next = stringDefaultRequestFutureMap.entrySet().iterator().next();
+                        NotifySubscriberResponse notifySubscriberResponse = new NotifySubscriberResponse();
                         notifySubscriberResponse.setRequestId(next.getValue().getRequestId());
                         try {
-                            RpcAckCallbackSynchronizer.ackNotify(
-                                connection.getMetaInfo().getConnectionId(),
-                                notifySubscriberResponse);
+                            RpcAckCallbackSynchronizer.ackNotify(connection.getMetaInfo().getConnectionId(), notifySubscriberResponse);
                         } catch (Exception e) {
                             //ignore
                         }
@@ -188,10 +180,8 @@ class GrpcConnectionTest {
     void testBusy() {
         controlManagerCenterMockedStatic = Mockito.mockStatic(ControlManagerCenter.class);
         Mockito.when(ControlManagerCenter.getInstance()).thenReturn(controlManagerCenter);
-        Mockito.when(ControlManagerCenter.getInstance().getTpsControlManager())
-            .thenReturn(tpsControlManager);
-        Mockito.when(tpsControlManager.check(Mockito.any()))
-            .thenReturn(new TpsCheckResponse(true, 200, ""));
+        Mockito.when(ControlManagerCenter.getInstance().getTpsControlManager()).thenReturn(tpsControlManager);
+        Mockito.when(tpsControlManager.check(Mockito.any())).thenReturn(new TpsCheckResponse(true, 200, ""));
         Mockito.doReturn(false).when(streamObserver).isReady();
         
         try {

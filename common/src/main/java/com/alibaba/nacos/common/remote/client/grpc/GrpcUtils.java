@@ -55,16 +55,14 @@ public class GrpcUtils {
         Payload.Builder payloadBuilder = Payload.newBuilder();
         Metadata.Builder metaBuilder = Metadata.newBuilder();
         if (meta != null) {
-            metaBuilder.putAllHeaders(request.getHeaders())
-                .setType(request.getClass().getSimpleName());
+            metaBuilder.putAllHeaders(request.getHeaders()).setType(request.getClass().getSimpleName());
         }
         metaBuilder.setClientIp(NetUtils.localIp());
         payloadBuilder.setMetadata(metaBuilder.build());
         
         // request body .
         byte[] jsonBytes = convertRequestToByte(request);
-        return payloadBuilder
-            .setBody(Any.newBuilder().setValue(UnsafeByteOperations.unsafeWrap(jsonBytes))).build();
+        return payloadBuilder.setBody(Any.newBuilder().setValue(UnsafeByteOperations.unsafeWrap(jsonBytes))).build();
         
     }
     
@@ -77,15 +75,14 @@ public class GrpcUtils {
     public static Payload convert(Request request) {
         
         Metadata newMeta = Metadata.newBuilder().setType(request.getClass().getSimpleName())
-            .setClientIp(NetUtils.localIp()).putAllHeaders(request.getHeaders()).build();
+                .setClientIp(NetUtils.localIp()).putAllHeaders(request.getHeaders()).build();
         
         byte[] jsonBytes = convertRequestToByte(request);
         
         Payload.Builder builder = Payload.newBuilder();
         
-        return builder
-            .setBody(Any.newBuilder().setValue(UnsafeByteOperations.unsafeWrap(jsonBytes)))
-            .setMetadata(newMeta).build();
+        return builder.setBody(Any.newBuilder().setValue(UnsafeByteOperations.unsafeWrap(jsonBytes)))
+                .setMetadata(newMeta).build();
         
     }
     
@@ -98,11 +95,9 @@ public class GrpcUtils {
     public static Payload convert(Response response) {
         byte[] jsonBytes = JacksonUtils.toJsonBytes(response);
         
-        Metadata.Builder metaBuilder =
-            Metadata.newBuilder().setType(response.getClass().getSimpleName());
-        return Payload.newBuilder()
-            .setBody(Any.newBuilder().setValue(UnsafeByteOperations.unsafeWrap(jsonBytes)))
-            .setMetadata(metaBuilder.build()).build();
+        Metadata.Builder metaBuilder = Metadata.newBuilder().setType(response.getClass().getSimpleName());
+        return Payload.newBuilder().setBody(Any.newBuilder().setValue(UnsafeByteOperations.unsafeWrap(jsonBytes)))
+                .setMetadata(metaBuilder.build()).build();
     }
     
     private static byte[] convertRequestToByte(Request request) {
@@ -131,7 +126,7 @@ public class GrpcUtils {
             return obj;
         } else {
             throw new RemoteException(NacosException.SERVER_ERROR,
-                "Unknown payload type:" + payload.getMetadata().getType());
+                    "Unknown payload type:" + payload.getMetadata().getType());
         }
     }
 }

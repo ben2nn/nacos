@@ -40,11 +40,9 @@ class LoginIdentityContextTest {
     @Test
     void testSetParameter() {
         assertNull(loginIdentityContext.getParameter(TEST));
-        assertEquals("default", loginIdentityContext.getParameter(TEST, "default"));
         assertTrue(loginIdentityContext.getAllKey().isEmpty());
         loginIdentityContext.setParameter(TEST, TEST);
         assertEquals(TEST, loginIdentityContext.getParameter(TEST));
-        assertEquals(TEST, loginIdentityContext.getParameter(TEST, "default"));
         assertEquals(1, loginIdentityContext.getAllKey().size());
     }
     

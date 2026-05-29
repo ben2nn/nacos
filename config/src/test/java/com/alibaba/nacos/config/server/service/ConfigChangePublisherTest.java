@@ -63,8 +63,7 @@ class ConfigChangePublisherTest {
         DatasourceConfiguration.setEmbeddedStorage(true);
         
         ConfigChangePublisher.notifyConfigChange(
-            new ConfigDataChangeEvent("chuntaojun", "chuntaojun", null,
-                System.currentTimeMillis()));
+                new ConfigDataChangeEvent("chuntaojun", "chuntaojun", null, System.currentTimeMillis()));
         Thread.sleep(2000);
         assertNotNull(reference.get());
         reference.set(null);
@@ -73,8 +72,7 @@ class ConfigChangePublisherTest {
         EnvUtil.setIsStandalone(true);
         DatasourceConfiguration.setEmbeddedStorage(false);
         ConfigChangePublisher.notifyConfigChange(
-            new ConfigDataChangeEvent("chuntaojun", "chuntaojun", null,
-                System.currentTimeMillis()));
+                new ConfigDataChangeEvent("chuntaojun", "chuntaojun", null, System.currentTimeMillis()));
         Thread.sleep(2000);
         assertNotNull(reference.get());
         reference.set(null);
@@ -83,8 +81,7 @@ class ConfigChangePublisherTest {
         EnvUtil.setIsStandalone(false);
         DatasourceConfiguration.setEmbeddedStorage(true);
         ConfigChangePublisher.notifyConfigChange(
-            new ConfigDataChangeEvent("chuntaojun", "chuntaojun", null,
-                System.currentTimeMillis()));
+                new ConfigDataChangeEvent("chuntaojun", "chuntaojun", null, System.currentTimeMillis()));
         Thread.sleep(2000);
         assertNull(reference.get());
         reference.set(null);
@@ -93,8 +90,7 @@ class ConfigChangePublisherTest {
         EnvUtil.setIsStandalone(false);
         DatasourceConfiguration.setEmbeddedStorage(false);
         ConfigChangePublisher.notifyConfigChange(
-            new ConfigDataChangeEvent("chuntaojun", "chuntaojun", null,
-                System.currentTimeMillis()));
+                new ConfigDataChangeEvent("chuntaojun", "chuntaojun", null, System.currentTimeMillis()));
         Thread.sleep(2000);
         assertNotNull(reference.get());
         reference.set(null);

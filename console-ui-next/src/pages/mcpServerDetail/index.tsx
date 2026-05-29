@@ -125,7 +125,7 @@ export default function McpServerDetailPage() {
     return () => {
       clearError();
     };
-  }, [clearError, loadDetail]);
+  }, [mcpName, namespaceId]);
 
   const handleVersionChange = (version: string) => {
     setSelectedVersion(version);
@@ -137,12 +137,7 @@ export default function McpServerDetailPage() {
     if (!currentMcp) return;
     try {
       const toggled = { ...currentMcp, enabled: !currentMcp.enabled };
-      const { toolSpec, backendEndpoints } = toggled;
-      const basicInfo = { ...toggled } as Partial<typeof toggled>;
-      delete basicInfo.toolSpec;
-      delete basicInfo.backendEndpoints;
-      delete basicInfo.frontendEndpoints;
-      delete basicInfo.allVersions;
+      const { toolSpec, backendEndpoints, frontendEndpoints, allVersions, ...basicInfo } = toggled;
       await mcpApi.updateMcpServer({
         mcpName: currentMcp.name,
         namespaceId,
@@ -164,12 +159,7 @@ export default function McpServerDetailPage() {
 
   const handleCopyConfig = async () => {
     if (!currentMcp) return;
-    const { toolSpec, backendEndpoints, frontendEndpoints } = currentMcp;
-    const basicInfo = { ...currentMcp } as Partial<typeof currentMcp>;
-    delete basicInfo.toolSpec;
-    delete basicInfo.backendEndpoints;
-    delete basicInfo.frontendEndpoints;
-    delete basicInfo.allVersions;
+    const { toolSpec, backendEndpoints, frontendEndpoints, allVersions, ...basicInfo } = currentMcp;
     const config = {
       serverSpecification: basicInfo,
       toolSpecification: toolSpec || undefined,
@@ -408,12 +398,7 @@ export default function McpServerDetailPage() {
                         className="inline-flex items-center gap-1 text-primary hover:underline cursor-pointer"
                         onClick={() => {
                           const ref = mcp.remoteServerConfig!.serviceRef!;
-                          const params = new URLSearchParams({
-                            serviceName: ref.serviceName,
-                            groupName: ref.groupName,
-                            namespace: namespaceId,
-                          });
-                          navigate(`/serviceDetail?${params.toString()}`);
+                          navigate(`/serviceDetail?serviceName=${encodeURIComponent(ref.serviceName)}&groupName=${encodeURIComponent(ref.groupName)}`);
                         }}
                       >
                         <span>{mcp.remoteServerConfig.serviceRef.groupName}@@{mcp.remoteServerConfig.serviceRef.serviceName}</span>

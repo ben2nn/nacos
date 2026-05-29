@@ -33,8 +33,7 @@ public class FuzzyWatchChangeNotifyTask extends AbstractDelayTask {
     
     private final long delay;
     
-    public FuzzyWatchChangeNotifyTask(String serviceKey, String changedType, String clientId,
-        long delay) {
+    public FuzzyWatchChangeNotifyTask(String serviceKey, String changedType, String clientId, long delay) {
         this.serviceKey = serviceKey;
         this.changedType = changedType;
         this.delay = delay;
@@ -60,6 +59,6 @@ public class FuzzyWatchChangeNotifyTask extends AbstractDelayTask {
     
     @Override
     public void merge(AbstractDelayTask task) {
-        
+    
     }
 }

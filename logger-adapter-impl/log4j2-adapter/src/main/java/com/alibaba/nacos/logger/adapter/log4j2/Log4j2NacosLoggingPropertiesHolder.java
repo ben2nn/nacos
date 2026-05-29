@@ -31,8 +31,7 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
  */
 public class Log4j2NacosLoggingPropertiesHolder {
     
-    private static final Log4j2NacosLoggingPropertiesHolder INSTANCE =
-        new Log4j2NacosLoggingPropertiesHolder();
+    private static final Log4j2NacosLoggingPropertiesHolder INSTANCE = new Log4j2NacosLoggingPropertiesHolder();
     
     private NacosLoggingProperties properties;
     

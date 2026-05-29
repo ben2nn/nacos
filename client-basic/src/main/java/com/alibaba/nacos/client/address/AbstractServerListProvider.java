@@ -37,8 +37,7 @@ public abstract class AbstractServerListProvider implements ServerListProvider {
     protected String namespace = "";
     
     @Override
-    public void init(final NacosClientProperties properties,
-        final NacosRestTemplate nacosRestTemplate) throws NacosException {
+    public void init(final NacosClientProperties properties, final NacosRestTemplate nacosRestTemplate) throws NacosException {
         if (null == properties) {
             throw new NacosException(NacosException.INVALID_PARAM, "properties is null");
         }

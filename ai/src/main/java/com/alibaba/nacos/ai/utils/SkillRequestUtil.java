@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,8 +46,7 @@ public class SkillRequestUtil {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(SkillRequestUtil.class);
     
-    private static final Pattern FRONTMATTER_PATTERN =
-        Pattern.compile("^---\\r?\\n([\\s\\S]*?)\\r?\\n---");
+    private static final Pattern FRONTMATTER_PATTERN = Pattern.compile("^---\\r?\\n([\\s\\S]*?)\\r?\\n---");
     
     /**
      * Build a ZIP download {@link ResponseEntity} from a {@link Skill} object.
@@ -63,69 +61,14 @@ public class SkillRequestUtil {
         try {
             byte[] zipBytes = SkillUtils.toZipBytes(skill);
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType("application/zip"));
             headers.add("Content-Disposition", "attachment;filename=" + skill.getName() + ".zip");
             return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
         } catch (Exception e) {
             throw new NacosException(NacosException.SERVER_ERROR,
-                "Failed to create skill zip: " + e.getMessage(), e);
+                    "Failed to create skill zip: " + e.getMessage(), e);
         }
     }
-    
-    /**
-     * Build a ZIP download {@link ResponseEntity} together with the listener-related headers
-     * ({@code ETag}, {@code X-Nacos-Skill-Md5} and {@code X-Nacos-Skill-Resolved-Version}).
-     *
-     * <p>{@code md5} and {@code resolvedVersion} may be blank; only non-blank values are emitted as
-     * headers so legacy paths that do not yet carry MD5 keep their existing response shape.
-     *
-     * @param skill           the Skill object
-     * @param md5             published content MD5, optional
-     * @param resolvedVersion resolved version when caller queries by label, optional
-     * @return ResponseEntity containing ZIP bytes with proper headers
-     * @throws NacosException if ZIP creation fails
-     */
-    public static ResponseEntity<byte[]> buildSkillZipResponseWithMd5(Skill skill, String md5,
-        String resolvedVersion) throws NacosException {
-        try {
-            byte[] zipBytes = SkillUtils.toZipBytes(skill);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType("application/zip"));
-            headers.add("Content-Disposition", "attachment;filename=" + skill.getName() + ".zip");
-            applyListenerHeaders(headers, md5, resolvedVersion);
-            return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
-        } catch (Exception e) {
-            throw new NacosException(NacosException.SERVER_ERROR,
-                "Failed to create skill zip: " + e.getMessage(), e);
-        }
-    }
-    
-    /**
-     * Build an HTTP 304 Not Modified response carrying the listener-related headers so the client
-     * can refresh its local cache metadata even when the body is empty.
-     *
-     * @param md5             published content MD5
-     * @param resolvedVersion resolved version, may be {@code null}
-     * @return ResponseEntity with status 304 and listener headers
-     */
-    public static ResponseEntity<byte[]> buildSkillNotModifiedResponse(String md5,
-        String resolvedVersion) {
-        HttpHeaders headers = new HttpHeaders();
-        applyListenerHeaders(headers, md5, resolvedVersion);
-        return new ResponseEntity<>(headers, HttpStatus.NOT_MODIFIED);
-    }
-    
-    private static void applyListenerHeaders(HttpHeaders headers, String md5,
-        String resolvedVersion) {
-        if (StringUtils.isNotBlank(md5)) {
-            headers.add(HttpHeaders.ETAG, md5);
-            headers.add(Constants.Skills.HEADER_SKILL_MD5, md5);
-        }
-        if (StringUtils.isNotBlank(resolvedVersion)) {
-            headers.add(Constants.Skills.HEADER_SKILL_RESOLVED_VERSION, resolvedVersion);
-        }
-    }
-    
+
     /**
      * Parse Skill request form to {@link Skill}.
      *
@@ -135,18 +78,15 @@ public class SkillRequestUtil {
      */
     public static Skill parseSkill(SkillDetailForm skillDetailForm) throws NacosApiException {
         try {
-            Skill result =
-                JacksonUtils.toObj(skillDetailForm.getSkillCard(), new TypeReference<>() {
-                });
+            Skill result = JacksonUtils.toObj(skillDetailForm.getSkillCard(), new TypeReference<>() {
+            });
             validateSkill(result);
             return result;
         } catch (NacosDeserializationException e) {
-            LOGGER
-                .error(String.format("Deserialize %s from %s failed, ", Skill.class.getSimpleName(),
+            LOGGER.error(String.format("Deserialize %s from %s failed, ", Skill.class.getSimpleName(),
                     skillDetailForm.getSkillCard()), e);
-            throw new NacosApiException(NacosApiException.INVALID_PARAM,
-                ErrorCode.PARAMETER_VALIDATE_ERROR,
-                "skillCard is invalid. Can't be parsed.");
+            throw new NacosApiException(NacosApiException.INVALID_PARAM, ErrorCode.PARAMETER_VALIDATE_ERROR,
+                    "skillCard is invalid. Can't be parsed.");
         }
     }
     
@@ -159,7 +99,7 @@ public class SkillRequestUtil {
     public static void validateSkill(Skill skill) throws NacosApiException {
         validateSkillField("name", skill.getName());
         validateSkillField("description", skill.getDescription());
-        validateSkillMarkdownBody("skillCard.skillMd", skill.getSkillMd());
+        validateSkillField("skillMd", skill.getSkillMd());
     }
     
     /**
@@ -179,9 +119,8 @@ public class SkillRequestUtil {
      * @param resolvedVersion    the version string determined by the service layer
      * @param isFirstCreate      true when this is the first import/creation (no existing meta)
      */
-    public static void normalizeSkillFrontmatter(Skill skill, String authoritativeName,
-        String resolvedVersion,
-        boolean isFirstCreate) {
+    public static void normalizeSkillFrontmatter(Skill skill, String authoritativeName, String resolvedVersion,
+            boolean isFirstCreate) {
         String md = skill.getSkillMd();
         if (StringUtils.isEmpty(md)) {
             return;
@@ -237,12 +176,7 @@ public class SkillRequestUtil {
         for (String line : lines) {
             int colonIdx = line.indexOf(':');
             if (colonIdx > 0 && line.substring(0, colonIdx).trim().equals(field)) {
-                int indentLen = 0;
-                while (indentLen < line.length() && Character.isWhitespace(
-                    line.charAt(indentLen))) {
-                    indentLen++;
-                }
-                sb.append(line, 0, indentLen).append(field).append(": ").append(value);
+                sb.append(field).append(": ").append(value);
                 found = true;
             } else {
                 sb.append(line);
@@ -258,8 +192,7 @@ public class SkillRequestUtil {
         if (updatedBlock.endsWith("\n")) {
             updatedBlock = updatedBlock.substring(0, updatedBlock.length() - 1);
         }
-        return md.substring(0, matcher.start()) + "---\n" + updatedBlock + "\n---"
-            + md.substring(matcher.end());
+        return md.substring(0, matcher.start()) + "---\n" + updatedBlock + "\n---" + md.substring(matcher.end());
     }
     
     /**
@@ -286,7 +219,7 @@ public class SkillRequestUtil {
                     String value = line.substring(colonIdx + 1).trim();
                     // Strip surrounding quotes
                     if (value.length() >= 2 && ((value.startsWith("\"") && value.endsWith("\""))
-                        || (value.startsWith("'") && value.endsWith("'")))) {
+                            || (value.startsWith("'") && value.endsWith("'")))) {
                         value = value.substring(1, value.length() - 1);
                     }
                     return value;
@@ -296,51 +229,13 @@ public class SkillRequestUtil {
         return null;
     }
     
-    private static void validateSkillField(String fieldName, String fieldValue)
-        throws NacosApiException {
+    private static void validateSkillField(String fieldName, String fieldValue) throws NacosApiException {
         if (StringUtils.isEmpty(fieldValue)) {
-            throw new NacosApiException(NacosApiException.INVALID_PARAM,
-                ErrorCode.PARAMETER_MISSING,
-                "Required parameter `skillCard." + fieldName + "` not present");
+            throw new NacosApiException(NacosApiException.INVALID_PARAM, ErrorCode.PARAMETER_MISSING,
+                    "Required parameter `skillCard." + fieldName + "` not present");
         }
     }
-    
-    /**
-     * Validate markdown content is present and has non-empty body after removing frontmatter.
-     *
-     * @param fieldPath field path used in error message
-     * @param markdown markdown content to validate
-     * @throws NacosApiException if markdown is missing or body is empty
-     */
-    public static void validateSkillMarkdownBody(String fieldPath, String markdown)
-        throws NacosApiException {
-        if (StringUtils.isEmpty(markdown)) {
-            throw new NacosApiException(NacosApiException.INVALID_PARAM,
-                ErrorCode.PARAMETER_MISSING,
-                "Required parameter `" + fieldPath + "` not present");
-        }
-        if (!hasNonFrontmatterContent(markdown)) {
-            throw new NacosApiException(NacosApiException.INVALID_PARAM,
-                ErrorCode.PARAMETER_VALIDATE_ERROR,
-                "Required parameter `" + fieldPath + "` markdown body should not be empty");
-        }
-    }
-    
-    /**
-     * Check if markdown has non-empty body after removing YAML frontmatter.
-     *
-     * @param markdown markdown content
-     * @return true if body has non-blank content
-     */
-    public static boolean hasNonFrontmatterContent(String markdown) {
-        if (StringUtils.isEmpty(markdown)) {
-            return false;
-        }
-        java.util.regex.Matcher matcher = FRONTMATTER_PATTERN.matcher(markdown);
-        String body = matcher.find() ? markdown.substring(matcher.end()) : markdown;
-        return StringUtils.isNotBlank(body);
-    }
-    
+
     /**
      * Validates parsed draft-create skill against request namespace and resolved skill name, then sets
      * {@link Skill#setNamespaceId(String)}. Call after {@link #parseSkill(SkillDetailForm)} when handling POST draft.
@@ -349,27 +244,23 @@ public class SkillRequestUtil {
      * @param namespaceId   request namespace
      * @param expectedName  resolved name (query {@code skillName} or name inside skillCard)
      */
-    public static void validateInitialDraftSkill(Skill skill, String namespaceId,
-        String expectedName)
-        throws NacosApiException {
+    public static void validateInitialDraftSkill(Skill skill, String namespaceId, String expectedName)
+            throws NacosApiException {
         if (skill == null || StringUtils.isBlank(skill.getName())) {
             throw new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.PARAMETER_MISSING,
-                "Skill name is required in skillCard when creating draft with content");
+                    "Skill name is required in skillCard when creating draft with content");
         }
         if (!expectedName.equals(skill.getName())) {
-            throw new NacosApiException(NacosException.INVALID_PARAM,
-                ErrorCode.PARAMETER_VALIDATE_ERROR,
-                "skillCard name must match skillName parameter");
+            throw new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.PARAMETER_VALIDATE_ERROR,
+                    "skillCard name must match skillName parameter");
         }
-        if (StringUtils.isNotBlank(skill.getNamespaceId())
-            && !namespaceId.equals(skill.getNamespaceId())) {
-            throw new NacosApiException(NacosException.INVALID_PARAM,
-                ErrorCode.PARAMETER_VALIDATE_ERROR,
-                "skillCard namespaceId must match request namespaceId");
+        if (StringUtils.isNotBlank(skill.getNamespaceId()) && !namespaceId.equals(skill.getNamespaceId())) {
+            throw new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.PARAMETER_VALIDATE_ERROR,
+                    "skillCard namespaceId must match request namespaceId");
         }
         skill.setNamespaceId(namespaceId);
     }
-    
+
     /**
      * Validate uploaded skill zip file and extract bytes.
      *
@@ -382,22 +273,18 @@ public class SkillRequestUtil {
      */
     public static byte[] validateAndExtractZipBytes(MultipartFile file) throws NacosException {
         if (file == null || file.isEmpty()) {
-            throw new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.DATA_EMPTY,
-                "File is required");
+            throw new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.DATA_EMPTY, "File is required");
         }
-        long maxUploadBytes = SkillZipParser.resolveMaxUploadBytes();
-        if (file.getSize() > maxUploadBytes) {
-            throw new NacosApiException(NacosException.INVALID_PARAM,
-                ErrorCode.PARAMETER_VALIDATE_ERROR,
-                "Skill zip size must not exceed "
-                    + (maxUploadBytes / 1024 / 1024)
-                    + "MB, current: " + (file.getSize() / 1024 / 1024) + "MB");
+        if (file.getSize() > Constants.Skills.MAX_UPLOAD_ZIP_BYTES) {
+            throw new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.PARAMETER_VALIDATE_ERROR,
+                    "Skill zip size must not exceed " + (Constants.Skills.MAX_UPLOAD_ZIP_BYTES / 1024 / 1024)
+                            + "MB, current: " + (file.getSize() / 1024 / 1024) + "MB");
         }
         try {
             return file.getBytes();
         } catch (IOException e) {
             throw new NacosApiException(NacosException.SERVER_ERROR, ErrorCode.PARSING_DATA_FAILED,
-                "Failed to read file: " + e.getMessage());
+                    "Failed to read file: " + e.getMessage());
         }
     }
 }

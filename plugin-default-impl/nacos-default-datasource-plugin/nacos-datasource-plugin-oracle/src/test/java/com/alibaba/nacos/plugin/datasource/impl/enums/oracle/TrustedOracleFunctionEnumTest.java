@@ -25,15 +25,14 @@ import org.junit.jupiter.api.Test;
  * @author liam.fu
  */
 public class TrustedOracleFunctionEnumTest {
-    
+
     @Test
     void testGetFunctionByName() {
         Assertions.assertEquals("SYSDATE", TrustedOracleFunctionEnum.getFunctionByName("NOW()"));
     }
-    
+
     @Test()
     void testGetFunctionByErrorName() {
-        Assertions.assertThrows(IllegalArgumentException.class,
-            () -> TrustedOracleFunctionEnum.getFunctionByName("UNKNOWN"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> TrustedOracleFunctionEnum.getFunctionByName("UNKNOWN"));
     }
 }

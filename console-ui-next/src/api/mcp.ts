@@ -6,6 +6,9 @@ import type {
   McpServerDetailInfo,
   McpCreateData,
   McpUpdateData,
+  McpImportData,
+  McpImportValidationResult,
+  McpImportResponse,
   McpTool,
 } from '@/types/mcp';
 
@@ -47,4 +50,12 @@ export const mcpApi = {
     authToken?: string;
   }): ApiResult<McpTool[]> =>
     client.get('v3/console/ai/mcp/importToolsFromMcp', { params }) as ApiResult<McpTool[]>,
+
+  /** Validate MCP import request */
+  validateImport: (data: McpImportData): ApiResult<McpImportValidationResult> =>
+    client.post('v3/console/ai/mcp/import/validate', data) as ApiResult<McpImportValidationResult>,
+
+  /** Execute MCP import */
+  executeImport: (data: McpImportData): ApiResult<McpImportResponse> =>
+    client.post('v3/console/ai/mcp/import/execute', data) as ApiResult<McpImportResponse>,
 };

@@ -21,7 +21,6 @@ package com.alibaba.nacos.api.ai.listener;
  *
  * @author xiweng.yy
  */
-public abstract class AbstractNacosMcpServerListener
-    implements NacosAiListener<NacosMcpServerEvent> {
-    
+public abstract class AbstractNacosMcpServerListener implements NacosAiListener<NacosMcpServerEvent> {
+
 }

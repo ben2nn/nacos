@@ -51,8 +51,7 @@ public interface ConfigInfoBetaPersistService {
      * @param tenant tenant.
      * @return config info state.
      */
-    ConfigInfoStateWrapper findConfigInfo4BetaState(final String dataId, final String group,
-        final String tenant);
+    ConfigInfoStateWrapper findConfigInfo4BetaState(final String dataId, final String group, final String tenant);
     
     /**
      * Add beta configuration information and publish data change events.
@@ -63,8 +62,7 @@ public interface ConfigInfoBetaPersistService {
      * @param srcUser    user
      * @return config operation result.
      */
-    ConfigOperateResult addConfigInfo4Beta(ConfigInfo configInfo, String betaIps, String srcIp,
-        String srcUser);
+    ConfigOperateResult addConfigInfo4Beta(ConfigInfo configInfo, String betaIps, String srcIp, String srcUser);
     
     /**
      * insert or update beta config.
@@ -75,9 +73,8 @@ public interface ConfigInfoBetaPersistService {
      * @param srcUser    user
      * @return config operation result.
      */
-    ConfigOperateResult insertOrUpdateBeta(final ConfigInfo configInfo, final String betaIps,
-        final String srcIp,
-        final String srcUser);
+    ConfigOperateResult insertOrUpdateBeta(final ConfigInfo configInfo, final String betaIps, final String srcIp,
+            final String srcUser);
     
     /**
      * insert or update beta config cas.
@@ -88,9 +85,8 @@ public interface ConfigInfoBetaPersistService {
      * @param srcUser    user
      * @return success or not.
      */
-    ConfigOperateResult insertOrUpdateBetaCas(final ConfigInfo configInfo, final String betaIps,
-        final String srcIp,
-        final String srcUser);
+    ConfigOperateResult insertOrUpdateBetaCas(final ConfigInfo configInfo, final String betaIps, final String srcIp,
+            final String srcUser);
     
     //------------------------------------------delete---------------------------------------------//
     
@@ -114,8 +110,7 @@ public interface ConfigInfoBetaPersistService {
      * @param srcUser    user
      * @return config operation result.
      */
-    ConfigOperateResult updateConfigInfo4Beta(ConfigInfo configInfo, String betaIps, String srcIp,
-        String srcUser);
+    ConfigOperateResult updateConfigInfo4Beta(ConfigInfo configInfo, String betaIps, String srcIp, String srcUser);
     
     /**
      * Update beta configuration information.
@@ -126,8 +121,7 @@ public interface ConfigInfoBetaPersistService {
      * @param srcUser    user
      * @return success or not.
      */
-    ConfigOperateResult updateConfigInfo4BetaCas(ConfigInfo configInfo, String betaIps,
-        String srcIp, String srcUser);
+    ConfigOperateResult updateConfigInfo4BetaCas(ConfigInfo configInfo, String betaIps, String srcIp, String srcUser);
     
     //------------------------------------------select---------------------------------------------//
     
@@ -139,8 +133,7 @@ public interface ConfigInfoBetaPersistService {
      * @param tenant tenant
      * @return {@link ConfigInfo4Beta}
      */
-    ConfigInfoBetaWrapper findConfigInfo4Beta(final String dataId, final String group,
-        final String tenant);
+    ConfigInfoBetaWrapper findConfigInfo4Beta(final String dataId, final String group, final String tenant);
     
     /**
      * Returns the number of beta configuration items.
@@ -156,7 +149,6 @@ public interface ConfigInfoBetaPersistService {
      * @param pageSize page size
      * @return {@link Page} with {@link ConfigInfoWrapper} generation
      */
-    Page<ConfigInfoBetaWrapper> findAllConfigInfoBetaForDumpAll(final int pageNo,
-        final int pageSize);
+    Page<ConfigInfoBetaWrapper> findAllConfigInfoBetaForDumpAll(final int pageNo, final int pageSize);
     
 }

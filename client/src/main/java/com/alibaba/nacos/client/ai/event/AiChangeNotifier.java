@@ -20,7 +20,6 @@ import com.alibaba.nacos.api.ai.listener.NacosAgentCardEvent;
 import com.alibaba.nacos.api.ai.listener.NacosAgentSpecEvent;
 import com.alibaba.nacos.api.ai.listener.NacosMcpServerEvent;
 import com.alibaba.nacos.api.ai.listener.NacosPromptEvent;
-import com.alibaba.nacos.api.ai.listener.NacosSkillEvent;
 import com.alibaba.nacos.client.ai.utils.CacheKeyUtils;
 import com.alibaba.nacos.common.notify.Event;
 import com.alibaba.nacos.common.notify.listener.SmartSubscriber;
@@ -48,14 +47,11 @@ public class AiChangeNotifier extends SmartSubscriber {
     
     private final Map<String, Set<AgentSpecListenerInvoker>> agentSpecListenerInvokers;
     
-    private final Map<String, Set<SkillListenerInvoker>> skillListenerInvokers;
-    
     public AiChangeNotifier() {
         this.mcpServerListenerInvokers = new ConcurrentHashMap<>(2);
         this.agentCardListenerInvokers = new ConcurrentHashMap<>(2);
         this.promptListenerInvokers = new ConcurrentHashMap<>(2);
         this.agentSpecListenerInvokers = new ConcurrentHashMap<>(2);
-        this.skillListenerInvokers = new ConcurrentHashMap<>(2);
     }
     
     @Override
@@ -68,14 +64,11 @@ public class AiChangeNotifier extends SmartSubscriber {
             handlePromptChangedEvent((PromptChangedEvent) event);
         } else if (event instanceof AgentSpecChangedEvent) {
             handleAgentSpecChangedEvent((AgentSpecChangedEvent) event);
-        } else if (event instanceof SkillChangedEvent) {
-            handleSkillChangedEvent((SkillChangedEvent) event);
         }
     }
     
     private void handleMcpServerChangedEvent(McpServerChangedEvent event) {
-        String mcpServerKey =
-            CacheKeyUtils.buildMcpServerKey(event.getMcpName(), event.getVersion());
+        String mcpServerKey = CacheKeyUtils.buildMcpServerKey(event.getMcpName(), event.getVersion());
         if (!isSubscribed(mcpServerKey, mcpServerListenerInvokers)) {
             return;
         }
@@ -86,8 +79,7 @@ public class AiChangeNotifier extends SmartSubscriber {
     }
     
     private void handleAgentCardChangedEvent(AgentCardChangedEvent event) {
-        String agentCardKey =
-            CacheKeyUtils.buildAgentCardKey(event.getAgentName(), event.getVersion());
+        String agentCardKey = CacheKeyUtils.buildAgentCardKey(event.getAgentName(), event.getVersion());
         if (!isSubscribed(agentCardKey, agentCardListenerInvokers)) {
             return;
         }
@@ -102,8 +94,7 @@ public class AiChangeNotifier extends SmartSubscriber {
         if (!isSubscribed(promptCacheKey, promptListenerInvokers)) {
             return;
         }
-        NacosPromptEvent notifiedEvent =
-            new NacosPromptEvent(event.getPromptKey(), event.getPrompt());
+        NacosPromptEvent notifiedEvent = new NacosPromptEvent(event.getPromptKey(), event.getPrompt());
         for (PromptListenerInvoker each : promptListenerInvokers.get(promptCacheKey)) {
             each.invoke(notifiedEvent);
         }
@@ -114,21 +105,8 @@ public class AiChangeNotifier extends SmartSubscriber {
         if (!isSubscribed(agentSpecKey, agentSpecListenerInvokers)) {
             return;
         }
-        NacosAgentSpecEvent notifiedEvent =
-            new NacosAgentSpecEvent(event.getAgentSpecName(), event.getAgentSpec());
+        NacosAgentSpecEvent notifiedEvent = new NacosAgentSpecEvent(event.getAgentSpecName(), event.getAgentSpec());
         for (AgentSpecListenerInvoker each : agentSpecListenerInvokers.get(agentSpecKey)) {
-            each.invoke(notifiedEvent);
-        }
-    }
-    
-    private void handleSkillChangedEvent(SkillChangedEvent event) {
-        String skillCacheKey = event.getCacheKey();
-        if (!isSubscribed(skillCacheKey, skillListenerInvokers)) {
-            return;
-        }
-        NacosSkillEvent notifiedEvent = new NacosSkillEvent(event.getSkillName(),
-            event.getZipBytes(), event.getMd5(), event.getResolvedVersion());
-        for (SkillListenerInvoker each : skillListenerInvokers.get(skillCacheKey)) {
             each.invoke(notifiedEvent);
         }
     }
@@ -140,7 +118,6 @@ public class AiChangeNotifier extends SmartSubscriber {
         listenedEventTypes.add(AgentCardChangedEvent.class);
         listenedEventTypes.add(PromptChangedEvent.class);
         listenedEventTypes.add(AgentSpecChangedEvent.class);
-        listenedEventTypes.add(SkillChangedEvent.class);
         return listenedEventTypes;
     }
     
@@ -151,8 +128,7 @@ public class AiChangeNotifier extends SmartSubscriber {
      * @param version           version of mcp server
      * @param listenerInvoker   listener invoker
      */
-    public void registerListener(String mcpName, String version,
-        McpServerListenerInvoker listenerInvoker) {
+    public void registerListener(String mcpName, String version, McpServerListenerInvoker listenerInvoker) {
         if (listenerInvoker == null) {
             return;
         }
@@ -173,8 +149,7 @@ public class AiChangeNotifier extends SmartSubscriber {
      * @param version           version of agent card
      * @param listenerInvoker   listener invoker
      */
-    public void registerListener(String agentName, String version,
-        AgentCardListenerInvoker listenerInvoker) {
+    public void registerListener(String agentName, String version, AgentCardListenerInvoker listenerInvoker) {
         if (listenerInvoker == null) {
             return;
         }
@@ -194,8 +169,7 @@ public class AiChangeNotifier extends SmartSubscriber {
      * @param promptKey       prompt key
      * @param listenerInvoker listener invoker
      */
-    public void registerListener(String promptKey, String version, String label,
-        PromptListenerInvoker listenerInvoker) {
+    public void registerListener(String promptKey, String version, String label, PromptListenerInvoker listenerInvoker) {
         if (listenerInvoker == null) {
             return;
         }
@@ -230,37 +204,13 @@ public class AiChangeNotifier extends SmartSubscriber {
     }
     
     /**
-     * register skill listener.
-     *
-     * @param skillName       name of skill
-     * @param version         version of skill
-     * @param label           label of skill
-     * @param listenerInvoker listener invoker
-     */
-    public void registerListener(String skillName, String version, String label,
-        SkillListenerInvoker listenerInvoker) {
-        if (listenerInvoker == null) {
-            return;
-        }
-        String key = CacheKeyUtils.buildSkillKey(skillName, version, label);
-        skillListenerInvokers.compute(key, (k, skillListenerInvokers) -> {
-            if (null == skillListenerInvokers) {
-                skillListenerInvokers = new ConcurrentHashSet<>();
-            }
-            skillListenerInvokers.add(listenerInvoker);
-            return skillListenerInvokers;
-        });
-    }
-    
-    /**
      * deregister mcp server listener.
      *
      * @param mcpName           name of mcp server
      * @param version           version of mcp server
      * @param listenerInvoker   listener invoker
      */
-    public void deregisterListener(String mcpName, String version,
-        McpServerListenerInvoker listenerInvoker) {
+    public void deregisterListener(String mcpName, String version, McpServerListenerInvoker listenerInvoker) {
         if (listenerInvoker == null) {
             return;
         }
@@ -281,8 +231,7 @@ public class AiChangeNotifier extends SmartSubscriber {
      * @param version           version of agent card
      * @param listenerInvoker   listener invoker
      */
-    public void deregisterListener(String agentName, String version,
-        AgentCardListenerInvoker listenerInvoker) {
+    public void deregisterListener(String agentName, String version, AgentCardListenerInvoker listenerInvoker) {
         if (listenerInvoker == null) {
             return;
         }
@@ -302,8 +251,7 @@ public class AiChangeNotifier extends SmartSubscriber {
      * @param promptKey       prompt key
      * @param listenerInvoker listener invoker
      */
-    public void deregisterListener(String promptKey, String version, String label,
-        PromptListenerInvoker listenerInvoker) {
+    public void deregisterListener(String promptKey, String version, String label, PromptListenerInvoker listenerInvoker) {
         if (listenerInvoker == null) {
             return;
         }
@@ -334,29 +282,6 @@ public class AiChangeNotifier extends SmartSubscriber {
             }
             agentSpecListenerInvokers.remove(listenerInvoker);
             return agentSpecListenerInvokers.isEmpty() ? null : agentSpecListenerInvokers;
-        });
-    }
-    
-    /**
-     * deregister skill listener.
-     *
-     * @param skillName       name of skill
-     * @param version         version of skill
-     * @param label           label of skill
-     * @param listenerInvoker listener invoker
-     */
-    public void deregisterListener(String skillName, String version, String label,
-        SkillListenerInvoker listenerInvoker) {
-        if (listenerInvoker == null) {
-            return;
-        }
-        String key = CacheKeyUtils.buildSkillKey(skillName, version, label);
-        skillListenerInvokers.compute(key, (k, skillListenerInvokers) -> {
-            if (null == skillListenerInvokers) {
-                return null;
-            }
-            skillListenerInvokers.remove(listenerInvoker);
-            return skillListenerInvokers.isEmpty() ? null : skillListenerInvokers;
         });
     }
     
@@ -406,21 +331,8 @@ public class AiChangeNotifier extends SmartSubscriber {
         return isSubscribed(key, promptListenerInvokers);
     }
     
-    /**
-     * check skill is subscribed.
-     *
-     * @param skillName name of skill
-     * @param version   version of skill
-     * @param label     label of skill
-     * @return is skill subscribed
-     */
-    public boolean isSkillSubscribed(String skillName, String version, String label) {
-        String key = CacheKeyUtils.buildSkillKey(skillName, version, label);
-        return isSubscribed(key, skillListenerInvokers);
-    }
-    
     private <T extends AbstractAiListenerInvoker<?, ?>> boolean isSubscribed(String key,
-        Map<String, Set<T>> listenerInvokers) {
+            Map<String, Set<T>> listenerInvokers) {
         return CollectionUtils.isNotEmpty(listenerInvokers.get(key));
     }
 }

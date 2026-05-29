@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class EnvUtilTest {
@@ -71,10 +70,5 @@ class EnvUtilTest {
         assertNull(EnvUtil.getSelfAmoryTag());
         assertNull(EnvUtil.getSelfVipserverTag());
         assertNull(EnvUtil.getSelfLocationTag());
-    }
-    
-    @Test
-    void testConstructor() {
-        assertNotNull(new EnvUtil());
     }
 }

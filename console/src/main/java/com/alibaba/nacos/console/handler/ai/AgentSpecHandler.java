@@ -76,7 +76,7 @@ public interface AgentSpecHandler {
      * @throws NacosException nacos exception
      */
     Page<AgentSpecSummary> listAgentSpecs(AgentSpecListForm agentSpecListForm,
-        AiResourceFilterableForm filterableForm, PageForm pageForm) throws NacosException;
+            AiResourceFilterableForm filterableForm, PageForm pageForm) throws NacosException;
     
     /**
      * Upload agentspec from zip file.
@@ -86,11 +86,10 @@ public interface AgentSpecHandler {
      * @return agentspec name
      * @throws NacosException if upload failed
      */
-    default String uploadAgentSpecFromZip(String namespaceId, byte[] zipBytes)
-        throws NacosException {
+    default String uploadAgentSpecFromZip(String namespaceId, byte[] zipBytes) throws NacosException {
         return uploadAgentSpecFromZip(namespaceId, zipBytes, false);
     }
-    
+
     /**
      * Upload agentspec from zip file.
      *
@@ -100,9 +99,8 @@ public interface AgentSpecHandler {
      * @return agentspec name
      * @throws NacosException if upload failed
      */
-    String uploadAgentSpecFromZip(String namespaceId, byte[] zipBytes, boolean overwrite)
-        throws NacosException;
-    
+    String uploadAgentSpecFromZip(String namespaceId, byte[] zipBytes, boolean overwrite) throws NacosException;
+
     /**
      * Create draft version based on latest or a specified version.
      *
@@ -111,7 +109,7 @@ public interface AgentSpecHandler {
      * @throws NacosException if operation failed
      */
     String createDraft(AgentSpecDraftCreateForm form) throws NacosException;
-    
+
     /**
      * Update current draft content.
      *
@@ -119,7 +117,7 @@ public interface AgentSpecHandler {
      * @throws NacosException if operation failed
      */
     void updateDraft(AgentSpecUpdateForm form) throws NacosException;
-    
+
     /**
      * Delete current draft version.
      *
@@ -127,7 +125,7 @@ public interface AgentSpecHandler {
      * @throws NacosException if operation failed
      */
     void deleteDraft(AgentSpecForm form) throws NacosException;
-    
+
     /**
      * Submit a version for pipeline review.
      *
@@ -136,7 +134,7 @@ public interface AgentSpecHandler {
      * @throws NacosException if operation failed
      */
     String submit(AgentSpecSubmitForm form) throws NacosException;
-    
+
     /**
      * Publish an approved reviewing version.
      *
@@ -144,7 +142,7 @@ public interface AgentSpecHandler {
      * @throws NacosException if operation failed
      */
     void publish(AgentSpecPublishForm form) throws NacosException;
-    
+
     /**
      * Force-publish a version, bypassing pipeline validation.
      *
@@ -152,15 +150,7 @@ public interface AgentSpecHandler {
      * @throws NacosException if operation failed
      */
     void forcePublish(AgentSpecPublishForm form) throws NacosException;
-    
-    /**
-     * Re-edit a reviewed version, transitioning it back to draft status.
-     *
-     * @param form publish form (contains namespace, agentspec name, version)
-     * @throws NacosException if operation failed
-     */
-    void redraft(AgentSpecPublishForm form) throws NacosException;
-    
+
     /**
      * Update runtime route labels without changing version status.
      *
@@ -168,7 +158,7 @@ public interface AgentSpecHandler {
      * @throws NacosException if operation failed
      */
     void updateLabels(AgentSpecLabelsUpdateForm form) throws NacosException;
-    
+
     /**
      * Update agentspec biz tags without changing version status.
      *
@@ -176,7 +166,7 @@ public interface AgentSpecHandler {
      * @throws NacosException if operation failed
      */
     void updateBizTags(AgentSpecBizTagsUpdateForm form) throws NacosException;
-    
+
     /**
      * Change online/offline status.
      *
@@ -185,7 +175,7 @@ public interface AgentSpecHandler {
      * @throws NacosException if operation failed
      */
     void changeOnlineStatus(AgentSpecOnlineForm form, boolean online) throws NacosException;
-    
+
     /**
      * Update agentspec visibility scope.
      *

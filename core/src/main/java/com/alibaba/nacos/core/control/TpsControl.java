@@ -30,6 +30,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TpsControl {
     
+    
     /**
      * alias name for control point.
      *

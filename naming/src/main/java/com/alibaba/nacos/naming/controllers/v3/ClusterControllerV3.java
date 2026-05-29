@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.naming.controllers.v3;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.api.annotation.NacosApi;
 import com.alibaba.nacos.api.common.ApiType;
 import com.alibaba.nacos.api.model.v2.Result;
@@ -54,7 +53,6 @@ public class ClusterControllerV3 {
     /**
      * Update cluster.
      */
-    @Since("3.0.0")
     @PutMapping
     @Secured(action = ActionTypes.WRITE, apiType = ApiType.ADMIN_API)
     public Result<String> update(UpdateClusterForm updateClusterForm) throws Exception {
@@ -63,17 +61,13 @@ public class ClusterControllerV3 {
         ClusterMetadata clusterMetadata = new ClusterMetadata();
         clusterMetadata.setHealthyCheckPort(updateClusterForm.getCheckPort());
         clusterMetadata.setUseInstancePortForCheck(updateClusterForm.isUseInstancePort4Check());
-        AbstractHealthChecker healthChecker =
-            HealthCheckerFactory.deserialize(updateClusterForm.getHealthChecker());
+        AbstractHealthChecker healthChecker = HealthCheckerFactory.deserialize(updateClusterForm.getHealthChecker());
         clusterMetadata.setHealthChecker(healthChecker);
         clusterMetadata.setHealthyCheckType(healthChecker.getType());
-        clusterMetadata
-            .setExtendData(UtilsAndCommons.parseMetadata(updateClusterForm.getMetadata()));
+        clusterMetadata.setExtendData(UtilsAndCommons.parseMetadata(updateClusterForm.getMetadata()));
         
-        clusterOperatorV2.updateClusterMetadata(updateClusterForm.getNamespaceId(),
-            updateClusterForm.getGroupName(),
-            updateClusterForm.getServiceName(), updateClusterForm.getClusterName(),
-            clusterMetadata);
+        clusterOperatorV2.updateClusterMetadata(updateClusterForm.getNamespaceId(), updateClusterForm.getGroupName(),
+                updateClusterForm.getServiceName(), updateClusterForm.getClusterName(), clusterMetadata);
         
         return Result.success("ok");
     }

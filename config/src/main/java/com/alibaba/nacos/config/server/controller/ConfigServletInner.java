@@ -77,15 +77,13 @@ public class ConfigServletInner {
     
     private final ConfigQueryChainService configQueryChainService;
     
-    public ConfigServletInner(LongPollingService longPollingService,
-        ConfigQueryChainService configQueryChainService) {
+    public ConfigServletInner(LongPollingService longPollingService, ConfigQueryChainService configQueryChainService) {
         this.longPollingService = longPollingService;
         this.configQueryChainService = configQueryChainService;
     }
     
     private static String getDecryptContent(ConfigQueryChainResponse chainResponse, String dataId) {
-        Pair<String, String> pair =
-            EncryptionHandler.decryptHandler(dataId, chainResponse.getEncryptedDataKey(),
+        Pair<String, String> pair = EncryptionHandler.decryptHandler(dataId, chainResponse.getEncryptedDataKey(),
                 chainResponse.getContent());
         return pair.getSecond();
     }
@@ -94,18 +92,16 @@ public class ConfigServletInner {
      * long polling the config.
      */
     public String doPollingConfig(HttpServletRequest request, HttpServletResponse response,
-        Map<String, ConfigListenState> clientMd5Map, int probeRequestSize) throws IOException {
+            Map<String, ConfigListenState> clientMd5Map, int probeRequestSize) throws IOException {
         
         // Long polling.
         if (LongPollingService.isSupportLongPolling(request)) {
-            longPollingService.addLongPollingClient(request, response, clientMd5Map,
-                probeRequestSize);
+            longPollingService.addLongPollingClient(request, response, clientMd5Map, probeRequestSize);
             return HttpServletResponse.SC_OK + "";
         }
         
         // Compatible with short polling logic.
-        Map<String, ConfigListenState> changedGroups =
-            MD5Util.compareMd5(request, response, clientMd5Map);
+        Map<String, ConfigListenState> changedGroups = MD5Util.compareMd5(request, response, clientMd5Map);
         
         // Compatible with short polling result.
         String oldResult = MD5Util.compareMd5OldResult(changedGroups);
@@ -136,16 +132,13 @@ public class ConfigServletInner {
     /**
      * Execute to get config [API V1] or [API V2].
      */
-    public String doGetConfig(HttpServletRequest request, HttpServletResponse response,
-        String dataId, String group,
-        String tenant, String tag, String isNotify, String clientIp, ApiVersionEnum apiVersion)
-        throws IOException {
+    public String doGetConfig(HttpServletRequest request, HttpServletResponse response, String dataId, String group,
+            String tenant, String tag, String isNotify, String clientIp, ApiVersionEnum apiVersion) throws IOException {
         
         boolean notify = StringUtils.isNotBlank(isNotify) && Boolean.parseBoolean(isNotify);
         String requestIpApp = RequestUtil.getAppName(request);
         
-        ConfigQueryChainRequest chainRequest =
-            ConfigChainRequestExtractorService.getExtractor().extract(request);
+        ConfigQueryChainRequest chainRequest = ConfigChainRequestExtractorService.getExtractor().extract(request);
         chainRequest.setTenant(NamespaceUtil.processNamespaceParameter(chainRequest.getTenant()));
         ConfigQueryChainResponse chainResponse = configQueryChainService.handle(chainRequest);
         
@@ -166,35 +159,28 @@ public class ConfigServletInner {
         }
     }
     
-    private String handlerConfigNotFound(HttpServletResponse response, ApiVersionEnum apiVersion)
-        throws IOException {
+    private String handlerConfigNotFound(HttpServletResponse response, ApiVersionEnum apiVersion) throws IOException {
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         if (apiVersion == ApiVersionEnum.V1) {
-            return writeResponseForV1(response,
-                Result.failure(ErrorCode.RESOURCE_NOT_FOUND, "config data not exist"));
+            return writeResponseForV1(response, Result.failure(ErrorCode.RESOURCE_NOT_FOUND, "config data not exist"));
         } else {
-            return writeResponseForV2(response,
-                Result.failure(ErrorCode.RESOURCE_NOT_FOUND, "config data not exist"));
+            return writeResponseForV2(response, Result.failure(ErrorCode.RESOURCE_NOT_FOUND, "config data not exist"));
         }
     }
     
-    private String handlerConfigConflict(HttpServletResponse response, ApiVersionEnum apiVersion)
-        throws IOException {
+    private String handlerConfigConflict(HttpServletResponse response, ApiVersionEnum apiVersion) throws IOException {
         response.setStatus(HttpServletResponse.SC_CONFLICT);
         if (apiVersion == ApiVersionEnum.V1) {
             return writeResponseForV1(response,
-                Result.failure(ErrorCode.RESOURCE_CONFLICT,
-                    "requested file is being modified, please try later."));
+                    Result.failure(ErrorCode.RESOURCE_CONFLICT, "requested file is being modified, please try later."));
         } else {
             return writeResponseForV2(response,
-                Result.failure(ErrorCode.RESOURCE_CONFLICT,
-                    "requested file is being modified, please try later."));
+                    Result.failure(ErrorCode.RESOURCE_CONFLICT, "requested file is being modified, please try later."));
         }
     }
     
-    private String handleResponse(HttpServletResponse response,
-        ConfigQueryChainResponse chainResponse, String dataId,
-        String group, ApiVersionEnum apiVersion) throws IOException {
+    private String handleResponse(HttpServletResponse response, ConfigQueryChainResponse chainResponse, String dataId,
+            String group, ApiVersionEnum apiVersion) throws IOException {
         if (apiVersion == ApiVersionEnum.V1) {
             return handleResponseForV1(response, chainResponse, dataId, group);
         } else {
@@ -202,9 +188,8 @@ public class ConfigServletInner {
         }
     }
     
-    private String handleResponseForV1(HttpServletResponse response,
-        ConfigQueryChainResponse chainResponse,
-        String dataId, String tag) throws IOException {
+    private String handleResponseForV1(HttpServletResponse response, ConfigQueryChainResponse chainResponse,
+            String dataId, String tag) throws IOException {
         if (chainResponse.getContent() == null) {
             return handlerConfigNotFound(response, ApiVersionEnum.V1);
         }
@@ -216,9 +201,8 @@ public class ConfigServletInner {
         return HttpServletResponse.SC_OK + "";
     }
     
-    private String handleResponseForV2(HttpServletResponse response,
-        ConfigQueryChainResponse chainResponse,
-        String dataId, String tag) throws IOException {
+    private String handleResponseForV2(HttpServletResponse response, ConfigQueryChainResponse chainResponse,
+            String dataId, String tag) throws IOException {
         if (chainResponse.getContent() == null) {
             return handlerConfigNotFound(response, ApiVersionEnum.V2);
         }
@@ -230,8 +214,7 @@ public class ConfigServletInner {
         return HttpServletResponse.SC_OK + "";
     }
     
-    private void setResponseHeadForV1(HttpServletResponse response,
-        ConfigQueryChainResponse chainResponse) {
+    private void setResponseHeadForV1(HttpServletResponse response, ConfigQueryChainResponse chainResponse) {
         String contentType = chainResponse.getContentType();
         if (StringUtils.isBlank(contentType)) {
             contentType = FileTypeEnum.TEXT.getContentType();
@@ -243,9 +226,8 @@ public class ConfigServletInner {
         response.setHeader(HttpHeaderConsts.CONTENT_TYPE, MediaType.APPLICATION_JSON);
     }
     
-    private void writeContentForV1(HttpServletResponse response,
-        ConfigQueryChainResponse chainResponse, String dataId)
-        throws IOException {
+    private void writeContentForV1(HttpServletResponse response, ConfigQueryChainResponse chainResponse, String dataId)
+            throws IOException {
         PrintWriter out = response.getWriter();
         try {
             String decryptContent = getDecryptContent(chainResponse, dataId);
@@ -256,9 +238,8 @@ public class ConfigServletInner {
         }
     }
     
-    private void writeContentForV2(HttpServletResponse response,
-        ConfigQueryChainResponse chainResponse, String dataId)
-        throws IOException {
+    private void writeContentForV2(HttpServletResponse response, ConfigQueryChainResponse chainResponse, String dataId)
+            throws IOException {
         PrintWriter out = response.getWriter();
         try {
             String decryptContent = getDecryptContent(chainResponse, dataId);
@@ -269,15 +250,13 @@ public class ConfigServletInner {
         }
     }
     
-    private String writeResponseForV1(HttpServletResponse response, Result<String> result)
-        throws IOException {
+    private String writeResponseForV1(HttpServletResponse response, Result<String> result) throws IOException {
         PrintWriter writer = response.getWriter();
         writer.println(result.getData());
         return response.getStatus() + "";
     }
     
-    private String writeResponseForV2(HttpServletResponse response, Result<String> result)
-        throws IOException {
+    private String writeResponseForV2(HttpServletResponse response, Result<String> result) throws IOException {
         PrintWriter writer = response.getWriter();
         writer.println(JacksonUtils.toJson(result));
         return response.getStatus() + "";
@@ -300,7 +279,7 @@ public class ConfigServletInner {
     }
     
     private void logPullEvent(String dataId, String group, String tenant, String requestIpApp,
-        ConfigQueryChainResponse chainResponse, String clientIp, boolean notify, String tag) {
+            ConfigQueryChainResponse chainResponse, String clientIp, boolean notify, String tag) {
         
         String pullEvent = resolvePullEvent(chainResponse, tag);
         
@@ -308,24 +287,22 @@ public class ConfigServletInner {
         
         if (status == ConfigQueryChainResponse.ConfigQueryStatus.CONFIG_QUERY_CONFLICT) {
             ConfigTraceService.logPullEvent(dataId, group, tenant, requestIpApp, -1, pullEvent,
-                ConfigTraceService.PULL_TYPE_CONFLICT, -1, clientIp, notify, "http");
+                    ConfigTraceService.PULL_TYPE_CONFLICT, -1, clientIp, notify, "http");
         } else if (status == ConfigQueryChainResponse.ConfigQueryStatus.CONFIG_NOT_FOUND
-            || chainResponse.getContent() == null) {
+                || chainResponse.getContent() == null) {
             ConfigTraceService.logPullEvent(dataId, group, tenant, requestIpApp, -1, pullEvent,
-                ConfigTraceService.PULL_TYPE_NOTFOUND, -1, clientIp, notify, "http");
+                    ConfigTraceService.PULL_TYPE_NOTFOUND, -1, clientIp, notify, "http");
         } else {
             long delayed = System.currentTimeMillis() - chainResponse.getLastModified();
-            ConfigTraceService.logPullEvent(dataId, group, tenant, requestIpApp,
-                chainResponse.getLastModified(),
-                pullEvent, ConfigTraceService.PULL_TYPE_OK, delayed, clientIp, notify, "http");
+            ConfigTraceService.logPullEvent(dataId, group, tenant, requestIpApp, chainResponse.getLastModified(),
+                    pullEvent, ConfigTraceService.PULL_TYPE_OK, delayed, clientIp, notify, "http");
         }
     }
     
-    private void setCommonResponseHead(HttpServletResponse response,
-        ConfigQueryChainResponse chainResponse,
-        String tag) {
+    private void setCommonResponseHead(HttpServletResponse response, ConfigQueryChainResponse chainResponse,
+            String tag) {
         String configType = chainResponse.getConfigType() != null ? chainResponse.getConfigType()
-            : FileTypeEnum.TEXT.getFileType();
+                : FileTypeEnum.TEXT.getFileType();
         
         response.setHeader(CONFIG_TYPE, configType);
         response.setHeader(CONTENT_MD5, chainResponse.getMd5());
@@ -339,18 +316,14 @@ public class ConfigServletInner {
         }
         
         // Check if there is a matched gray rule
-        if (ConfigQueryChainResponse.ConfigQueryStatus.CONFIG_FOUND_GRAY == chainResponse
-            .getStatus()) {
-            if (BetaGrayRule.TYPE_BETA
-                .equals(chainResponse.getMatchedGray().getGrayRule().getType())) {
+        if (ConfigQueryChainResponse.ConfigQueryStatus.CONFIG_FOUND_GRAY == chainResponse.getStatus()) {
+            if (BetaGrayRule.TYPE_BETA.equals(chainResponse.getMatchedGray().getGrayRule().getType())) {
                 response.setHeader("isBeta", "true");
-            } else if (TagGrayRule.TYPE_TAG
-                .equals(chainResponse.getMatchedGray().getGrayRule().getType())) {
+            } else if (TagGrayRule.TYPE_TAG.equals(chainResponse.getMatchedGray().getGrayRule().getType())) {
                 try {
                     response.setHeader(TagGrayRule.TYPE_TAG,
-                        URLEncoder.encode(
-                            chainResponse.getMatchedGray().getGrayRule().getRawGrayRuleExp(),
-                            StandardCharsets.UTF_8.displayName()));
+                            URLEncoder.encode(chainResponse.getMatchedGray().getGrayRule().getRawGrayRuleExp(),
+                                    StandardCharsets.UTF_8.displayName()));
                 } catch (Exception e) {
                     LOGGER.error("Error encoding tag", e);
                 }
@@ -358,11 +331,9 @@ public class ConfigServletInner {
         }
         
         // Check if there is a special tag
-        if (ConfigQueryChainResponse.ConfigQueryStatus.SPECIAL_TAG_CONFIG_NOT_FOUND == chainResponse
-            .getStatus()) {
+        if (ConfigQueryChainResponse.ConfigQueryStatus.SPECIAL_TAG_CONFIG_NOT_FOUND == chainResponse.getStatus()) {
             try {
-                response.setHeader(VIPSERVER_TAG,
-                    URLEncoder.encode(tag, StandardCharsets.UTF_8.displayName()));
+                response.setHeader(VIPSERVER_TAG, URLEncoder.encode(tag, StandardCharsets.UTF_8.displayName()));
             } catch (Exception e) {
                 LOGGER.error("Error encoding tag", e);
             }

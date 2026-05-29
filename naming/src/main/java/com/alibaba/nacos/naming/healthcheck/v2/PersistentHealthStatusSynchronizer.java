@@ -32,8 +32,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersistentHealthStatusSynchronizer implements HealthStatusSynchronizer {
     
-    public PersistentHealthStatusSynchronizer(
-        PersistentClientOperationServiceImpl persistentClientOperationService) {
+    public PersistentHealthStatusSynchronizer(PersistentClientOperationServiceImpl persistentClientOperationService) {
         this.persistentClientOperationService = persistentClientOperationService;
     }
     
@@ -41,10 +40,9 @@ public class PersistentHealthStatusSynchronizer implements HealthStatusSynchroni
     
     @Override
     public void instanceHealthStatusChange(boolean isHealthy, Client client, Service service,
-        InstancePublishInfo instance) {
+            InstancePublishInfo instance) {
         Instance updateInstance = InstanceUtil.parseToApiInstance(service, instance);
         updateInstance.setHealthy(isHealthy);
-        persistentClientOperationService.updateInstance(service, updateInstance,
-            client.getClientId());
+        persistentClientOperationService.updateInstance(service, updateInstance, client.getClientId());
     }
 }

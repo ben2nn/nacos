@@ -86,8 +86,7 @@ public class QueryCondition {
     }
     
     public void setNamespaceId(String namespaceId) {
-        this.namespaceId =
-            StringUtils.isBlank(namespaceId) ? Constants.DEFAULT_NAMESPACE_ID : namespaceId;
+        this.namespaceId = StringUtils.isBlank(namespaceId) ? Constants.DEFAULT_NAMESPACE_ID : namespaceId;
     }
     
     public String getType() {

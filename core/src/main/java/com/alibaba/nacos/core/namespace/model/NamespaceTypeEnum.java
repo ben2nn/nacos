@@ -63,3 +63,4 @@ public enum NamespaceTypeEnum {
         return description;
     }
 }
+

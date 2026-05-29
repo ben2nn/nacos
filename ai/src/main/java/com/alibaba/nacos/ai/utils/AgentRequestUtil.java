@@ -44,7 +44,7 @@ import java.util.Objects;
  */
 public class AgentRequestUtil {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(AgentRequestUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(McpRequestUtil.class);
     
     /**
      * Parse Agent card request form to {@link AgentCard}.
@@ -55,20 +55,16 @@ public class AgentRequestUtil {
      */
     public static AgentCard parseAgentCard(AgentCardForm agentCardForm) throws NacosApiException {
         try {
-            AgentCard result =
-                JacksonUtils.toObj(agentCardForm.getAgentCard(), new TypeReference<>() {
-                });
+            AgentCard result = JacksonUtils.toObj(agentCardForm.getAgentCard(), new TypeReference<>() {
+            });
             normalizeAgentCard(result);
             validateAgentCard(result);
             return result;
         } catch (NacosDeserializationException e) {
-            LOGGER.error(
-                String.format("Deserialize %s from %s failed, ", AgentCard.class.getSimpleName(),
-                    agentCardForm.getAgentCard()),
-                e);
-            throw new NacosApiException(NacosApiException.INVALID_PARAM,
-                ErrorCode.PARAMETER_VALIDATE_ERROR,
-                "agentCard is invalid. Can't be parsed.");
+            LOGGER.error(String.format("Deserialize %s from %s failed, ", AgentCard.class.getSimpleName(),
+                    agentCardForm.getAgentCard()), e);
+            throw new NacosApiException(NacosApiException.INVALID_PARAM, ErrorCode.PARAMETER_VALIDATE_ERROR,
+                    "agentCard is invalid. Can't be parsed.");
         }
     }
     
@@ -86,9 +82,9 @@ public class AgentRequestUtil {
         boolean hasV1RequiredFields = isV1AgentCard(agentCard);
         if (!hasLegacyRequiredFields && !hasV1RequiredFields) {
             throw new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.PARAMETER_MISSING,
-                "Required parameter `agentCard.supportedInterfaces` not present, and old protocol fields "
-                    + "(`agentCard.protocolVersion`, `agentCard.preferredTransport`, `agentCard.url`) are "
-                    + "incomplete. Please prefer `agentCard.supportedInterfaces` for A2A 1.0.0.");
+                    "Required parameter `agentCard.supportedInterfaces` not present, and old protocol fields "
+                            + "(`agentCard.protocolVersion`, `agentCard.preferredTransport`, `agentCard.url`) are "
+                            + "incomplete. Please prefer `agentCard.supportedInterfaces` for A2A 1.0.0.");
         }
         if (null == agentCard.getDescription()) {
             agentCard.setDescription(StringUtils.EMPTY);
@@ -118,11 +114,10 @@ public class AgentRequestUtil {
         }
     }
     
-    private static void validateAgentCardField(String fieldName, String fieldValue)
-        throws NacosApiException {
+    private static void validateAgentCardField(String fieldName, String fieldValue) throws NacosApiException {
         if (StringUtils.isEmpty(fieldValue)) {
             throw new NacosApiException(NacosException.INVALID_PARAM, ErrorCode.PARAMETER_MISSING,
-                "Required parameter `agentCard." + fieldName + "` not present");
+                    "Required parameter `agentCard." + fieldName + "` not present");
         }
     }
     
@@ -135,8 +130,7 @@ public class AgentRequestUtil {
         if (null == agentCard) {
             return;
         }
-        List<AgentInterface> normalizedSupportedInterfaces =
-            normalizeSupportedInterfaces(agentCard);
+        List<AgentInterface> normalizedSupportedInterfaces = normalizeSupportedInterfaces(agentCard);
         if (!normalizedSupportedInterfaces.isEmpty()) {
             agentCard.setSupportedInterfaces(normalizedSupportedInterfaces);
             AgentInterface preferredInterface = normalizedSupportedInterfaces.get(0);
@@ -144,8 +138,7 @@ public class AgentRequestUtil {
             agentCard.setPreferredTransport(preferredInterface.getProtocolBinding());
             agentCard.setProtocolVersion(preferredInterface.getProtocolVersion());
             if (normalizedSupportedInterfaces.size() > 1) {
-                agentCard.setAdditionalInterfaces(
-                    new ArrayList<>(normalizedSupportedInterfaces.subList(1,
+                agentCard.setAdditionalInterfaces(new ArrayList<>(normalizedSupportedInterfaces.subList(1,
                         normalizedSupportedInterfaces.size())));
             } else {
                 agentCard.setAdditionalInterfaces(new ArrayList<>());
@@ -166,16 +159,13 @@ public class AgentRequestUtil {
         }
         AgentInterface preferred = agentCard.getSupportedInterfaces().get(0);
         if (!Objects.equals(agentCard.getUrl(), preferred.getUrl()) || !Objects.equals(
-            agentCard.getPreferredTransport(), preferred.getProtocolBinding())
-            || !Objects.equals(
+                agentCard.getPreferredTransport(), preferred.getProtocolBinding()) || !Objects.equals(
                 agentCard.getProtocolVersion(), preferred.getProtocolVersion())) {
             return false;
         }
         List<AgentInterface> additionalInterfaces = agentCard.getAdditionalInterfaces();
         List<AgentInterface> expectedAdditional = agentCard.getSupportedInterfaces().size() > 1
-            ? agentCard.getSupportedInterfaces().subList(1,
-                agentCard.getSupportedInterfaces().size())
-            : List.of();
+                ? agentCard.getSupportedInterfaces().subList(1, agentCard.getSupportedInterfaces().size()) : List.of();
         if (CollectionUtils.isEmpty(additionalInterfaces)) {
             return CollectionUtils.isEmpty(expectedAdditional);
         }
@@ -222,12 +212,10 @@ public class AgentRequestUtil {
     
     private static AgentInterface normalizeAgentInterface(AgentInterface agentInterface) {
         AgentInterface result = null == agentInterface ? new AgentInterface() : agentInterface;
-        if (StringUtils.isEmpty(result.getProtocolBinding())
-            && !StringUtils.isEmpty(result.getTransport())) {
+        if (StringUtils.isEmpty(result.getProtocolBinding()) && !StringUtils.isEmpty(result.getTransport())) {
             result.setProtocolBinding(result.getTransport());
         }
-        if (StringUtils.isEmpty(result.getTransport())
-            && !StringUtils.isEmpty(result.getProtocolBinding())) {
+        if (StringUtils.isEmpty(result.getTransport()) && !StringUtils.isEmpty(result.getProtocolBinding())) {
             result.setTransport(result.getProtocolBinding());
         }
         return result;
@@ -250,12 +238,11 @@ public class AgentRequestUtil {
     
     private static boolean isLegacyAgentCard(AgentCard agentCard) {
         return !StringUtils.isEmpty(agentCard.getProtocolVersion()) && !StringUtils.isEmpty(
-            agentCard.getPreferredTransport()) && !StringUtils.isEmpty(agentCard.getUrl());
+                agentCard.getPreferredTransport()) && !StringUtils.isEmpty(agentCard.getUrl());
     }
     
     private static boolean isV1AgentCard(AgentCard agentCard) {
-        if (null == agentCard.getSupportedInterfaces()
-            || agentCard.getSupportedInterfaces().isEmpty()) {
+        if (null == agentCard.getSupportedInterfaces() || agentCard.getSupportedInterfaces().isEmpty()) {
             return false;
         }
         for (AgentInterface each : agentCard.getSupportedInterfaces()) {
@@ -267,9 +254,7 @@ public class AgentRequestUtil {
     }
     
     private static boolean isValidAgentInterface(AgentInterface agentInterface) {
-        return null != agentInterface && !StringUtils.isEmpty(agentInterface.getUrl())
-            && !StringUtils.isEmpty(
-                agentInterface.getProtocolBinding())
-            && !StringUtils.isEmpty(agentInterface.getProtocolVersion());
+        return null != agentInterface && !StringUtils.isEmpty(agentInterface.getUrl()) && !StringUtils.isEmpty(
+                agentInterface.getProtocolBinding()) && !StringUtils.isEmpty(agentInterface.getProtocolVersion());
     }
 }

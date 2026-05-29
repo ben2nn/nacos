@@ -27,6 +27,5 @@ import org.slf4j.LoggerFactory;
  */
 public class Loggers {
     
-    public static final Logger ADDRESS_LOGGER =
-        LoggerFactory.getLogger("com.alibaba.nacos.address.main");
+    public static final Logger ADDRESS_LOGGER = LoggerFactory.getLogger("com.alibaba.nacos.address.main");
 }

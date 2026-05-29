@@ -51,8 +51,7 @@ public abstract class AbstractDynamicConfig extends Subscriber<ServerConfigChang
             getConfigFromEnv();
             Loggers.CORE.info("Get {} config from env, {}", configName, printConfig());
         } catch (Exception e) {
-            Loggers.CORE.warn("Upgrade {} config from env failed, will use old value", configName,
-                e);
+            Loggers.CORE.warn("Upgrade {} config from env failed, will use old value", configName, e);
         }
     }
     

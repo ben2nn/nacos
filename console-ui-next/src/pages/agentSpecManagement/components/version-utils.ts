@@ -3,11 +3,7 @@
  *
  * State transitions:
  *   draft     → submit   → reviewing
- *   reviewing → (pipeline approved) → reviewed
- *   reviewing → (pipeline rejected) → draft
- *   reviewed  → publish  → online
- *   reviewed  → redraft   → draft
- *   reviewing → publish  → online  (backward compat: historical data without reviewed status)
+ *   reviewing → publish  → online
  *   online    → offline  → offline
  *   offline   → online   → online
  *
@@ -17,7 +13,6 @@
 const STATE_ACTIONS: Record<string, string[]> = {
   draft: ['submit', 'deleteDraft'],
   reviewing: ['publish'],
-  reviewed: ['publish', 'redraft', 'deleteDraft'],
   online: ['offline'],
   offline: ['online'],
 };

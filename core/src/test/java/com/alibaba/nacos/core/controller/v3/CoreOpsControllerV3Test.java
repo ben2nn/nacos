@@ -75,8 +75,7 @@ class CoreOpsControllerV3Test {
     void testRaftOps() throws Exception {
         Mockito.when(protocolManager.getCpProtocol()).thenAnswer(invocationOnMock -> {
             CPProtocol cpProtocol = Mockito.mock(CPProtocol.class);
-            Mockito.when(cpProtocol.execute(Mockito.anyMap()))
-                .thenReturn(RestResultUtils.success("test"));
+            Mockito.when(cpProtocol.execute(Mockito.anyMap())).thenReturn(RestResultUtils.success("test"));
             return cpProtocol;
         });
         

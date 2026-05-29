@@ -89,7 +89,7 @@ class A2aAdminControllerTest {
         agentCardForm.setVersion("1.0.0");
         agentCardForm.setRegistrationType(AiConstants.A2a.A2A_ENDPOINT_TYPE_URL);
         agentCardForm.setAgentCard(
-            "{\"name\":\"test-agent\",\"version\":\"1.0.0\",\"protocolVersion\":\"1.0\",\"preferredTransport\":\"JSONRPC\",\"description\":\"Test agent description\",\"url\":\"http://test-agent.example.com\"}");
+                "{\"name\":\"test-agent\",\"version\":\"1.0.0\",\"protocolVersion\":\"1.0\",\"preferredTransport\":\"JSONRPC\",\"description\":\"Test agent description\",\"url\":\"http://test-agent.example.com\"}");
         
         agentForm = new AgentForm();
         agentForm.setAgentName("test-agent");
@@ -104,7 +104,7 @@ class A2aAdminControllerTest {
         agentCardUpdateForm.setSetAsLatest(true);
         agentCardUpdateForm.setRegistrationType(AiConstants.A2a.A2A_ENDPOINT_TYPE_URL);
         agentCardUpdateForm.setAgentCard(
-            "{\"name\":\"test-agent\",\"version\":\"1.0.0\",\"protocolVersion\":\"1.0\",\"preferredTransport\":\"JSONRPC\",\"description\":\"Updated description\",\"url\":\"http://test-agent.example.com\"}");
+                "{\"name\":\"test-agent\",\"version\":\"1.0.0\",\"protocolVersion\":\"1.0\",\"preferredTransport\":\"JSONRPC\",\"description\":\"Updated description\",\"url\":\"http://test-agent.example.com\"}");
         
         agentListForm = new AgentListForm();
         agentListForm.setAgentName("test-agent");
@@ -119,8 +119,7 @@ class A2aAdminControllerTest {
     @Test
     void testRegisterAgentSuccess() throws NacosException {
         // Arrange
-        doNothing().when(a2aServerOperationService).registerAgent(any(AgentCard.class), anyString(),
-            anyString());
+        doNothing().when(a2aServerOperationService).registerAgent(any(AgentCard.class), anyString(), anyString());
         
         // Act
         Result<String> result = a2aAdminController.registerAgent(agentCardForm);
@@ -128,8 +127,7 @@ class A2aAdminControllerTest {
         // Assert
         assertNotNull(result);
         assertEquals("ok", result.getData());
-        verify(a2aServerOperationService).registerAgent(any(AgentCard.class), anyString(),
-            anyString());
+        verify(a2aServerOperationService).registerAgent(any(AgentCard.class), anyString(), anyString());
     }
     
     @Test
@@ -140,22 +138,19 @@ class A2aAdminControllerTest {
         
         // Act & Assert
         assertThrows(NacosApiException.class, () -> a2aAdminController.registerAgent(invalidForm));
-        verify(a2aServerOperationService, never()).registerAgent(any(AgentCard.class), anyString(),
-            anyString());
+        verify(a2aServerOperationService, never()).registerAgent(any(AgentCard.class), anyString(), anyString());
     }
     
     @Test
     void testRegisterAgentServiceException() throws NacosException {
         // Arrange
-        NacosException exception =
-            new NacosException(NacosException.SERVER_ERROR, "Registration failed");
+        NacosException exception = new NacosException(NacosException.SERVER_ERROR, "Registration failed");
         doThrow(exception).when(a2aServerOperationService)
-            .registerAgent(any(AgentCard.class), anyString(), anyString());
+                .registerAgent(any(AgentCard.class), anyString(), anyString());
         
         // Act & Assert
         assertThrows(NacosException.class, () -> a2aAdminController.registerAgent(agentCardForm));
-        verify(a2aServerOperationService).registerAgent(any(AgentCard.class), anyString(),
-            anyString());
+        verify(a2aServerOperationService).registerAgent(any(AgentCard.class), anyString(), anyString());
     }
     
     @Test
@@ -168,8 +163,7 @@ class A2aAdminControllerTest {
         expectedAgentCard.setPreferredTransport("JSONRPC");
         expectedAgentCard.setDescription("Test agent description");
         
-        when(a2aServerOperationService.getAgentCard(anyString(), anyString(), anyString(),
-            anyString())).thenReturn(
+        when(a2aServerOperationService.getAgentCard(anyString(), anyString(), anyString(), anyString())).thenReturn(
                 expectedAgentCard);
         
         // Act
@@ -178,8 +172,7 @@ class A2aAdminControllerTest {
         // Assert
         assertNotNull(result);
         assertEquals(expectedAgentCard, result.getData());
-        verify(a2aServerOperationService).getAgentCard(anyString(), anyString(), anyString(),
-            anyString());
+        verify(a2aServerOperationService).getAgentCard(anyString(), anyString(), anyString(), anyString());
     }
     
     @Test
@@ -190,31 +183,27 @@ class A2aAdminControllerTest {
         
         // Act & Assert
         assertThrows(NacosApiException.class, () -> a2aAdminController.getAgentCard(invalidForm));
-        verify(a2aServerOperationService, never()).getAgentCard(anyString(), anyString(),
-            anyString(), anyString());
+        verify(a2aServerOperationService, never()).getAgentCard(anyString(), anyString(), anyString(), anyString());
     }
     
     @Test
     void testGetAgentCardServiceException() throws NacosApiException {
         // Arrange
-        NacosApiException exception =
-            new NacosApiException(NacosException.SERVER_ERROR, ErrorCode.RESOURCE_NOT_FOUND,
+        NacosApiException exception = new NacosApiException(NacosException.SERVER_ERROR, ErrorCode.RESOURCE_NOT_FOUND,
                 "Agent not found");
-        when(a2aServerOperationService.getAgentCard(anyString(), anyString(), anyString(),
-            anyString())).thenThrow(
+        when(a2aServerOperationService.getAgentCard(anyString(), anyString(), anyString(), anyString())).thenThrow(
                 exception);
         
         // Act & Assert
         assertThrows(NacosApiException.class, () -> a2aAdminController.getAgentCard(agentForm));
-        verify(a2aServerOperationService).getAgentCard(anyString(), anyString(), anyString(),
-            anyString());
+        verify(a2aServerOperationService).getAgentCard(anyString(), anyString(), anyString(), anyString());
     }
     
     @Test
     void testUpdateAgentCardSuccess() throws NacosException {
         // Arrange
         doNothing().when(a2aServerOperationService)
-            .updateAgentCard(any(AgentCard.class), anyString(), anyString(), anyBoolean());
+                .updateAgentCard(any(AgentCard.class), anyString(), anyString(), anyBoolean());
         
         // Act
         Result<String> result = a2aAdminController.updateAgentCard(agentCardUpdateForm);
@@ -222,8 +211,7 @@ class A2aAdminControllerTest {
         // Assert
         assertNotNull(result);
         assertEquals("ok", result.getData());
-        verify(a2aServerOperationService).updateAgentCard(any(AgentCard.class), anyString(),
-            anyString(), anyBoolean());
+        verify(a2aServerOperationService).updateAgentCard(any(AgentCard.class), anyString(), anyString(), anyBoolean());
     }
     
     @Test
@@ -233,11 +221,9 @@ class A2aAdminControllerTest {
         // Missing required name field
         
         // Act & Assert
-        assertThrows(NacosApiException.class,
-            () -> a2aAdminController.updateAgentCard(invalidForm));
-        verify(a2aServerOperationService, never()).updateAgentCard(any(AgentCard.class),
-            anyString(), anyString(),
-            anyBoolean());
+        assertThrows(NacosApiException.class, () -> a2aAdminController.updateAgentCard(invalidForm));
+        verify(a2aServerOperationService, never()).updateAgentCard(any(AgentCard.class), anyString(), anyString(),
+                anyBoolean());
     }
     
     @Test
@@ -245,20 +231,17 @@ class A2aAdminControllerTest {
         // Arrange
         NacosException exception = new NacosException(NacosException.SERVER_ERROR, "Update failed");
         doThrow(exception).when(a2aServerOperationService)
-            .updateAgentCard(any(AgentCard.class), anyString(), anyString(), anyBoolean());
+                .updateAgentCard(any(AgentCard.class), anyString(), anyString(), anyBoolean());
         
         // Act & Assert
-        assertThrows(NacosException.class,
-            () -> a2aAdminController.updateAgentCard(agentCardUpdateForm));
-        verify(a2aServerOperationService).updateAgentCard(any(AgentCard.class), anyString(),
-            anyString(), anyBoolean());
+        assertThrows(NacosException.class, () -> a2aAdminController.updateAgentCard(agentCardUpdateForm));
+        verify(a2aServerOperationService).updateAgentCard(any(AgentCard.class), anyString(), anyString(), anyBoolean());
     }
     
     @Test
     void testDeleteAgentSuccess() throws NacosException {
         // Arrange
-        doNothing().when(a2aServerOperationService).deleteAgent(anyString(), anyString(),
-            anyString());
+        doNothing().when(a2aServerOperationService).deleteAgent(anyString(), anyString(), anyString());
         
         // Act
         Result<String> result = a2aAdminController.deleteAgent(agentForm);
@@ -277,16 +260,14 @@ class A2aAdminControllerTest {
         
         // Act & Assert
         assertThrows(NacosApiException.class, () -> a2aAdminController.deleteAgent(invalidForm));
-        verify(a2aServerOperationService, never()).deleteAgent(anyString(), anyString(),
-            anyString());
+        verify(a2aServerOperationService, never()).deleteAgent(anyString(), anyString(), anyString());
     }
     
     @Test
     void testDeleteAgentServiceException() throws NacosException {
         // Arrange
         NacosException exception = new NacosException(NacosException.SERVER_ERROR, "Delete failed");
-        doThrow(exception).when(a2aServerOperationService).deleteAgent(anyString(), anyString(),
-            anyString());
+        doThrow(exception).when(a2aServerOperationService).deleteAgent(anyString(), anyString(), anyString());
         
         // Act & Assert
         assertThrows(NacosException.class, () -> a2aAdminController.deleteAgent(agentForm));
@@ -312,19 +293,17 @@ class A2aAdminControllerTest {
         expectedPage.setPagesAvailable(1);
         
         when(a2aServerOperationService.listAgents(anyString(), anyString(), anyString(), anyInt(),
-            anyInt())).thenReturn(expectedPage);
+                anyInt())).thenReturn(expectedPage);
         
         // Act
-        Result<Page<AgentCardVersionInfo>> result =
-            a2aAdminController.listAgents(agentListForm, pageForm);
+        Result<Page<AgentCardVersionInfo>> result = a2aAdminController.listAgents(agentListForm, pageForm);
         
         // Assert
         assertNotNull(result);
         assertEquals(expectedPage, result.getData());
         assertEquals(2, result.getData().getTotalCount());
         assertEquals(2, result.getData().getPageItems().size());
-        verify(a2aServerOperationService).listAgents(anyString(), anyString(), anyString(),
-            anyInt(), anyInt());
+        verify(a2aServerOperationService).listAgents(anyString(), anyString(), anyString(), anyInt(), anyInt());
     }
     
     @Test
@@ -337,11 +316,9 @@ class A2aAdminControllerTest {
         validPageForm.setPageSize(10);
         
         // Act & Assert
-        assertThrows(NacosApiException.class,
-            () -> a2aAdminController.listAgents(invalidForm, validPageForm));
-        verify(a2aServerOperationService, never()).listAgents(anyString(), anyString(), anyString(),
-            anyInt(),
-            anyInt());
+        assertThrows(NacosApiException.class, () -> a2aAdminController.listAgents(invalidForm, validPageForm));
+        verify(a2aServerOperationService, never()).listAgents(anyString(), anyString(), anyString(), anyInt(),
+                anyInt());
     }
     
     @Test
@@ -356,26 +333,21 @@ class A2aAdminControllerTest {
         invalidPageForm.setPageNo(0); // Invalid page number
         
         // Act & Assert
-        assertThrows(NacosApiException.class,
-            () -> a2aAdminController.listAgents(validAgentListForm, invalidPageForm));
-        verify(a2aServerOperationService, never()).listAgents(anyString(), anyString(), anyString(),
-            anyInt(),
-            anyInt());
+        assertThrows(NacosApiException.class, () -> a2aAdminController.listAgents(validAgentListForm, invalidPageForm));
+        verify(a2aServerOperationService, never()).listAgents(anyString(), anyString(), anyString(), anyInt(),
+                anyInt());
     }
     
     @Test
     void testListAgentsServiceException() throws NacosException {
         // Arrange
         NacosException exception = new NacosException(NacosException.SERVER_ERROR, "List failed");
-        when(a2aServerOperationService.listAgents(anyString(), anyString(), anyString(), anyInt(),
-            anyInt())).thenThrow(
+        when(a2aServerOperationService.listAgents(anyString(), anyString(), anyString(), anyInt(), anyInt())).thenThrow(
                 exception);
         
         // Act & Assert
-        assertThrows(NacosException.class,
-            () -> a2aAdminController.listAgents(agentListForm, pageForm));
-        verify(a2aServerOperationService).listAgents(anyString(), anyString(), anyString(),
-            anyInt(), anyInt());
+        assertThrows(NacosException.class, () -> a2aAdminController.listAgents(agentListForm, pageForm));
+        verify(a2aServerOperationService).listAgents(anyString(), anyString(), anyString(), anyInt(), anyInt());
     }
     
     @Test
@@ -391,8 +363,7 @@ class A2aAdminControllerTest {
         
         List<AgentVersionDetail> versionList = Arrays.asList(version1, version2);
         
-        when(a2aServerOperationService.listAgentVersions(anyString(), anyString()))
-            .thenReturn(versionList);
+        when(a2aServerOperationService.listAgentVersions(anyString(), anyString())).thenReturn(versionList);
         
         // Act
         Result<List<AgentVersionDetail>> result = a2aAdminController.listAgentVersions(agentForm);
@@ -411,8 +382,7 @@ class A2aAdminControllerTest {
         // Missing required fields
         
         // Act & Assert
-        assertThrows(NacosApiException.class,
-            () -> a2aAdminController.listAgentVersions(invalidForm));
+        assertThrows(NacosApiException.class, () -> a2aAdminController.listAgentVersions(invalidForm));
         verify(a2aServerOperationService, never()).listAgentVersions(anyString(), anyString());
     }
     
@@ -420,8 +390,7 @@ class A2aAdminControllerTest {
     void testListAgentVersionsEmptyResult() throws NacosException {
         // Arrange
         List<AgentVersionDetail> emptyList = Arrays.asList();
-        when(a2aServerOperationService.listAgentVersions(anyString(), anyString()))
-            .thenReturn(emptyList);
+        when(a2aServerOperationService.listAgentVersions(anyString(), anyString())).thenReturn(emptyList);
         
         // Act
         Result<List<AgentVersionDetail>> result = a2aAdminController.listAgentVersions(agentForm);
@@ -444,18 +413,16 @@ class A2aAdminControllerTest {
         emptyPage.setPagesAvailable(1);
         
         when(a2aServerOperationService.listAgents(anyString(), anyString(), anyString(), anyInt(),
-            anyInt())).thenReturn(emptyPage);
+                anyInt())).thenReturn(emptyPage);
         
         // Act
-        Result<Page<AgentCardVersionInfo>> result =
-            a2aAdminController.listAgents(agentListForm, pageForm);
+        Result<Page<AgentCardVersionInfo>> result = a2aAdminController.listAgents(agentListForm, pageForm);
         
         // Assert
         assertNotNull(result);
         assertEquals(emptyPage, result.getData());
         assertEquals(0, result.getData().getTotalCount());
         assertEquals(0, result.getData().getPageItems().size());
-        verify(a2aServerOperationService).listAgents(anyString(), anyString(), anyString(),
-            anyInt(), anyInt());
+        verify(a2aServerOperationService).listAgents(anyString(), anyString(), anyString(), anyInt(), anyInt());
     }
 }

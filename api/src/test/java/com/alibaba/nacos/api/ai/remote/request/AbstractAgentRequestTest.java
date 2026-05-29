@@ -47,8 +47,7 @@ class AbstractAgentRequestTest extends BasicRequestTest {
     
     @Test
     void testDeserialize() throws Exception {
-        String json =
-            "{\"headers\":{},\"requestId\":\"1\",\"namespaceId\":\"public\",\"agentName\":\"testAgent\",\"module\":\"ai\"}";
+        String json = "{\"headers\":{},\"requestId\":\"1\",\"namespaceId\":\"public\",\"agentName\":\"testAgent\",\"module\":\"ai\"}";
         TestAbstractAgentRequest result = mapper.readValue(json, TestAbstractAgentRequest.class);
         assertNotNull(result);
         assertEquals("1", result.getRequestId());

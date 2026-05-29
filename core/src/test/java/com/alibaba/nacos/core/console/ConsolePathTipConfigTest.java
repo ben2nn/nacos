@@ -35,14 +35,12 @@ class ConsolePathTipConfigTest {
     @Test
     void testNacosConsolePathTipFilterRegistration() {
         ConsolePathTipConfig config = new ConsolePathTipConfig();
-        FilterRegistrationBean<NacosConsolePathTipFilter> registration =
-            config.nacosConsolePathTipFilterRegistration();
+        FilterRegistrationBean<NacosConsolePathTipFilter> registration = config.nacosConsolePathTipFilterRegistration();
         assertNotNull(registration);
         assertNotNull(registration.getFilter());
         assertTrue(registration.getFilter() instanceof NacosConsolePathTipFilter);
         assertTrue(registration.getUrlPatterns().contains("/*"));
-        assertEquals("nacosConsolePathTipFilter",
-            ReflectionTestUtils.getField(registration, "name"));
+        assertEquals("nacosConsolePathTipFilter", ReflectionTestUtils.getField(registration, "name"));
         assertEquals(7, registration.getOrder());
     }
 }

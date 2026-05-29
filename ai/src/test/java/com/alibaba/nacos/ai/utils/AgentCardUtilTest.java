@@ -46,8 +46,7 @@ class AgentCardUtilTest {
         String registrationType = AiConstants.A2a.A2A_ENDPOINT_TYPE_SERVICE;
         
         // When
-        AgentCardDetailInfo result =
-            AgentCardUtil.buildAgentCardDetailInfo(agentCard, registrationType);
+        AgentCardDetailInfo result = AgentCardUtil.buildAgentCardDetailInfo(agentCard, registrationType);
         
         // Then
         assertNotNull(result);
@@ -63,8 +62,7 @@ class AgentCardUtilTest {
         boolean isLatest = true;
         
         // When
-        AgentCardVersionInfo result =
-            AgentCardUtil.buildAgentCardVersionInfo(agentCard, registrationType, isLatest);
+        AgentCardVersionInfo result = AgentCardUtil.buildAgentCardVersionInfo(agentCard, registrationType, isLatest);
         
         // Then
         assertNotNull(result);
@@ -88,8 +86,7 @@ class AgentCardUtilTest {
         boolean isLatest = false;
         
         // When
-        AgentCardVersionInfo result =
-            AgentCardUtil.buildAgentCardVersionInfo(agentCard, registrationType, isLatest);
+        AgentCardVersionInfo result = AgentCardUtil.buildAgentCardVersionInfo(agentCard, registrationType, isLatest);
         
         // Then
         assertNotNull(result);

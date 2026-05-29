@@ -55,11 +55,9 @@ class AbstractProcessorTest {
     private Node followerNode;
     
     private JRaftServer server = new JRaftServer() {
-        
         @Override
         public void applyOperation(Node node, Message data, FailoverClosure closure) {
-            closure.setResponse(Response.newBuilder().setSuccess(false)
-                .setErrMsg("Error message transmission").build());
+            closure.setResponse(Response.newBuilder().setSuccess(false).setErrMsg("Error message transmission").build());
             closure.run(new Status(RaftError.UNKNOWN, "Error message transmission"));
         }
     };
@@ -69,7 +67,6 @@ class AbstractProcessorTest {
         final AtomicReference<Response> reference = new AtomicReference<>();
         
         RpcContext context = new RpcContext() {
-            
             @Override
             public void sendResponse(Object responseObj) {
                 reference.set((Response) responseObj);
@@ -86,8 +83,7 @@ class AbstractProcessorTest {
             }
         };
         AbstractProcessor processor = new NacosWriteRequestProcessor(server);
-        processor.execute(server, context, WriteRequest.newBuilder().build(),
-            new JRaftServer.RaftGroupTuple());
+        processor.execute(server, context, WriteRequest.newBuilder().build(), new JRaftServer.RaftGroupTuple());
         
         Response response = reference.get();
         assertNotNull(response);
@@ -102,7 +98,6 @@ class AbstractProcessorTest {
         NacosWriteRequestProcessor processor = new NacosWriteRequestProcessor(serverWithNullTuple);
         final AtomicReference<Response> reference = new AtomicReference<>();
         RpcContext context = new RpcContext() {
-            
             @Override
             public void sendResponse(Object responseObj) {
                 reference.set((Response) responseObj);
@@ -118,8 +113,7 @@ class AbstractProcessorTest {
                 return null;
             }
         };
-        processor.handleRequest(context,
-            WriteRequest.newBuilder().setGroup("unknown-group").build());
+        processor.handleRequest(context, WriteRequest.newBuilder().setGroup("unknown-group").build());
         Response response = reference.get();
         assertNotNull(response);
         assertFalse(response.getSuccess());
@@ -130,14 +124,11 @@ class AbstractProcessorTest {
     @Test
     void testHandleRequestWhenNodeIsNotLeader() {
         when(followerNode.isLeader()).thenReturn(false);
-        JRaftServer.RaftGroupTuple tuple =
-            new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
+        JRaftServer.RaftGroupTuple tuple = new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
         when(serverWithFollowerNode.findTupleByGroup(anyString())).thenReturn(tuple);
-        NacosWriteRequestProcessor processor =
-            new NacosWriteRequestProcessor(serverWithFollowerNode);
+        NacosWriteRequestProcessor processor = new NacosWriteRequestProcessor(serverWithFollowerNode);
         final AtomicReference<Response> reference = new AtomicReference<>();
         RpcContext context = new RpcContext() {
-            
             @Override
             public void sendResponse(Object responseObj) {
                 reference.set((Response) responseObj);
@@ -164,14 +155,11 @@ class AbstractProcessorTest {
     @Test
     void testHandleRequestWhenThrowableInTryBlockSendsErrorResponse() {
         when(followerNode.isLeader()).thenThrow(new RuntimeException("node error"));
-        JRaftServer.RaftGroupTuple tuple =
-            new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
+        JRaftServer.RaftGroupTuple tuple = new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
         when(serverWithFollowerNode.findTupleByGroup(anyString())).thenReturn(tuple);
-        NacosWriteRequestProcessor processor =
-            new NacosWriteRequestProcessor(serverWithFollowerNode);
+        NacosWriteRequestProcessor processor = new NacosWriteRequestProcessor(serverWithFollowerNode);
         final AtomicReference<Response> reference = new AtomicReference<>();
         RpcContext context = new RpcContext() {
-            
             @Override
             public void sendResponse(Object responseObj) {
                 reference.set((Response) responseObj);
@@ -198,7 +186,6 @@ class AbstractProcessorTest {
     void testExecuteSuccessPathSendsResponseData() {
         final AtomicReference<Response> reference = new AtomicReference<>();
         RpcContext context = new RpcContext() {
-            
             @Override
             public void sendResponse(Object responseObj) {
                 reference.set((Response) responseObj);
@@ -215,8 +202,7 @@ class AbstractProcessorTest {
             }
         };
         when(followerNode.isLeader()).thenReturn(true);
-        JRaftServer.RaftGroupTuple tuple =
-            new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
+        JRaftServer.RaftGroupTuple tuple = new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
         when(serverWithFollowerNode.findTupleByGroup(anyString())).thenReturn(tuple);
         doAnswer(invocation -> {
             FailoverClosure c = invocation.getArgument(2);
@@ -224,8 +210,7 @@ class AbstractProcessorTest {
             c.run(Status.OK());
             return null;
         }).when(serverWithFollowerNode).applyOperation(any(), any(), any());
-        NacosWriteRequestProcessor processor =
-            new NacosWriteRequestProcessor(serverWithFollowerNode);
+        NacosWriteRequestProcessor processor = new NacosWriteRequestProcessor(serverWithFollowerNode);
         processor.handleRequest(context, WriteRequest.newBuilder().setGroup("g").build());
         Response response = reference.get();
         assertNotNull(response);
@@ -236,7 +221,6 @@ class AbstractProcessorTest {
     void testExecuteWhenClosureSetThrowableSendsErrorResponseViaRpcContext() {
         final AtomicReference<Response> reference = new AtomicReference<>();
         RpcContext context = new RpcContext() {
-            
             @Override
             public void sendResponse(Object responseObj) {
                 reference.set((Response) responseObj);
@@ -253,8 +237,7 @@ class AbstractProcessorTest {
             }
         };
         when(followerNode.isLeader()).thenReturn(true);
-        JRaftServer.RaftGroupTuple tuple =
-            new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
+        JRaftServer.RaftGroupTuple tuple = new JRaftServer.RaftGroupTuple(followerNode, null, null, null);
         when(serverWithFollowerNode.findTupleByGroup(anyString())).thenReturn(tuple);
         doAnswer(invocation -> {
             FailoverClosure c = invocation.getArgument(2);
@@ -262,8 +245,7 @@ class AbstractProcessorTest {
             c.run(Status.OK());
             return null;
         }).when(serverWithFollowerNode).applyOperation(any(), any(), any());
-        NacosWriteRequestProcessor processor =
-            new NacosWriteRequestProcessor(serverWithFollowerNode);
+        NacosWriteRequestProcessor processor = new NacosWriteRequestProcessor(serverWithFollowerNode);
         processor.handleRequest(context, WriteRequest.newBuilder().setGroup("g").build());
         Response response = reference.get();
         assertNotNull(response);

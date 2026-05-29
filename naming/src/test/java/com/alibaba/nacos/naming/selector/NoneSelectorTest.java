@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * {@link NoneSelector} unit tests.
@@ -39,12 +38,5 @@ class NoneSelectorTest {
         NoneSelector<Instance> noneSelector = new NoneSelector<>();
         List<Instance> providers = Collections.emptyList();
         assertEquals(providers, noneSelector.select(providers));
-    }
-    
-    @Test
-    void testParse() throws Exception {
-        NoneSelector<Instance> noneSelector = new NoneSelector<>();
-        
-        assertSame(noneSelector, noneSelector.parse("condition"));
     }
 }

@@ -36,8 +36,7 @@ import java.util.stream.Collectors;
  * @author chenglu
  * @date 2021-07-16 11:58
  */
-public class CmdbSelectorContextBuilder<T extends Instance>
-    implements SelectorContextBuilder<CmdbContext<Instance>, String, List<T>> {
+public class CmdbSelectorContextBuilder<T extends Instance> implements SelectorContextBuilder<CmdbContext<Instance>, String, List<T>> {
     
     private static final String CONTEXT_TYPE = "CMDB";
     
@@ -53,8 +52,7 @@ public class CmdbSelectorContextBuilder<T extends Instance>
     @Override
     public CmdbContext<Instance> build(String consumer, List<T> provider) {
         // build consumer context
-        Entity consumerEntity =
-            getCmdbReader().queryEntity(consumer, PreservedEntityTypes.ip.name());
+        Entity consumerEntity = getCmdbReader().queryEntity(consumer, PreservedEntityTypes.ip.name());
         Instance consumerInstance = new Instance();
         consumerInstance.setIp(consumer);
         CmdbContext.CmdbInstance<Instance> consumerCmdbInstance = new CmdbContext.CmdbInstance<>();
@@ -62,18 +60,15 @@ public class CmdbSelectorContextBuilder<T extends Instance>
         consumerCmdbInstance.setInstance(consumerInstance);
         CmdbContext<Instance> cmdbContext = new CmdbContext<>();
         cmdbContext.setConsumer(consumerCmdbInstance);
-        
+
         // build providers context
-        List<CmdbContext.CmdbInstance<Instance>> providerCmdbInstances =
-            Optional.ofNullable(provider)
+        List<CmdbContext.CmdbInstance<Instance>> providerCmdbInstances = Optional.ofNullable(provider)
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(is -> {
-                    CmdbContext.CmdbInstance<Instance> providerCmdbInstance =
-                        new CmdbContext.CmdbInstance<>();
+                    CmdbContext.CmdbInstance<Instance> providerCmdbInstance = new CmdbContext.CmdbInstance<>();
                     providerCmdbInstance.setInstance(is);
-                    Entity providerEntity =
-                        getCmdbReader().queryEntity(is.getIp(), PreservedEntityTypes.ip.name());
+                    Entity providerEntity = getCmdbReader().queryEntity(is.getIp(), PreservedEntityTypes.ip.name());
                     providerCmdbInstance.setEntity(providerEntity);
                     return providerCmdbInstance;
                 })

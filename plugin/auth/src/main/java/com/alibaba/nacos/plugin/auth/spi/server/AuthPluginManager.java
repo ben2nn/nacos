@@ -52,19 +52,17 @@ public class AuthPluginManager {
     }
     
     private void initAuthServices() {
-        Collection<AuthPluginService> authPluginServices =
-            NacosServiceLoader.load(AuthPluginService.class);
+        Collection<AuthPluginService> authPluginServices = NacosServiceLoader.load(AuthPluginService.class);
         for (AuthPluginService each : authPluginServices) {
             if (StringUtils.isEmpty(each.getAuthServiceName())) {
                 LOGGER.warn(
-                    "[AuthPluginManager] Load AuthPluginService({}) AuthServiceName(null/empty) fail. Please Add AuthServiceName to resolve.",
-                    each.getClass());
+                        "[AuthPluginManager] Load AuthPluginService({}) AuthServiceName(null/empty) fail. Please Add AuthServiceName to resolve.",
+                        each.getClass());
                 continue;
             }
             authServiceMap.put(each.getAuthServiceName(), each);
-            LOGGER.info(
-                "[AuthPluginManager] Load AuthPluginService({}) AuthServiceName({}) successfully.",
-                each.getClass(), each.getAuthServiceName());
+            LOGGER.info("[AuthPluginManager] Load AuthPluginService({}) AuthServiceName({}) successfully.",
+                    each.getClass(), each.getAuthServiceName());
         }
     }
     
@@ -86,7 +84,7 @@ public class AuthPluginManager {
         }
         return Optional.ofNullable(authServiceMap.get(authServiceName));
     }
-    
+
     /**
      * Get all registered auth plugins.
      *
@@ -95,5 +93,5 @@ public class AuthPluginManager {
     public Map<String, AuthPluginService> getAllPlugins() {
         return Collections.unmodifiableMap(authServiceMap);
     }
-    
+
 }

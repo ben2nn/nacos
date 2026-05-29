@@ -109,8 +109,7 @@ public class Result<T> implements Serializable {
     
     @Override
     public String toString() {
-        return "Result{" + "errorCode=" + code + ", message='" + message + '\'' + ", data=" + data
-            + '}';
+        return "Result{" + "errorCode=" + code + ", message='" + message + '\'' + ", data=" + data + '}';
     }
     
     public Integer getCode() {

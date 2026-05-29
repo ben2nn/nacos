@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 class PreInitUtilsTest {
     
     @Test
@@ -32,10 +30,5 @@ class PreInitUtilsTest {
         // No exception is ok.
         // Let async thread run completed
         TimeUnit.SECONDS.sleep(2);
-    }
-    
-    @Test
-    void testConstructor() {
-        assertNotNull(new PreInitUtils());
     }
 }

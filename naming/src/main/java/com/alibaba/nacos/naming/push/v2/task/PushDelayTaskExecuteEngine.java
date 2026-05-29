@@ -43,15 +43,14 @@ public class PushDelayTaskExecuteEngine extends NacosDelayTaskExecuteEngine {
     private final ServiceStorage serviceStorage;
     
     private final NamingMetadataManager metadataManager;
-    
+
     private final PushExecutor pushExecutor;
     
     private final SwitchDomain switchDomain;
     
-    public PushDelayTaskExecuteEngine(ClientManager clientManager,
-        ClientServiceIndexesManager indexesManager,
-        ServiceStorage serviceStorage, NamingMetadataManager metadataManager,
-        PushExecutor pushExecutor, SwitchDomain switchDomain) {
+    public PushDelayTaskExecuteEngine(ClientManager clientManager, ClientServiceIndexesManager indexesManager,
+                                      ServiceStorage serviceStorage, NamingMetadataManager metadataManager,
+                                      PushExecutor pushExecutor, SwitchDomain switchDomain) {
         super(PushDelayTaskExecuteEngine.class.getSimpleName(), Loggers.PUSH);
         this.clientManager = clientManager;
         this.indexesManager = indexesManager;
@@ -77,7 +76,7 @@ public class PushDelayTaskExecuteEngine extends NacosDelayTaskExecuteEngine {
     public NamingMetadataManager getMetadataManager() {
         return metadataManager;
     }
-    
+
     public PushExecutor getPushExecutor() {
         return pushExecutor;
     }
@@ -103,8 +102,7 @@ public class PushDelayTaskExecuteEngine extends NacosDelayTaskExecuteEngine {
             PushDelayTask pushDelayTask = (PushDelayTask) task;
             Service service = pushDelayTask.getService();
             NamingExecuteTaskDispatcher.getInstance()
-                .dispatchAndExecuteTask(service,
-                    new PushExecuteTask(service, executeEngine, pushDelayTask));
+                    .dispatchAndExecuteTask(service, new PushExecuteTask(service, executeEngine, pushDelayTask));
             return true;
         }
     }

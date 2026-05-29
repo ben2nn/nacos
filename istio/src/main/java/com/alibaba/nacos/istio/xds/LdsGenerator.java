@@ -65,8 +65,7 @@ public class LdsGenerator implements ApiGenerator<Any> {
     
     private static final String ACCESS_LOGGER_NAME = "envoy.access_loggers.stdout";
     
-    private static final String TYPE_URL_ACCESS_LOG =
-        "type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StdoutAccessLog";
+    private static final String TYPE_URL_ACCESS_LOG = "type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StdoutAccessLog";
     
     private static final int DEFAULT_PORT_INCREMENT = 1;
     
@@ -76,8 +75,7 @@ public class LdsGenerator implements ApiGenerator<Any> {
     
     public static final String DEFAULT_FILTER_CHAIN_NAME = "filter_chain_0";
     
-    public static final String DEFAULT_FILTER_TYPE =
-        "envoy.filters.network.http_connection_manager";
+    public static final String DEFAULT_FILTER_TYPE = "envoy.filters.network.http_connection_manager";
     
     public static final String DEFAULT_HTTPMANAGER_PREFIX = "ingress_http";
     
@@ -101,8 +99,7 @@ public class LdsGenerator implements ApiGenerator<Any> {
         if (!pushRequest.isFull()) {
             return null;
         }
-        Map<String, IstioService> istioServiceMap =
-            pushRequest.getResourceSnapshot().getIstioResources()
+        Map<String, IstioService> istioServiceMap = pushRequest.getResourceSnapshot().getIstioResources()
                 .getIstioServiceMap();
         List<Any> result = new ArrayList<>();
         result.add(buildBootstrapListener());
@@ -112,9 +109,8 @@ public class LdsGenerator implements ApiGenerator<Any> {
                 IstioService istioService = entry.getValue();
                 if (istioService != null) {
                     String rdsName = entry.getKey() + ROUTE_CONFIGURATION_SUFFIX;
-                    result.add(buildDynamicListener(entry.getKey(), INIT_LISTENER_ADDRESS,
-                        istioService.getPort(),
-                        rdsName));
+                    result.add(buildDynamicListener(entry.getKey(), INIT_LISTENER_ADDRESS, istioService.getPort(),
+                            rdsName));
                 } else {
                     Loggers.MAIN.error("Attempt to create listener for non-existent service");
                 }
@@ -132,9 +128,8 @@ public class LdsGenerator implements ApiGenerator<Any> {
      * Constructs a default Envoy listener configuration with specified parameters.
      * This method prepares the necessary configurations for both bootstrap and non-bootstrap scenarios.
      */
-    private static Any buildDefaultListener(String listenerName, String listenerAddress,
-        int listenerPort,
-        String rdsName, boolean isBootstrap) {
+    private static Any buildDefaultListener(String listenerName, String listenerAddress, int listenerPort,
+            String rdsName, boolean isBootstrap) {
         if (isValid(listenerName, listenerPort, rdsName, isBootstrap)) {
             Loggers.MAIN.error("Listener name, Listener port and RDS name cannot be null.");
             return null;
@@ -145,31 +140,22 @@ public class LdsGenerator implements ApiGenerator<Any> {
         listenerAddress = (listenerAddress == null) ? INIT_LISTENER_ADDRESS : listenerAddress;
         int portValue = isBootstrap ? INIT_LISTENER_PORT : listenerPort + DEFAULT_PORT_INCREMENT;
         listenerBuilder.setAddress(Address.newBuilder()
-            .setSocketAddress(SocketAddress.newBuilder().setAddress(listenerAddress)
-                .setPortValue(portValue)));
+                .setSocketAddress(SocketAddress.newBuilder().setAddress(listenerAddress).setPortValue(portValue)));
         
         String routeConfigName =
-            isBootstrap ? INIT_LISTENER + ROUTE_CONFIGURATION_SUFFIX
-                : listenerName + ROUTE_CONFIGURATION_SUFFIX;
+                isBootstrap ? INIT_LISTENER + ROUTE_CONFIGURATION_SUFFIX : listenerName + ROUTE_CONFIGURATION_SUFFIX;
         String virtualHostName = isBootstrap ? INIT_LISTENER : listenerName;
         
-        RouteConfiguration routeConfiguration = RouteConfiguration.newBuilder()
-            .setName(routeConfigName)
-            .addVirtualHosts(VirtualHost.newBuilder().setName(virtualHostName).addDomains("*")
-                .addRoutes(
-                    Route.newBuilder()
-                        .setMatch(RouteMatch.newBuilder().setPrefix("/").build())
-                        .setRoute(RouteAction.newBuilder()
-                            .setCluster(BOOTSTRAP_UPSTREAM_CLUSTER).build())
-                        .build())
-                .build())
-            .build();
+        RouteConfiguration routeConfiguration = RouteConfiguration.newBuilder().setName(routeConfigName)
+                .addVirtualHosts(VirtualHost.newBuilder().setName(virtualHostName).addDomains("*").addRoutes(
+                        Route.newBuilder().setMatch(RouteMatch.newBuilder().setPrefix("/").build())
+                                .setRoute(RouteAction.newBuilder().setCluster(BOOTSTRAP_UPSTREAM_CLUSTER).build())
+                                .build()).build()).build();
         
         HttpConnectionManager httpConnectionManager = HttpConnectionManager.newBuilder()
-            .setStatPrefix(DEFAULT_HTTPMANAGER_PREFIX).addAccessLog(buildAccessLog())
-            .setCodecType(HttpConnectionManager.CodecType.AUTO)
-            .setRouteConfig(routeConfiguration)
-            .addHttpFilters(createHttpFilter()).build();
+                .setStatPrefix(DEFAULT_HTTPMANAGER_PREFIX).addAccessLog(buildAccessLog())
+                .setCodecType(HttpConnectionManager.CodecType.AUTO).setRouteConfig(routeConfiguration)
+                .addHttpFilters(createHttpFilter()).build();
         
         listenerBuilder.addFilterChains(createFilterChain(httpConnectionManager));
         
@@ -183,17 +169,15 @@ public class LdsGenerator implements ApiGenerator<Any> {
      * This is used during the startup phase of the Envoy server to construct the base configuration.
      */
     private static Any buildBootstrapListener() {
-        return buildDefaultListener(INIT_LISTENER_NAME, INIT_LISTENER_ADDRESS, INIT_LISTENER_PORT,
-            null, true);
+        return buildDefaultListener(INIT_LISTENER_NAME, INIT_LISTENER_ADDRESS, INIT_LISTENER_PORT, null, true);
     }
     
     /**
      * Constructs a default listener configuration for static environments.
      * This method is designed to provide configurations for scenarios where dynamic discovery services might not be used.
      */
-    private static Any buildDefaultStaticListener(String listenerName, String listenerAddress,
-        int listenerPort,
-        String rdsName) {
+    private static Any buildDefaultStaticListener(String listenerName, String listenerAddress, int listenerPort,
+            String rdsName) {
         if (INIT_LISTENER.equals(listenerName)) {
             return buildBootstrapListener();
         }
@@ -204,9 +188,8 @@ public class LdsGenerator implements ApiGenerator<Any> {
      * Constructs a listener configuration for environments using dynamic service discovery.
      * This method prepares the listener to utilize dynamic routing and service discovery services with rds.
      */
-    private static Any buildDynamicListener(String listenerName, String listenerAddress,
-        int listenerPort,
-        String rdsName) {
+    private static Any buildDynamicListener(String listenerName, String listenerAddress, int listenerPort,
+            String rdsName) {
         if (INIT_LISTENER.equals(listenerName)) {
             return buildBootstrapListener();
         }
@@ -220,18 +203,16 @@ public class LdsGenerator implements ApiGenerator<Any> {
         Listener.Builder listenerBuilder = Listener.newBuilder().setName(listenerName);
         
         listenerBuilder.setAddress(Address.newBuilder().setSocketAddress(
-            SocketAddress.newBuilder().setAddress(listenerAddress)
-                .setPortValue(listenerPort + DEFAULT_PORT_INCREMENT)));
+                SocketAddress.newBuilder().setAddress(listenerAddress)
+                        .setPortValue(listenerPort + DEFAULT_PORT_INCREMENT)));
         ConfigSource configSource = createConfigSource();
         
-        Rds rds =
-            Rds.newBuilder().setConfigSource(configSource).setRouteConfigName(rdsName).build();
+        Rds rds = Rds.newBuilder().setConfigSource(configSource).setRouteConfigName(rdsName).build();
         
         HttpConnectionManager httpConnectionManager = HttpConnectionManager.newBuilder()
-            .setStatPrefix(DEFAULT_HTTPMANAGER_PREFIX).addAccessLog(buildAccessLog())
-            .setCodecType(HttpConnectionManager.CodecType.AUTO).setRds(rds)
-            .addHttpFilters(createHttpFilter())
-            .build();
+                .setStatPrefix(DEFAULT_HTTPMANAGER_PREFIX).addAccessLog(buildAccessLog())
+                .setCodecType(HttpConnectionManager.CodecType.AUTO).setRds(rds).addHttpFilters(createHttpFilter())
+                .build();
         
         listenerBuilder.addFilterChains(createFilterChain(httpConnectionManager));
         
@@ -243,30 +224,27 @@ public class LdsGenerator implements ApiGenerator<Any> {
     
     private static AccessLog buildAccessLog() {
         return AccessLog.newBuilder().setName(ACCESS_LOGGER_NAME)
-            .setTypedConfig(Any.newBuilder().setTypeUrl(TYPE_URL_ACCESS_LOG)
-                .setValue(ByteString.EMPTY).build())
-            .build();
+                .setTypedConfig(Any.newBuilder().setTypeUrl(TYPE_URL_ACCESS_LOG).setValue(ByteString.EMPTY).build())
+                .build();
     }
     
     private static ConfigSource createConfigSource() {
         return ConfigSource.newBuilder().setAds(AggregatedConfigSource.newBuilder())
-            .setResourceApiVersionValue(V2_VALUE).build();
+                .setResourceApiVersionValue(V2_VALUE).build();
     }
     
     private static HttpFilter createHttpFilter() {
         return HttpFilter.newBuilder().setName(DEFAULT_HTTP_ROUTER_TYPE)
-            .setTypedConfig(Any.pack(Router.newBuilder().build())).build();
+                .setTypedConfig(Any.pack(Router.newBuilder().build())).build();
     }
     
     private static FilterChain createFilterChain(HttpConnectionManager httpConnectionManager) {
         return FilterChain.newBuilder().setName(DEFAULT_FILTER_CHAIN_NAME).addFilters(
-            Filter.newBuilder().setName(DEFAULT_FILTER_TYPE)
-                .setTypedConfig(Any.pack(httpConnectionManager)))
-            .build();
+                        Filter.newBuilder().setName(DEFAULT_FILTER_TYPE).setTypedConfig(Any.pack(httpConnectionManager)))
+                .build();
     }
     
-    private static boolean isValid(String listenerName, int listenerPort, String rdsName,
-        boolean isBootstrap) {
+    private static boolean isValid(String listenerName, int listenerPort, String rdsName, boolean isBootstrap) {
         return !isBootstrap && ((listenerName == null) || (listenerPort == 0) || (rdsName == null));
     }
 }

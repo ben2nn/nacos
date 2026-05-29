@@ -158,7 +158,7 @@ public class SwitchDomain implements Record, Cloneable {
     }
     
     public void update(SwitchDomain domain) {
-        
+    
     }
     
     public List<String> getIncrementalList() {
@@ -289,8 +289,7 @@ public class SwitchDomain implements Record, Cloneable {
         return serverStatusSynchronizationPeriodMillis;
     }
     
-    public void setServerStatusSynchronizationPeriodMillis(
-        long serverStatusSynchronizationPeriodMillis) {
+    public void setServerStatusSynchronizationPeriodMillis(long serverStatusSynchronizationPeriodMillis) {
         this.serverStatusSynchronizationPeriodMillis = serverStatusSynchronizationPeriodMillis;
     }
     
@@ -298,8 +297,7 @@ public class SwitchDomain implements Record, Cloneable {
         return serviceStatusSynchronizationPeriodMillis;
     }
     
-    public void setServiceStatusSynchronizationPeriodMillis(
-        long serviceStatusSynchronizationPeriodMillis) {
+    public void setServiceStatusSynchronizationPeriodMillis(long serviceStatusSynchronizationPeriodMillis) {
         this.serviceStatusSynchronizationPeriodMillis = serviceStatusSynchronizationPeriodMillis;
     }
     

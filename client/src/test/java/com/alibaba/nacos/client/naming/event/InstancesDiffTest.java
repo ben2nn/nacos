@@ -42,12 +42,9 @@ public class InstancesDiffTest {
     @Test
     public void testGetDiff() {
         String serviceName = "testService";
-        Instance addedIns = InstanceBuilder.newBuilder().setServiceName(serviceName)
-            .setClusterName("a").build();
-        Instance removedIns = InstanceBuilder.newBuilder().setServiceName(serviceName)
-            .setClusterName("b").build();
-        Instance modifiedIns = InstanceBuilder.newBuilder().setServiceName(serviceName)
-            .setClusterName("c").build();
+        Instance addedIns = InstanceBuilder.newBuilder().setServiceName(serviceName).setClusterName("a").build();
+        Instance removedIns = InstanceBuilder.newBuilder().setServiceName(serviceName).setClusterName("b").build();
+        Instance modifiedIns = InstanceBuilder.newBuilder().setServiceName(serviceName).setClusterName("c").build();
         
         InstancesDiff instancesDiff = new InstancesDiff();
         instancesDiff.setAddedInstances(Collections.singletonList(addedIns));
@@ -69,8 +66,7 @@ public class InstancesDiffTest {
         int addedCount = random.nextInt(32) + 1;
         int removedCount = random.nextInt(32) + 1;
         int modifiedCount = random.nextInt(32) + 1;
-        InstancesDiff instancesDiff =
-            new InstancesDiff(getInstanceList(addedCount), getInstanceList(removedCount),
+        InstancesDiff instancesDiff = new InstancesDiff(getInstanceList(addedCount), getInstanceList(removedCount),
                 getInstanceList(modifiedCount));
         
         assertTrue(instancesDiff.hasDifferent());

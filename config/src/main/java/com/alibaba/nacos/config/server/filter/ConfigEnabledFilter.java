@@ -23,9 +23,7 @@ import com.alibaba.nacos.sys.filter.NacosPackageExcludeFilter;
 
 import java.util.Set;
 
-import static com.alibaba.nacos.sys.env.EnvUtil.FUNCTION_MODE_AI;
 import static com.alibaba.nacos.sys.env.EnvUtil.FUNCTION_MODE_CONFIG;
-import static com.alibaba.nacos.sys.env.EnvUtil.FUNCTION_MODE_MICROSERVICE;
 
 /**
  * Config module enabled filter by spring packages scan.
@@ -46,8 +44,6 @@ public class ConfigEnabledFilter implements NacosPackageExcludeFilter {
         if (StringUtils.isEmpty(functionMode)) {
             return false;
         }
-        return !FUNCTION_MODE_CONFIG.equals(functionMode)
-            && !FUNCTION_MODE_MICROSERVICE.equals(functionMode)
-            && !FUNCTION_MODE_AI.equals(functionMode);
+        return !FUNCTION_MODE_CONFIG.equals(functionMode);
     }
 }

@@ -34,8 +34,7 @@ public class ConfigBatchListenRequestParamExtractor extends AbstractRpcParamExtr
     @Override
     public List<ParamInfo> extractParam(Request request) {
         ConfigBatchListenRequest req = (ConfigBatchListenRequest) request;
-        List<ConfigBatchListenRequest.ConfigListenContext> configListenContextList =
-            req.getConfigListenContexts();
+        List<ConfigBatchListenRequest.ConfigListenContext> configListenContextList = req.getConfigListenContexts();
         ArrayList<ParamInfo> paramInfos = new ArrayList<>();
         if (configListenContextList == null) {
             return paramInfos;

@@ -39,12 +39,12 @@ export default function ConfigRollbackPage() {
 
   useEffect(() => {
     if (nid && dataId && group) {
-      fetchHistoryDetail(nid, dataId, group, namespace);
+      fetchHistoryDetail(nid, dataId, group);
     }
     return () => {
       clearCurrentHistory();
     };
-  }, [nid, dataId, group, namespace, fetchHistoryDetail, clearCurrentHistory]);
+  }, [nid, dataId, group]);
 
   const handleBack = () => {
     navigate(

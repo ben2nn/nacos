@@ -56,8 +56,7 @@ class EmbeddedStorageContextHolderTest {
     void testPutExtendInfo() {
         EmbeddedStorageContextHolder.putExtendInfo("testPutExtendInfo", "test_value");
         assertTrue(EmbeddedStorageContextHolder.containsExtendInfo("testPutExtendInfo"));
-        assertEquals("test_value",
-            EmbeddedStorageContextHolder.getCurrentExtendInfo().get("testPutExtendInfo"));
+        assertEquals("test_value", EmbeddedStorageContextHolder.getCurrentExtendInfo().get("testPutExtendInfo"));
     }
     
     @Test
@@ -66,7 +65,6 @@ class EmbeddedStorageContextHolderTest {
         map.put("testPutAllExtendInfo", "test_value");
         EmbeddedStorageContextHolder.putAllExtendInfo(map);
         assertTrue(EmbeddedStorageContextHolder.containsExtendInfo("testPutAllExtendInfo"));
-        assertEquals("test_value",
-            EmbeddedStorageContextHolder.getCurrentExtendInfo().get("testPutAllExtendInfo"));
+        assertEquals("test_value", EmbeddedStorageContextHolder.getCurrentExtendInfo().get("testPutAllExtendInfo"));
     }
 }

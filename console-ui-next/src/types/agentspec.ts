@@ -1,6 +1,6 @@
 // ===== AgentSpec Types =====
 
-export type AgentSpecVersionStatus = 'draft' | 'reviewing' | 'reviewed' | 'online' | 'offline';
+export type AgentSpecVersionStatus = 'draft' | 'reviewing' | 'online' | 'offline';
 
 /** 列表项 */
 export interface AgentSpecListItem {
@@ -111,7 +111,6 @@ export interface PublishPipelineInfo {
   executionId: string;
   status: PipelineExecutionStatus;
   pipeline: PipelineNode[];
-  historical?: boolean;
 }
 
 /** Safely parse publishPipelineInfo JSON string */

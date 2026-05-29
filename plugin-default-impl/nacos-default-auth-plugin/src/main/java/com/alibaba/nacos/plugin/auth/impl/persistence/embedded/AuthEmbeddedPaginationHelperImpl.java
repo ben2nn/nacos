@@ -54,16 +54,14 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
      * @return Paging data
      */
     @Override
-    public Page<E> fetchPage(final String sqlCountRows, final String sqlFetchRows,
-        final Object[] args,
-        final int pageNo, final int pageSize, final RowMapper rowMapper) {
+    public Page<E> fetchPage(final String sqlCountRows, final String sqlFetchRows, final Object[] args,
+            final int pageNo, final int pageSize, final RowMapper rowMapper) {
         return fetchPage(sqlCountRows, sqlFetchRows, args, pageNo, pageSize, null, rowMapper);
     }
     
     @Override
-    public Page<E> fetchPage(final String sqlCountRows, final String sqlFetchRows, Object[] args,
-        final int pageNo,
-        final int pageSize, final Long lastMaxId, final RowMapper rowMapper) {
+    public Page<E> fetchPage(final String sqlCountRows, final String sqlFetchRows, Object[] args, final int pageNo,
+            final int pageSize, final Long lastMaxId, final RowMapper rowMapper) {
         if (pageNo <= 0 || pageSize <= 0) {
             throw new IllegalArgumentException("pageNo and pageSize must be greater than zero");
         }
@@ -92,8 +90,7 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
         
         // fill the sql Page args
         String fetchSql = sqlFetchRows;
-        OffsetFetchResult offsetFetchResult =
-            addOffsetAndFetchNext(fetchSql, args, pageNo, pageSize);
+        OffsetFetchResult offsetFetchResult = addOffsetAndFetchNext(fetchSql, args, pageNo, pageSize);
         fetchSql = offsetFetchResult.getFetchSql();
         args = offsetFetchResult.getNewArgs();
         
@@ -105,9 +102,8 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
     }
     
     @Override
-    public Page<E> fetchPageLimit(final String sqlCountRows, final String sqlFetchRows,
-        Object[] args, final int pageNo,
-        final int pageSize, final RowMapper rowMapper) {
+    public Page<E> fetchPageLimit(final String sqlCountRows, final String sqlFetchRows, Object[] args, final int pageNo,
+            final int pageSize, final RowMapper rowMapper) {
         if (pageNo <= 0 || pageSize <= 0) {
             throw new IllegalArgumentException("pageNo and pageSize must be greater than zero");
         }
@@ -135,8 +131,7 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
         
         // fill the sql Page args
         String fetchSql = sqlFetchRows;
-        OffsetFetchResult offsetFetchResult =
-            addOffsetAndFetchNext(fetchSql, args, pageNo, pageSize);
+        OffsetFetchResult offsetFetchResult = addOffsetAndFetchNext(fetchSql, args, pageNo, pageSize);
         fetchSql = offsetFetchResult.getFetchSql();
         args = offsetFetchResult.getNewArgs();
         
@@ -148,9 +143,8 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
     }
     
     @Override
-    public Page<E> fetchPageLimit(final String sqlCountRows, final Object[] args1,
-        final String sqlFetchRows,
-        Object[] args2, final int pageNo, final int pageSize, final RowMapper rowMapper) {
+    public Page<E> fetchPageLimit(final String sqlCountRows, final Object[] args1, final String sqlFetchRows,
+            Object[] args2, final int pageNo, final int pageSize, final RowMapper rowMapper) {
         if (pageNo <= 0 || pageSize <= 0) {
             throw new IllegalArgumentException("pageNo and pageSize must be greater than zero");
         }
@@ -178,8 +172,7 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
         
         // fill the sql Page args
         String fetchSql = sqlFetchRows;
-        OffsetFetchResult offsetFetchResult =
-            addOffsetAndFetchNext(fetchSql, args2, pageNo, pageSize);
+        OffsetFetchResult offsetFetchResult = addOffsetAndFetchNext(fetchSql, args2, pageNo, pageSize);
         fetchSql = offsetFetchResult.getFetchSql();
         args2 = offsetFetchResult.getNewArgs();
         
@@ -191,9 +184,8 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
     }
     
     @Override
-    public Page<E> fetchPageLimit(final String sqlFetchRows, Object[] args, final int pageNo,
-        final int pageSize,
-        final RowMapper rowMapper) {
+    public Page<E> fetchPageLimit(final String sqlFetchRows, Object[] args, final int pageNo, final int pageSize,
+            final RowMapper rowMapper) {
         if (pageNo <= 0 || pageSize <= 0) {
             throw new IllegalArgumentException("pageNo and pageSize must be greater than zero");
         }
@@ -202,8 +194,7 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
         
         // fill the sql Page args
         String fetchSql = sqlFetchRows;
-        OffsetFetchResult offsetFetchResult =
-            addOffsetAndFetchNext(fetchSql, args, pageNo, pageSize);
+        OffsetFetchResult offsetFetchResult = addOffsetAndFetchNext(fetchSql, args, pageNo, pageSize);
         fetchSql = offsetFetchResult.getFetchSql();
         args = offsetFetchResult.getNewArgs();
         
@@ -215,13 +206,10 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
     }
     
     @Override
-    public Page fetchPageLimit(MapperResult countMapperResult, MapperResult mapperResult,
-        int pageNo, int pageSize,
-        RowMapper rowMapper) {
-        return fetchPageLimit(countMapperResult.getSql(),
-            countMapperResult.getParamList().toArray(),
-            mapperResult.getSql(), mapperResult.getParamList().toArray(), pageNo, pageSize,
-            rowMapper);
+    public Page fetchPageLimit(MapperResult countMapperResult, MapperResult mapperResult, int pageNo, int pageSize,
+            RowMapper rowMapper) {
+        return fetchPageLimit(countMapperResult.getSql(), countMapperResult.getParamList().toArray(),
+                mapperResult.getSql(), mapperResult.getParamList().toArray(), pageNo, pageSize, rowMapper);
     }
     
     @Override
@@ -234,11 +222,9 @@ public class AuthEmbeddedPaginationHelperImpl<E> implements AuthPaginationHelper
         }
     }
     
-    private OffsetFetchResult addOffsetAndFetchNext(String fetchSql, Object[] arg, int pageNo,
-        int pageSize) {
+    private OffsetFetchResult addOffsetAndFetchNext(String fetchSql, Object[] arg, int pageNo, int pageSize) {
         return PageHandlerAdapterFactory.getInstance().getHandlerAdapterMap()
-            .get(DerbyPageHandlerAdapter.class.getName())
-            .addOffsetAndFetchNext(fetchSql, arg, pageNo, pageSize);
+                .get(DerbyPageHandlerAdapter.class.getName()).addOffsetAndFetchNext(fetchSql, arg, pageNo, pageSize);
     }
     
 }

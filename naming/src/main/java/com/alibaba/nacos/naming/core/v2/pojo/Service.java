@@ -57,8 +57,7 @@ public class Service implements Serializable {
         return newService(namespace, group, name, true);
     }
     
-    public static Service newService(String namespace, String group, String name,
-        boolean ephemeral) {
+    public static Service newService(String namespace, String group, String name, boolean ephemeral) {
         return new Service(namespace, group, name, ephemeral);
     }
     
@@ -97,7 +96,7 @@ public class Service implements Serializable {
     public String getGroupedServiceName() {
         return NamingUtils.getGroupedName(name, group);
     }
-    
+
     public String getNameSpaceGroupedServiceName() {
         //do not String.intern
         return namespace + Constants.SERVICE_INFO_SPLITER + NamingUtils.getGroupedName(name, group);
@@ -112,8 +111,7 @@ public class Service implements Serializable {
             return false;
         }
         Service service = (Service) o;
-        return namespace.equals(service.namespace) && group.equals(service.group)
-            && name.equals(service.name);
+        return namespace.equals(service.namespace) && group.equals(service.group) && name.equals(service.name);
     }
     
     @Override
@@ -123,8 +121,7 @@ public class Service implements Serializable {
     
     @Override
     public String toString() {
-        return "Service{" + "namespace='" + namespace + '\'' + ", group='" + group + '\''
-            + ", name='" + name + '\''
-            + ", ephemeral=" + ephemeral + ", revision=" + revision + '}';
+        return "Service{" + "namespace='" + namespace + '\'' + ", group='" + group + '\'' + ", name='" + name + '\''
+                + ", ephemeral=" + ephemeral + ", revision=" + revision + '}';
     }
 }

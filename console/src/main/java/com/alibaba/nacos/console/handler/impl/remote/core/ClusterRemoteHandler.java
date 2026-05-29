@@ -49,7 +49,6 @@ public class ClusterRemoteHandler implements ClusterHandler {
      */
     @Override
     public Collection<? extends NacosMember> getNodeList(String ipKeyWord) throws NacosException {
-        return clientHolder.getNamingMaintainerService().listClusterNodes(StringUtils.EMPTY,
-            StringUtils.EMPTY);
+        return clientHolder.getNamingMaintainerService().listClusterNodes(StringUtils.EMPTY, StringUtils.EMPTY);
     }
 }

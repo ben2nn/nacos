@@ -26,8 +26,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author nacos
  */
-public class PromptListenerInvoker
-    extends AbstractAiListenerInvoker<NacosPromptEvent, AbstractNacosPromptListener> {
+public class PromptListenerInvoker extends AbstractAiListenerInvoker<NacosPromptEvent, AbstractNacosPromptListener> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(PromptListenerInvoker.class);
     
@@ -37,7 +36,6 @@ public class PromptListenerInvoker
     
     @Override
     protected void logInvoke(NacosPromptEvent event) {
-        LOGGER.info("Invoke event promptKey: {} to Listener: {}", event.getPromptKey(),
-            listener.toString());
+        LOGGER.info("Invoke event promptKey: {} to Listener: {}", event.getPromptKey(), listener.toString());
     }
 }

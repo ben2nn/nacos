@@ -50,8 +50,7 @@ import java.util.TreeMap;
  * @author kiro
  * @since 3.2.0
  */
-public class FilePipelineConfigProvider extends AbstractDynamicConfig
-    implements PipelineConfigProvider {
+public class FilePipelineConfigProvider extends AbstractDynamicConfig implements PipelineConfigProvider {
     
     private static final String CONFIG_NAME = "PipelineConfig";
     
@@ -121,14 +120,13 @@ public class FilePipelineConfigProvider extends AbstractDynamicConfig
             pluginPropertyMap.put(typeName, readNodeProperties(typeName, allProperties));
         }
         List<PipelineNodeConfig> nodes = new ArrayList<>(pluginPropertyMap.size());
-        pluginPropertyMap.entrySet().stream()
-            .sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
-            .forEach(entry -> {
-                PipelineNodeConfig nodeConfig = new PipelineNodeConfig();
-                nodeConfig.setPipelineId(entry.getKey());
-                nodeConfig.setProperties(entry.getValue());
-                nodes.add(nodeConfig);
-            });
+        pluginPropertyMap.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
+                .forEach(entry -> {
+                    PipelineNodeConfig nodeConfig = new PipelineNodeConfig();
+                    nodeConfig.setPipelineId(entry.getKey());
+                    nodeConfig.setProperties(entry.getValue());
+                    nodes.add(nodeConfig);
+                });
         return nodes;
     }
     

@@ -27,7 +27,8 @@ import java.util.Map;
  * @author Daydreamer-ia
  */
 public interface AbilityPostProcessor {
-    
+
+
     /**
      * process before loading by <code>Ability Controller </code>.
      *
@@ -35,5 +36,5 @@ public interface AbilityPostProcessor {
      * @param abilities abilities
      */
     void process(AbilityMode mode, Map<AbilityKey, Boolean> abilities);
-    
+
 }

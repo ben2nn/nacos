@@ -73,8 +73,7 @@ class DistroComponentHolderTest {
     
     @Test
     void testFindFailedTaskHandler() {
-        DistroFailedTaskHandler distroFailedTaskHandler =
-            componentHolder.findFailedTaskHandler(type);
+        DistroFailedTaskHandler distroFailedTaskHandler = componentHolder.findFailedTaskHandler(type);
         assertEquals(this.distroFailedTaskHandler, distroFailedTaskHandler);
     }
     

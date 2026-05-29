@@ -36,8 +36,6 @@ public class AgentSpecQueryForm {
     
     private String label;
     
-    private String md5;
-    
     /**
      * Validate and normalize query parameters.
      *
@@ -48,9 +46,8 @@ public class AgentSpecQueryForm {
             namespaceId = Constants.AgentSpecs.AGENTSPEC_DEFAULT_NAMESPACE;
         }
         if (StringUtils.isBlank(name)) {
-            throw new NacosApiException(NacosApiException.INVALID_PARAM,
-                ErrorCode.PARAMETER_MISSING,
-                "AgentSpec name is required");
+            throw new NacosApiException(NacosApiException.INVALID_PARAM, ErrorCode.PARAMETER_MISSING,
+                    "AgentSpec name is required");
         }
     }
     
@@ -84,13 +81,5 @@ public class AgentSpecQueryForm {
     
     public void setLabel(String label) {
         this.label = label;
-    }
-    
-    public String getMd5() {
-        return md5;
-    }
-    
-    public void setMd5(String md5) {
-        this.md5 = md5;
     }
 }

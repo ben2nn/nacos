@@ -38,10 +38,9 @@ import org.springframework.context.annotation.ImportRuntimeHints;
 @SpringBootApplication
 @ImportRuntimeHints(NacosRuntimeHints.class)
 @ComponentScan(basePackages = "com.alibaba.nacos", excludeFilters = {
-    @ComponentScan.Filter(type = FilterType.CUSTOM, classes = {NacosTypeExcludeFilter.class}),
-    @ComponentScan.Filter(type = FilterType.CUSTOM, classes = {TypeExcludeFilter.class}),
-    @ComponentScan.Filter(type = FilterType.CUSTOM,
-        classes = {AutoConfigurationExcludeFilter.class})})
+        @ComponentScan.Filter(type = FilterType.CUSTOM, classes = {NacosTypeExcludeFilter.class}),
+        @ComponentScan.Filter(type = FilterType.CUSTOM, classes = {TypeExcludeFilter.class}),
+        @ComponentScan.Filter(type = FilterType.CUSTOM, classes = {AutoConfigurationExcludeFilter.class})})
 @Deprecated
 public class Nacos {
     
@@ -50,3 +49,4 @@ public class Nacos {
     }
     
 }
+

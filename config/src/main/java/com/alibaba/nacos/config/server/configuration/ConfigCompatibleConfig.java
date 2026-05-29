@@ -44,14 +44,13 @@ public class ConfigCompatibleConfig extends AbstractDynamicConfig {
     
     @Override
     protected void getConfigFromEnv() {
-        namespaceCompatibleMode =
-            EnvUtil.getProperty(PropertiesConstant.NAMESPACE_COMPATIBLE_MODE, Boolean.class, true);
+        namespaceCompatibleMode = EnvUtil.getProperty(PropertiesConstant.NAMESPACE_COMPATIBLE_MODE, Boolean.class, true);
     }
     
     @Override
     protected String printConfig() {
         return "ConfigCompatibleConfig{" + "namespaceCompatibleMode=" + namespaceCompatibleMode
-            + '}';
+                + '}';
     }
     
     public static ConfigCompatibleConfig getInstance() {

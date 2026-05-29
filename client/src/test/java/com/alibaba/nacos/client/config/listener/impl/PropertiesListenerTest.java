@@ -31,7 +31,6 @@ class PropertiesListenerTest {
     void testReceiveConfigInfo() {
         final Deque<Properties> q2 = new ArrayDeque<Properties>();
         PropertiesListener a = new PropertiesListener() {
-            
             @Override
             public void innerReceive(Properties properties) {
                 q2.offer(properties);
@@ -48,7 +47,6 @@ class PropertiesListenerTest {
     void testReceiveConfigInfoEmpty() {
         final Deque<Properties> q2 = new ArrayDeque<Properties>();
         PropertiesListener a = new PropertiesListener() {
-            
             @Override
             public void innerReceive(Properties properties) {
                 q2.offer(properties);
@@ -63,7 +61,6 @@ class PropertiesListenerTest {
     void testReceiveConfigInfoIsNotProperties() {
         final Deque<Properties> q2 = new ArrayDeque<Properties>();
         PropertiesListener a = new PropertiesListener() {
-            
             @Override
             public void innerReceive(Properties properties) {
                 q2.offer(properties);
@@ -78,7 +75,6 @@ class PropertiesListenerTest {
     void testInnerReceive() {
         final Deque<Properties> q2 = new ArrayDeque<Properties>();
         PropertiesListener a = new PropertiesListener() {
-            
             @Override
             public void innerReceive(Properties properties) {
                 q2.offer(properties);

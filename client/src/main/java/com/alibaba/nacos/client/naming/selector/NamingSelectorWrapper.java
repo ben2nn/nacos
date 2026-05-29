@@ -35,8 +35,7 @@ import java.util.List;
  *
  * @author lideyou
  */
-public class NamingSelectorWrapper
-    extends AbstractSelectorWrapper<NamingSelector, NamingEvent, InstancesChangeEvent> {
+public class NamingSelectorWrapper extends AbstractSelectorWrapper<NamingSelector, NamingEvent, InstancesChangeEvent> {
     
     private String serviceName;
     
@@ -79,9 +78,8 @@ public class NamingSelectorWrapper
         super(selector, new NamingListenerInvoker(listener));
     }
     
-    public NamingSelectorWrapper(String serviceName, String groupName, String clusters,
-        NamingSelector selector,
-        EventListener listener) {
+    public NamingSelectorWrapper(String serviceName, String groupName, String clusters, NamingSelector selector,
+            EventListener listener) {
         this(selector, listener);
         this.serviceName = serviceName;
         this.groupName = groupName;

@@ -35,8 +35,7 @@ public class DefaultHttpClientFactory extends AbstractHttpClientFactory {
     
     @Override
     protected HttpClientConfig buildHttpClientConfig() {
-        return HttpClientConfig.builder().setConTimeOutMillis(TIMEOUT)
-            .setReadTimeOutMillis(TIMEOUT >> 1).build();
+        return HttpClientConfig.builder().setConTimeOutMillis(TIMEOUT).setReadTimeOutMillis(TIMEOUT >> 1).build();
     }
     
     @Override

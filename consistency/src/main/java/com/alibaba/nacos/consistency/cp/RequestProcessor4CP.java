@@ -30,6 +30,7 @@ import java.util.List;
 @SuppressWarnings("all")
 public abstract class RequestProcessor4CP extends RequestProcessor {
     
+    
     /**
      * Discovery snapshot handler It is up to LogProcessor to decide which SnapshotOperate should be loaded and saved by
      * itself.

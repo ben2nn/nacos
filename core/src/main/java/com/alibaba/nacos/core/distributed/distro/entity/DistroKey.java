@@ -79,8 +79,7 @@ public class DistroKey {
         }
         DistroKey distroKey = (DistroKey) o;
         return Objects.equals(resourceKey, distroKey.resourceKey) && Objects
-            .equals(resourceType, distroKey.resourceType)
-            && Objects.equals(targetServer, distroKey.targetServer);
+                .equals(resourceType, distroKey.resourceType) && Objects.equals(targetServer, distroKey.targetServer);
     }
     
     @Override
@@ -90,8 +89,7 @@ public class DistroKey {
     
     @Override
     public String toString() {
-        return "DistroKey{" + "resourceKey='" + resourceKey + '\'' + ", resourceType='"
-            + resourceType + '\''
-            + ", targetServer='" + targetServer + '\'' + '}';
+        return "DistroKey{" + "resourceKey='" + resourceKey + '\'' + ", resourceType='" + resourceType + '\''
+                + ", targetServer='" + targetServer + '\'' + '}';
     }
 }

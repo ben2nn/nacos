@@ -33,8 +33,7 @@ import java.util.function.Supplier;
  */
 public class TimerContext {
     
-    private static final ThreadLocal<Map<String, Long>> TIME_RECORD =
-        ThreadLocal.withInitial(() -> new HashMap<>(2));
+    private static final ThreadLocal<Map<String, Long>> TIME_RECORD = ThreadLocal.withInitial(() -> new HashMap<>(2));
     
     /**
      * Record context start time.
@@ -79,8 +78,7 @@ public class TimerContext {
                 LoggerUtils.printIfWarnEnabled(logger, "{} cost time : {} ms", name, contextTime);
                 break;
             default:
-                LoggerUtils.printIfErrorEnabled(logger, "level not found , {} cost time : {} ms",
-                    name, contextTime);
+                LoggerUtils.printIfErrorEnabled(logger, "level not found , {} cost time : {} ms", name, contextTime);
                 break;
         }
     }
@@ -125,8 +123,7 @@ public class TimerContext {
      * @param name   job name
      * @param logger logger
      */
-    public static <T, R> R run(final Function<T, R> job, T args, final String name,
-        final Logger logger) {
+    public static <T, R> R run(final Function<T, R> job, T args, final String name, final Logger logger) {
         start(name);
         try {
             return job.apply(args);
@@ -143,8 +140,7 @@ public class TimerContext {
      * @param name   job name
      * @param logger logger
      */
-    public static <T> void run(final Consumer<T> job, T args, final String name,
-        final Logger logger) {
+    public static <T> void run(final Consumer<T> job, T args, final String name, final Logger logger) {
         start(name);
         try {
             job.accept(args);

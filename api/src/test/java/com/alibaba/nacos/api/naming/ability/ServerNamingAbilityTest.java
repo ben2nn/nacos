@@ -41,8 +41,7 @@ class ServerNamingAbilityTest {
     @Test
     void testDeserializeServerNamingAbilityForNonExistItem() throws JsonProcessingException {
         String nonExistItemJson = "{\"exampleAbility\":false}";
-        ServerNamingAbility actual =
-            jacksonMapper.readValue(nonExistItemJson, ServerNamingAbility.class);
+        ServerNamingAbility actual = jacksonMapper.readValue(nonExistItemJson, ServerNamingAbility.class);
         assertFalse(actual.isSupportJraft());
     }
     
@@ -51,8 +50,7 @@ class ServerNamingAbilityTest {
         ServerNamingAbility expected = new ServerNamingAbility();
         expected.setSupportJraft(true);
         String serializeJson = jacksonMapper.writeValueAsString(expected);
-        ServerNamingAbility actual =
-            jacksonMapper.readValue(serializeJson, ServerNamingAbility.class);
+        ServerNamingAbility actual = jacksonMapper.readValue(serializeJson, ServerNamingAbility.class);
         assertEquals(expected, actual);
         actual = new ServerNamingAbility();
         assertNotEquals(expected, actual);
@@ -77,8 +75,7 @@ class ServerNamingAbilityTest {
         ServerNamingAbility expected = new ServerNamingAbility();
         expected.setSupportJraft(true);
         String serializeJson = jacksonMapper.writeValueAsString(expected);
-        ServerNamingAbility actual =
-            jacksonMapper.readValue(serializeJson, ServerNamingAbility.class);
+        ServerNamingAbility actual = jacksonMapper.readValue(serializeJson, ServerNamingAbility.class);
         assertEquals(expected, actual);
         actual = new ServerNamingAbility();
         assertNotEquals(expected, actual);

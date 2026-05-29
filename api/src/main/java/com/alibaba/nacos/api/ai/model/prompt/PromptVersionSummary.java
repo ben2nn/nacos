@@ -41,8 +41,6 @@ public class PromptVersionSummary implements Serializable {
     
     private String publishPipelineInfo;
     
-    private Long downloadCount;
-    
     public String getPromptKey() {
         return promptKey;
     }
@@ -97,13 +95,5 @@ public class PromptVersionSummary implements Serializable {
     
     public void setPublishPipelineInfo(String publishPipelineInfo) {
         this.publishPipelineInfo = publishPipelineInfo;
-    }
-    
-    public Long getDownloadCount() {
-        return downloadCount;
-    }
-    
-    public void setDownloadCount(Long downloadCount) {
-        this.downloadCount = downloadCount;
     }
 }

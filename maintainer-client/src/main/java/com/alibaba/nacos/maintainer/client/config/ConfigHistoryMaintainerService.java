@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.maintainer.client.config;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.api.config.model.ConfigHistoryBasicInfo;
 import com.alibaba.nacos.api.config.model.ConfigHistoryDetailInfo;
 import com.alibaba.nacos.api.exception.NacosException;
@@ -40,10 +39,8 @@ public interface ConfigHistoryMaintainerService {
      * @return A paginated list of configuration history.
      * @throws NacosException If the query fails.
      */
-    @Since("3.0.0")
-    Page<ConfigHistoryBasicInfo> listConfigHistory(String dataId, String groupName,
-        String namespaceId, int pageNo,
-        int pageSize) throws NacosException;
+    Page<ConfigHistoryBasicInfo> listConfigHistory(String dataId, String groupName, String namespaceId, int pageNo,
+            int pageSize) throws NacosException;
     
     /**
      * Query detailed configuration history information by dataId, groupName, namespaceId, and nid.
@@ -55,10 +52,8 @@ public interface ConfigHistoryMaintainerService {
      * @return Detailed configuration history information.
      * @throws NacosException If the history record does not exist or the query fails.
      */
-    @Since("3.0.0")
-    ConfigHistoryDetailInfo getConfigHistoryInfo(String dataId, String groupName,
-        String namespaceId, Long nid)
-        throws NacosException;
+    ConfigHistoryDetailInfo getConfigHistoryInfo(String dataId, String groupName, String namespaceId, Long nid)
+            throws NacosException;
     
     /**
      * Query previous configuration history information by dataId, groupName, namespaceId, and id.
@@ -70,8 +65,6 @@ public interface ConfigHistoryMaintainerService {
      * @return Previous configuration history information.
      * @throws NacosException If the previous history record does not exist or the query fails.
      */
-    @Since("3.0.0")
-    ConfigHistoryDetailInfo getPreviousConfigHistoryInfo(String dataId, String groupName,
-        String namespaceId, Long id)
-        throws NacosException;
+    ConfigHistoryDetailInfo getPreviousConfigHistoryInfo(String dataId, String groupName, String namespaceId, Long id)
+            throws NacosException;
 }

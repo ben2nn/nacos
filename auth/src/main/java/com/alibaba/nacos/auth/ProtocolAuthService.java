@@ -77,8 +77,7 @@ public interface ProtocolAuthService<R> {
      * @return {@link AuthResult} of validate result
      * @throws AccessException exception during validating
      */
-    AuthResult validateIdentity(IdentityContext identityContext, Resource resource)
-        throws AccessException;
+    AuthResult validateIdentity(IdentityContext identityContext, Resource resource) throws AccessException;
     
     /**
      * Validate identity whether had permission for the resource and action.
@@ -88,8 +87,7 @@ public interface ProtocolAuthService<R> {
      * @return {@link AuthResult} of validate result
      * @throws AccessException exception during validating
      */
-    AuthResult validateAuthority(IdentityContext identityContext, Permission permission)
-        throws AccessException;
+    AuthResult validateAuthority(IdentityContext identityContext, Permission permission) throws AccessException;
     
     /**
      * check server identity.

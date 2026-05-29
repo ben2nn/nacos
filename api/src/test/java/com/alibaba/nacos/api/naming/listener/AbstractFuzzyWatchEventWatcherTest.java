@@ -29,10 +29,9 @@ class AbstractFuzzyWatchEventWatcherTest {
     @BeforeEach
     void setUp() {
         fuzzyWatchEventWatcher = new AbstractFuzzyWatchEventWatcher() {
-            
             @Override
             public void onEvent(FuzzyWatchChangeEvent event) {
-                
+            
             }
         };
     }

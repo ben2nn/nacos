@@ -30,8 +30,7 @@ class GrpcClientTlsTest extends GrpcClientTest {
     void testGrpcEnableTlsAndTrustPart() throws Exception {
         when(tlsConfig.getEnableTls()).thenReturn(true);
         when(tlsConfig.getTrustCollectionCertFile()).thenReturn("ca-cert.pem");
-        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256",
-            "ECDHE-RSA-AES256-GCM-SHA384");
+        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256", "ECDHE-RSA-AES256-GCM-SHA384");
         when(tlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
         assertNull(grpcClient.connectToServer(serverInfo));
     }
@@ -40,8 +39,7 @@ class GrpcClientTlsTest extends GrpcClientTest {
     void testGrpcEnableTlsAndTrustAll() throws Exception {
         when(tlsConfig.getEnableTls()).thenReturn(true);
         when(tlsConfig.getTrustCollectionCertFile()).thenReturn("ca-cert.pem");
-        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256",
-            "ECDHE-RSA-AES256-GCM-SHA384");
+        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256", "ECDHE-RSA-AES256-GCM-SHA384");
         when(tlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
         when(tlsConfig.getTrustAll()).thenReturn(true);
         assertNull(grpcClient.connectToServer(serverInfo));
@@ -51,8 +49,7 @@ class GrpcClientTlsTest extends GrpcClientTest {
     void testGrpcEnableTlsAndEnableMutualAuth() throws Exception {
         when(tlsConfig.getEnableTls()).thenReturn(true);
         when(tlsConfig.getTrustCollectionCertFile()).thenReturn("ca-cert.pem");
-        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256",
-            "ECDHE-RSA-AES256-GCM-SHA384");
+        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256", "ECDHE-RSA-AES256-GCM-SHA384");
         when(tlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
         when(tlsConfig.getTrustAll()).thenReturn(true);
         when(tlsConfig.getMutualAuthEnable()).thenReturn(true);
@@ -64,8 +61,7 @@ class GrpcClientTlsTest extends GrpcClientTest {
     void testGrpcSslProvider() {
         when(tlsConfig.getEnableTls()).thenReturn(true);
         when(tlsConfig.getTrustCollectionCertFile()).thenReturn("ca-cert.pem");
-        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256",
-            "ECDHE-RSA-AES256-GCM-SHA384");
+        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256", "ECDHE-RSA-AES256-GCM-SHA384");
         when(tlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
         when(tlsConfig.getTrustAll()).thenReturn(true);
         when(tlsConfig.getMutualAuthEnable()).thenReturn(true);
@@ -78,8 +74,7 @@ class GrpcClientTlsTest extends GrpcClientTest {
     void testGrpcEmptyTrustCollectionCertFile() {
         when(tlsConfig.getEnableTls()).thenReturn(true);
         when(tlsConfig.getTrustCollectionCertFile()).thenReturn("");
-        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256",
-            "ECDHE-RSA-AES256-GCM-SHA384");
+        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256", "ECDHE-RSA-AES256-GCM-SHA384");
         when(tlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
         assertNull(grpcClient.connectToServer(serverInfo));
     }
@@ -87,8 +82,7 @@ class GrpcClientTlsTest extends GrpcClientTest {
     @Test
     void testGrpcMutualAuth() {
         when(tlsConfig.getEnableTls()).thenReturn(true);
-        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256",
-            "ECDHE-RSA-AES256-GCM-SHA384");
+        when(tlsConfig.getCiphers()).thenReturn("ECDHE-RSA-AES128-GCM-SHA256", "ECDHE-RSA-AES256-GCM-SHA384");
         when(tlsConfig.getProtocols()).thenReturn("TLSv1.2,TLSv1.3");
         when(tlsConfig.getMutualAuthEnable()).thenReturn(true);
         when(tlsConfig.getTrustAll()).thenReturn(true);

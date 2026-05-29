@@ -73,8 +73,7 @@ class HttpTpsPointRegistryTest {
     void setUp() throws Exception {
         registry = new HttpTpsPointRegistry();
         controlManagerCenterMockedStatic = Mockito.mockStatic(ControlManagerCenter.class);
-        controlManagerCenterMockedStatic.when(ControlManagerCenter::getInstance)
-            .thenReturn(controlManagerCenter);
+        controlManagerCenterMockedStatic.when(ControlManagerCenter::getInstance).thenReturn(controlManagerCenter);
         when(controlManagerCenter.getTpsControlManager()).thenReturn(tpsControlManager);
     }
     
@@ -89,15 +88,13 @@ class HttpTpsPointRegistryTest {
     void testOnApplicationEventRegistersTpsPoints() throws Exception {
         HealthCheckRequestHandler handlerBean = new HealthCheckRequestHandler();
         Method handleMethod = HealthCheckRequestHandler.class.getMethod("handle",
-            HealthCheckRequest.class, RequestMeta.class);
+                HealthCheckRequest.class, RequestMeta.class);
         HandlerMethod handlerMethod = new HandlerMethod(handlerBean, handleMethod);
         RequestMappingInfo mappingInfo = Mockito.mock(RequestMappingInfo.class);
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods =
-            Collections.singletonMap(mappingInfo, handlerMethod);
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = Collections.singletonMap(mappingInfo, handlerMethod);
         
-        when(applicationContext.getBean(eq("requestMappingHandlerMapping"),
-            eq(RequestMappingHandlerMapping.class)))
-            .thenReturn(requestMappingHandlerMapping);
+        when(applicationContext.getBean(eq("requestMappingHandlerMapping"), eq(RequestMappingHandlerMapping.class)))
+                .thenReturn(requestMappingHandlerMapping);
         when(requestMappingHandlerMapping.getHandlerMethods()).thenReturn(handlerMethods);
         
         ContextRefreshedEvent event = new ContextRefreshedEvent(applicationContext);
@@ -110,15 +107,13 @@ class HttpTpsPointRegistryTest {
     void testOnApplicationEventSecondCallSkipsInit() throws Exception {
         HealthCheckRequestHandler handlerBean = new HealthCheckRequestHandler();
         Method handleMethod = HealthCheckRequestHandler.class.getMethod("handle",
-            HealthCheckRequest.class, RequestMeta.class);
+                HealthCheckRequest.class, RequestMeta.class);
         HandlerMethod handlerMethod = new HandlerMethod(handlerBean, handleMethod);
         RequestMappingInfo mappingInfo = Mockito.mock(RequestMappingInfo.class);
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods =
-            Collections.singletonMap(mappingInfo, handlerMethod);
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = Collections.singletonMap(mappingInfo, handlerMethod);
         
-        when(applicationContext.getBean(eq("requestMappingHandlerMapping"),
-            eq(RequestMappingHandlerMapping.class)))
-            .thenReturn(requestMappingHandlerMapping);
+        when(applicationContext.getBean(eq("requestMappingHandlerMapping"), eq(RequestMappingHandlerMapping.class)))
+                .thenReturn(requestMappingHandlerMapping);
         when(requestMappingHandlerMapping.getHandlerMethods()).thenReturn(handlerMethods);
         
         ContextRefreshedEvent event = new ContextRefreshedEvent(applicationContext);

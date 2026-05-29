@@ -30,7 +30,6 @@ class AbstractConfigChangeListenerTest {
     void receiveConfigInfo() {
         final Deque<String> data = new ArrayDeque<String>();
         AbstractConfigChangeListener a = new AbstractConfigChangeListener() {
-            
             @Override
             public void receiveConfigChange(ConfigChangeEvent event) {
             }

@@ -54,8 +54,7 @@ import java.util.stream.Collectors;
 @Component
 public class StandaloneDatabaseOperateImpl implements BaseDatabaseOperate {
     
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(StandaloneDatabaseOperateImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StandaloneDatabaseOperateImpl.class);
     
     private final SqlLimiter sqlLimiter;
     
@@ -125,8 +124,7 @@ public class StandaloneDatabaseOperateImpl implements BaseDatabaseOperate {
                             request.setSql(s);
                             return request;
                         }).collect(Collectors.toList());
-                        futures.add(CompletableFuture
-                            .runAsync(() -> results.add(doDataImport(jdbcTemplate, sqls))));
+                        futures.add(CompletableFuture.runAsync(() -> results.add(doDataImport(jdbcTemplate, sqls))));
                         batchUpdate.clear();
                     }
                 }
@@ -137,16 +135,14 @@ public class StandaloneDatabaseOperateImpl implements BaseDatabaseOperate {
                 }
                 return RestResult.<String>builder().withCode(code).withData("").build();
             } catch (Throwable ex) {
-                LOGGER.error("An exception occurred when external data was imported into Derby : ",
-                    ex);
+                LOGGER.error("An exception occurred when external data was imported into Derby : ", ex);
                 return RestResultUtils.failed(ex.getMessage());
             }
         });
     }
     
     @Override
-    public Boolean update(List<ModifyRequest> modifyRequests,
-        BiConsumer<Boolean, Throwable> consumer) {
+    public Boolean update(List<ModifyRequest> modifyRequests, BiConsumer<Boolean, Throwable> consumer) {
         return update(transactionTemplate, jdbcTemplate, modifyRequests, consumer);
     }
     

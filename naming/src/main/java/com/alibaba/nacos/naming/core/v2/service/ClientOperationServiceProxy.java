@@ -44,24 +44,21 @@ public class ClientOperationServiceProxy implements ClientOperationService {
     
     private final ClientOperationService persistentClientOperationService;
     
-    public ClientOperationServiceProxy(
-        EphemeralClientOperationServiceImpl ephemeralClientOperationService,
-        PersistentClientOperationServiceImpl persistentClientOperationService) {
+    public ClientOperationServiceProxy(EphemeralClientOperationServiceImpl ephemeralClientOperationService,
+            PersistentClientOperationServiceImpl persistentClientOperationService) {
         this.ephemeralClientOperationService = ephemeralClientOperationService;
         this.persistentClientOperationService = persistentClientOperationService;
     }
     
     @Override
-    public void registerInstance(Service service, Instance instance, String clientId)
-        throws NacosException {
+    public void registerInstance(Service service, Instance instance, String clientId) throws NacosException {
         final ClientOperationService operationService = chooseClientOperationService(instance);
         operationService.registerInstance(service, instance, clientId);
     }
     
     @Override
     public void batchRegisterInstance(Service service, List<Instance> instances, String clientId) {
-        final ClientOperationService operationService =
-            chooseClientOperationService(instances.get(0));
+        final ClientOperationService operationService = chooseClientOperationService(instances.get(0));
         operationService.batchRegisterInstance(service, instances, clientId);
     }
     
@@ -88,7 +85,6 @@ public class ClientOperationServiceProxy implements ClientOperationService {
     }
     
     private ClientOperationService chooseClientOperationService(final Instance instance) {
-        return instance.isEphemeral() ? ephemeralClientOperationService
-            : persistentClientOperationService;
+        return instance.isEphemeral() ? ephemeralClientOperationService : persistentClientOperationService;
     }
 }

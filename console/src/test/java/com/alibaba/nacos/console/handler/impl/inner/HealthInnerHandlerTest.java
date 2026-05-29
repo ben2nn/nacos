@@ -49,9 +49,8 @@ class HealthInnerHandlerTest {
     
     @AfterEach
     void tearDown() {
-        ((List<AbstractModuleHealthChecker>) ReflectionTestUtils.getField(
-            ModuleHealthCheckerHolder.getInstance(),
-            "moduleHealthCheckers")).remove(moduleHealthChecker);
+        ((List<AbstractModuleHealthChecker>) ReflectionTestUtils.getField(ModuleHealthCheckerHolder.getInstance(),
+                "moduleHealthCheckers")).remove(moduleHealthChecker);
     }
     
     @Test

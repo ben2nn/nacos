@@ -24,8 +24,7 @@ class NacosConfigCachePostProcessorTest {
     
     @Test
     public void test() {
-        NacosConfigCachePostProcessor nacosConfigCacheMd5PostProcessor =
-            new NacosConfigCachePostProcessor();
+        NacosConfigCachePostProcessor nacosConfigCacheMd5PostProcessor = new NacosConfigCachePostProcessor();
         assertEquals("nacos", nacosConfigCacheMd5PostProcessor.getName());
         nacosConfigCacheMd5PostProcessor.postProcess(null, null);
     }

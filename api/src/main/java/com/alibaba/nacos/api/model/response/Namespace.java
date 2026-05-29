@@ -59,8 +59,7 @@ public class Namespace {
         this.namespaceShowName = namespaceShowName;
     }
     
-    public Namespace(String namespace, String namespaceShowName, int quota, int configCount,
-        int type) {
+    public Namespace(String namespace, String namespaceShowName, int quota, int configCount, int type) {
         this.namespace = namespace;
         this.namespaceShowName = namespaceShowName;
         this.quota = quota;
@@ -68,9 +67,8 @@ public class Namespace {
         this.type = type;
     }
     
-    public Namespace(String namespace, String namespaceShowName, String namespaceDesc, int quota,
-        int configCount,
-        int type) {
+    public Namespace(String namespace, String namespaceShowName, String namespaceDesc, int quota, int configCount,
+            int type) {
         this.namespace = namespace;
         this.namespaceShowName = namespaceShowName;
         this.quota = quota;

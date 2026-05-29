@@ -29,13 +29,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StdioTransport {
-    
     private String type = "stdio";
-    
+
     public String getType() {
         return type;
     }
-    
+
     public void setType(String type) {
         this.type = type;
     }

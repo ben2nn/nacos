@@ -68,8 +68,7 @@ public class JRaftMaintainService {
         return RestResultUtils.success();
     }
     
-    private RestResult<String> single(CliService cliService, String groupId, Node node,
-        Map<String, String> args) {
+    private RestResult<String> single(CliService cliService, String groupId, Node node, Map<String, String> args) {
         try {
             if (node == null) {
                 return RestResultUtils.failed("not this raft group : " + groupId);

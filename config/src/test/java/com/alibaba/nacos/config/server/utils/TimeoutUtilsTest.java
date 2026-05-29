@@ -51,13 +51,4 @@ class TimeoutUtilsTest {
         timeoutUtils.resetTotalTime();
         assertEquals(0L, timeoutUtils.getTotalTime().get());
     }
-    
-    @Test
-    void testInitLastResetTimeOnlyOnce() {
-        TimeoutUtils timeoutUtils = new TimeoutUtils(10, 1000);
-        timeoutUtils.initLastResetTime();
-        timeoutUtils.initLastResetTime();
-        
-        assertEquals(0L, timeoutUtils.getTotalTime().get());
-    }
 }

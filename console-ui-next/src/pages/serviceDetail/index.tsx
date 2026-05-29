@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { ArrowLeft, Pencil, ChevronLeft, ChevronRight, Server, Hash, Shield, ToggleLeft, Filter, Braces, Trash2} from 'lucide-react';
+import { ArrowLeft, Pencil, ChevronLeft, ChevronRight, Server, Hash, Shield, ToggleLeft, Filter, Braces } from 'lucide-react';
 
 import { serviceApi } from '@/api/service';
 import { useServiceStore } from '@/stores/service-store';
@@ -35,31 +35,19 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
 
-const getServiceManagementPath = (namespaceId: string) => {
-  const params = new URLSearchParams();
-  if (namespaceId) {
-    params.set('namespace', namespaceId);
-  }
-  const query = params.toString();
-  return query ? `/serviceManagement?${query}` : '/serviceManagement';
-};
-
 export default function ServiceDetailPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { currentNamespace, setNamespaceChangeGuard } = useNamespaceStore();
+  const { currentNamespace } = useNamespaceStore();
 
   const serviceName = searchParams.get('serviceName') || '';
   const groupName = searchParams.get('groupName') || 'DEFAULT_GROUP';
-  const activeNamespace =
-    searchParams.get('namespace') || searchParams.get('namespaceId') || currentNamespace;
 
   const {
     currentService,
@@ -106,8 +94,6 @@ export default function ServiceDetailPage() {
     metadata: '',
   });
   const [editInstanceSubmitting, setEditInstanceSubmitting] = useState(false);
-  const [deleteInstanceTarget, setDeleteInstanceTarget] = useState<{ clusterName: string; instance: Instance } | null>(null);
-  const [deleteInstanceSubmitting, setDeleteInstanceSubmitting] = useState(false);
 
   // Per-cluster pagination state
   const [clusterPages, setClusterPages] = useState<Record<string, { pageNo: number; pageSize: number }>>({});
@@ -118,47 +104,14 @@ export default function ServiceDetailPage() {
   // Instance toggling state
   const [togglingInstances, setTogglingInstances] = useState<Set<string>>(new Set());
 
-  const closeDetailDialogs = useCallback(() => {
-    setEditServiceOpen(false);
-    setEditClusterOpen(false);
-    setEditInstanceOpen(false);
-    setDeleteInstanceTarget(null);
-  }, []);
-
   // Load service detail
   useEffect(() => {
     if (serviceName) {
-      fetchServiceDetail(activeNamespace, serviceName, groupName);
+      fetchServiceDetail(currentNamespace, serviceName, groupName);
     }
     return () => clearCurrentService();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serviceName, groupName, activeNamespace]);
-
-  useEffect(() => {
-    const hasPendingDialog = editServiceOpen
-      || editClusterOpen
-      || editInstanceOpen
-      || deleteInstanceTarget !== null;
-    setNamespaceChangeGuard(() => {
-      if (!hasPendingDialog) {
-        return true;
-      }
-      if (!window.confirm(t('service.namespaceSwitchConfirm'))) {
-        return false;
-      }
-      closeDetailDialogs();
-      return true;
-    });
-    return () => setNamespaceChangeGuard(null);
-  }, [
-    closeDetailDialogs,
-    deleteInstanceTarget,
-    editClusterOpen,
-    editInstanceOpen,
-    editServiceOpen,
-    setNamespaceChangeGuard,
-    t,
-  ]);
+  }, [serviceName, groupName, currentNamespace]);
 
   // Fetch instances for each cluster when service detail loads
   useEffect(() => {
@@ -178,7 +131,7 @@ export default function ServiceDetailPage() {
     }));
     try {
       const response = await serviceApi.listInstances({
-        namespaceId: activeNamespace,
+        namespaceId: currentNamespace,
         serviceName,
         groupName,
         clusterName,
@@ -197,10 +150,10 @@ export default function ServiceDetailPage() {
         [clusterName]: { list: [], total: 0, loading: false },
       }));
     }
-  }, [activeNamespace, serviceName, groupName, clusterPages]);
+  }, [currentNamespace, serviceName, groupName, clusterPages]);
 
   const refreshDetail = () => {
-    fetchServiceDetail(activeNamespace, serviceName, groupName);
+    fetchServiceDetail(currentNamespace, serviceName, groupName);
     // Instances will re-fetch via the useEffect on currentService change
   };
 
@@ -237,7 +190,7 @@ export default function ServiceDetailPage() {
         ? JSON.stringify({ type: 'none' })
         : JSON.stringify({ type: editServiceForm.selectorType, expression: editServiceForm.selectorExpression });
       await serviceApi.updateService({
-        namespaceId: activeNamespace,
+        namespaceId: currentNamespace,
         serviceName,
         groupName,
         protectThreshold: editServiceForm.protectThreshold,
@@ -285,7 +238,7 @@ export default function ServiceDetailPage() {
         healthCheckerObj.headers = editClusterForm.checkHeaders;
       }
       await serviceApi.updateCluster({
-        namespaceId: activeNamespace,
+        namespaceId: currentNamespace,
         serviceName,
         groupName,
         clusterName: editClusterName,
@@ -329,7 +282,7 @@ export default function ServiceDetailPage() {
     setEditInstanceSubmitting(true);
     try {
       await serviceApi.updateInstance({
-        namespaceId: activeNamespace,
+        namespaceId: currentNamespace,
         serviceName,
         groupName,
         clusterName: editInstanceCluster,
@@ -357,7 +310,7 @@ export default function ServiceDetailPage() {
         ? JSON.stringify(inst.metadata)
         : undefined;
       await serviceApi.updateInstance({
-        namespaceId: activeNamespace,
+        namespaceId: currentNamespace,
         serviceName,
         groupName,
         clusterName,
@@ -376,40 +329,6 @@ export default function ServiceDetailPage() {
         next.delete(key);
         return next;
       });
-    }
-  };
-
-  const handleDeleteInstance = async () => {
-    if (!deleteInstanceTarget) return;
-    const { clusterName, instance } = deleteInstanceTarget;
-    setDeleteInstanceSubmitting(true);
-    try {
-      await serviceApi.deleteInstance({
-        namespaceId: activeNamespace,
-        serviceName,
-        groupName,
-        clusterName,
-        ip: instance.ip,
-        port: instance.port,
-        ephemeral: instance.ephemeral,
-      });
-      toast.success(t('service.instanceDeleteSuccess'));
-      setDeleteInstanceTarget(null);
-      const currentPage = getClusterPage(clusterName);
-      const currentInstances = instancesByCluster[clusterName]?.list || [];
-      if (currentInstances.length === 1 && currentPage.pageNo > 1) {
-        const previousPage = { ...currentPage, pageNo: currentPage.pageNo - 1 };
-        setClusterPages((prev) => ({
-          ...prev,
-          [clusterName]: previousPage,
-        }));
-        fetchClusterInstances(clusterName, previousPage);
-      } else {
-        refreshClusterInstances(clusterName);
-      }
-      refreshDetail();
-    } catch { /* interceptor */ } finally {
-      setDeleteInstanceSubmitting(false);
     }
   };
 
@@ -443,7 +362,7 @@ export default function ServiceDetailPage() {
   if (!currentService) {
     return (
       <div className="flex flex-col gap-4">
-        <Button variant="ghost" onClick={() => navigate(getServiceManagementPath(activeNamespace))} className="gap-2 w-fit">
+        <Button variant="ghost" onClick={() => navigate('/serviceManagement')} className="gap-2 w-fit">
           <ArrowLeft className="h-4 w-4" />
           {t('common.back')}
         </Button>
@@ -460,7 +379,7 @@ export default function ServiceDetailPage() {
     <div className="flex flex-col gap-4">
       {/* Back + Title */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="sm" onClick={() => navigate(getServiceManagementPath(activeNamespace))}>
+        <Button variant="ghost" size="sm" onClick={() => navigate('/serviceManagement')}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <h1 className="text-2xl font-semibold text-foreground">{serviceName}</h1>
@@ -586,7 +505,6 @@ export default function ServiceDetailPage() {
             onEditCluster={() => openEditCluster(clusterName, cluster)}
             onEditInstance={(inst) => openEditInstance(clusterName, inst)}
             onToggleInstance={(inst) => toggleInstance(clusterName, inst)}
-            onDeleteInstance={(inst) => setDeleteInstanceTarget({ clusterName, instance: inst })}
             togglingInstances={togglingInstances}
             t={t}
           />
@@ -811,31 +729,6 @@ export default function ServiceDetailPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      {/* Delete Instance Dialog */}
-      <Dialog open={!!deleteInstanceTarget} onOpenChange={(open) => !open && setDeleteInstanceTarget(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('service.deleteInstance')}</DialogTitle>
-            <DialogDescription>
-              {deleteInstanceTarget
-                ? t('service.instanceDeleteConfirm', {
-                    ip: deleteInstanceTarget.instance.ip,
-                    port: deleteInstanceTarget.instance.port,
-                  })
-                : ''}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteInstanceTarget(null)}>
-              {t('common.cancel')}
-            </Button>
-            <Button variant="destructive" onClick={handleDeleteInstance} disabled={deleteInstanceSubmitting}>
-              {t('common.delete')}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
@@ -852,7 +745,6 @@ function ClusterCard({
   onEditCluster,
   onEditInstance,
   onToggleInstance,
-  onDeleteInstance,
   togglingInstances,
   t,
 }: {
@@ -865,7 +757,6 @@ function ClusterCard({
   onEditCluster: () => void;
   onEditInstance: (inst: Instance) => void;
   onToggleInstance: (inst: Instance) => void;
-  onDeleteInstance: (inst: Instance) => void;
   togglingInstances: Set<string>;
   t: (key: string, options?: Record<string, unknown>) => string;
 }) {
@@ -959,17 +850,6 @@ function ClusterCard({
                           >
                             {inst.enabled ? t('service.offline') : t('service.online')}
                           </Button>
-                          {!inst.ephemeral && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => onDeleteInstance(inst)}
-                              className="text-destructive hover:text-destructive"
-                              aria-label={t('service.deleteInstance')}
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </Button>
-                          )}
                         </div>
                       </TableCell>
                     </TableRow>

@@ -60,7 +60,6 @@ public abstract class AbstractResponseHandler<T> implements ResponseHandler<T> {
      * @return HttpRestResult
      * @throws Exception ex
      */
-    public abstract HttpRestResult<T> convertResult(HttpClientResponse response, Type responseType)
-        throws Exception;
+    public abstract HttpRestResult<T> convertResult(HttpClientResponse response, Type responseType) throws Exception;
     
 }

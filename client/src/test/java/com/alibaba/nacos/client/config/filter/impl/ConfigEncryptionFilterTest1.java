@@ -86,8 +86,7 @@ class ConfigEncryptionFilterTest1 {
             
             @Override
             public String encrypt(String secretKey, String content) {
-                return Base64.getEncoder()
-                    .encodeToString(aes(Cipher.ENCRYPT_MODE, content, secretKey));
+                return Base64.getEncoder().encodeToString(aes(Cipher.ENCRYPT_MODE, content, secretKey));
             }
             
             @Override
@@ -110,8 +109,7 @@ class ConfigEncryptionFilterTest1 {
             
             @Override
             public String encryptSecretKey(String secretKey) {
-                return Base64.getEncoder().encodeToString(
-                    aes(Cipher.ENCRYPT_MODE, generateSecretKey(), theKeyOfContentKey));
+                return Base64.getEncoder().encodeToString(aes(Cipher.ENCRYPT_MODE, generateSecretKey(), theKeyOfContentKey));
             }
             
             @Override
@@ -131,8 +129,7 @@ class ConfigEncryptionFilterTest1 {
             }
             
             private byte[] aesBytes(int mode, byte[] content, String key) {
-                SecretKeySpec keySpec =
-                    new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), ALGORITHM);
+                SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), ALGORITHM);
                 Cipher cipher = null;
                 try {
                     cipher = Cipher.getInstance(AES_PKCS5P);
@@ -144,8 +141,7 @@ class ConfigEncryptionFilterTest1 {
             }
             
             private String aesDecrypt(String content, String key) {
-                byte[] bytes =
-                    aesBytes(Cipher.DECRYPT_MODE, Base64.getDecoder().decode(content), key);
+                byte[] bytes = aesBytes(Cipher.DECRYPT_MODE, Base64.getDecoder().decode(content), key);
                 return new String(bytes, StandardCharsets.UTF_8);
             }
         };
@@ -159,9 +155,9 @@ class ConfigEncryptionFilterTest1 {
         String dataId = "cipher-aes-test";
         String content = "nacos";
         final String encryptionContent = mockEncryptionPluginService.encrypt(
-            mockEncryptionPluginService.generateSecretKey(), content);
+                mockEncryptionPluginService.generateSecretKey(), content);
         final String theKeyOfContentKey = mockEncryptionPluginService.encryptSecretKey(
-            mockEncryptionPluginService.generateSecretKey());
+                mockEncryptionPluginService.generateSecretKey());
         
         ConfigRequest configRequest = new ConfigRequest();
         configRequest.setDataId(dataId);
@@ -176,8 +172,7 @@ class ConfigEncryptionFilterTest1 {
         configResponse.setEncryptedDataKey(theKeyOfContentKey);
         configEncryptionFilter.doFilter(null, configResponse, iConfigFilterChain);
         assertEquals(configResponse.getContent(), content);
-        assertEquals(configResponse.getEncryptedDataKey(),
-            mockEncryptionPluginService.generateSecretKey());
+        assertEquals(configResponse.getEncryptedDataKey(), mockEncryptionPluginService.generateSecretKey());
     }
     
     @Test

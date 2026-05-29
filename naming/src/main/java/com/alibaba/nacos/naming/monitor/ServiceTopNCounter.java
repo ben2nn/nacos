@@ -33,7 +33,6 @@ public class ServiceTopNCounter extends BaseTopNCounter<Service> {
     
     @Override
     protected String keyToString(Service service) {
-        return service.getNamespace() + UtilsAndCommons.NAMESPACE_SERVICE_CONNECTOR
-            + service.getGroupedServiceName();
+        return service.getNamespace() + UtilsAndCommons.NAMESPACE_SERVICE_CONNECTOR + service.getGroupedServiceName();
     }
 }

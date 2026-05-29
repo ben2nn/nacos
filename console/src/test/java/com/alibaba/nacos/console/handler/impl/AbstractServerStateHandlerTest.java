@@ -39,8 +39,7 @@ class AbstractServerStateHandlerTest {
     
     @BeforeEach
     void setUp() {
-        basicPath = AbstractServerStateHandlerTest.class.getClassLoader()
-            .getResource("nacos-console.properties").getPath();
+        basicPath = AbstractServerStateHandlerTest.class.getClassLoader().getResource("nacos-console.properties").getPath();
         basicPath = new File(basicPath).getParentFile().getAbsolutePath();
         basicPath = new File(basicPath, "mock").getAbsolutePath();
         cachedConfPath = EnvUtil.getConfPath();
@@ -54,8 +53,7 @@ class AbstractServerStateHandlerTest {
     
     @Test
     void getAnnouncementWithTopPath() {
-        assertThrows(IllegalArgumentException.class,
-            () -> serverStateHandler.getAnnouncement(".."));
+        assertThrows(IllegalArgumentException.class, () -> serverStateHandler.getAnnouncement(".."));
     }
     
     @Test
@@ -65,8 +63,7 @@ class AbstractServerStateHandlerTest {
     
     @Test
     void getAnnouncementWithWindowsFolderSeparator() {
-        assertThrows(IllegalArgumentException.class,
-            () -> serverStateHandler.getAnnouncement("\\"));
+        assertThrows(IllegalArgumentException.class, () -> serverStateHandler.getAnnouncement("\\"));
     }
     
     @Test

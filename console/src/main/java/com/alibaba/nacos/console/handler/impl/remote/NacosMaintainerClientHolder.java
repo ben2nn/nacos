@@ -50,8 +50,7 @@ public class NacosMaintainerClientHolder extends MemberChangeListener {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(NacosMaintainerClientHolder.class);
     
-    private static final String REMOTE_SERVER_CONTEXT_PATH_KEY =
-        "nacos.console.remote.server.context-path";
+    private static final String REMOTE_SERVER_CONTEXT_PATH_KEY = "nacos.console.remote.server.context-path";
     
     private static final String DEFAULT_REMOTE_SERVER_CONTEXT_PATH = "/nacos";
     
@@ -67,16 +66,14 @@ public class NacosMaintainerClientHolder extends MemberChangeListener {
     
     private volatile AiMaintainerService aiMaintainerService;
     
-    public NacosMaintainerClientHolder(RemoteServerMemberManager memberManager)
-        throws NacosException {
+    public NacosMaintainerClientHolder(RemoteServerMemberManager memberManager) throws NacosException {
         this.memberManager = memberManager;
         buildMaintainerService();
         NotifyCenter.registerSubscriber(this);
     }
     
     private void buildMaintainerService() throws NacosException {
-        List<String> memberAddress =
-            memberManager.allMembers().stream().map(Member::getAddress).toList();
+        List<String> memberAddress = memberManager.allMembers().stream().map(Member::getAddress).toList();
         String memberAddressString = StringUtils.join(memberAddress, ",");
         Properties properties = new Properties();
         properties.setProperty(PropertyKeyConst.SERVER_ADDR, memberAddressString);
@@ -88,12 +85,10 @@ public class NacosMaintainerClientHolder extends MemberChangeListener {
     }
     
     static String resolveRemoteContextPath() {
-        String remoteContextPath =
-            EnvUtil.getProperty(REMOTE_SERVER_CONTEXT_PATH_KEY, DEFAULT_REMOTE_SERVER_CONTEXT_PATH);
+        String remoteContextPath = EnvUtil.getProperty(REMOTE_SERVER_CONTEXT_PATH_KEY, DEFAULT_REMOTE_SERVER_CONTEXT_PATH);
         remoteContextPath = StringUtils.trim(remoteContextPath);
         remoteContextPath = ContextPathUtil.normalizeContextPath(remoteContextPath);
-        while (remoteContextPath.endsWith(PATH_SEPARATOR)
-            && remoteContextPath.length() > ROOT_PATH_LENGTH) {
+        while (remoteContextPath.endsWith(PATH_SEPARATOR) && remoteContextPath.length() > ROOT_PATH_LENGTH) {
             remoteContextPath = remoteContextPath.substring(0, remoteContextPath.length() - 1);
         }
         return remoteContextPath;
@@ -116,8 +111,7 @@ public class NacosMaintainerClientHolder extends MemberChangeListener {
         try {
             buildMaintainerService();
         } catch (NacosException e) {
-            LOGGER.warn("Nacos Server members changed, but build new maintain client failed with: ",
-                e);
+            LOGGER.warn("Nacos Server members changed, but build new maintain client failed with: ", e);
         }
     }
 }

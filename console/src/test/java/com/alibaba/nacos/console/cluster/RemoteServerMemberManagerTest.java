@@ -114,8 +114,7 @@ class RemoteServerMemberManagerTest {
             memberManager.memberChange(Collections.singleton(member));
             
             // 验证事件发布
-            ArgumentCaptor<MembersChangeEvent> eventCaptor =
-                ArgumentCaptor.forClass(MembersChangeEvent.class);
+            ArgumentCaptor<MembersChangeEvent> eventCaptor = ArgumentCaptor.forClass(MembersChangeEvent.class);
             notifyCenter.verify(() -> NotifyCenter.publishEvent(eventCaptor.capture()));
             
             MembersChangeEvent event = eventCaptor.getValue();

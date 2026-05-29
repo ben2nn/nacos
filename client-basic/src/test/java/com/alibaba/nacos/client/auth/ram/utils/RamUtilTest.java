@@ -66,9 +66,4 @@ public class RamUtilTest {
         assertNull(RamUtil.getAccessKey(properties1));
         assertNull(RamUtil.getSecretKey(properties1));
     }
-    
-    @Test
-    public void testConstructor() {
-        new RamUtil();
-    }
 }

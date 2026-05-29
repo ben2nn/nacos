@@ -47,8 +47,7 @@ public class SkillHttpParamExtractor extends AbstractHttpParamExtractor {
         String skillName = resolveSkillName(request);
         paramInfo.setSkillName(skillName);
         if (request.getParameterMap().containsKey(SKILL_CARD_PARAM)) {
-            String parsedSkillName =
-                deserializeAndGetSkillName(request.getParameter(SKILL_CARD_PARAM));
+            String parsedSkillName = deserializeAndGetSkillName(request.getParameter(SKILL_CARD_PARAM));
             paramInfo.setSkillName(parsedSkillName);
         }
         return Collections.singletonList(paramInfo);
@@ -56,8 +55,7 @@ public class SkillHttpParamExtractor extends AbstractHttpParamExtractor {
     
     private String resolveSkillName(HttpServletRequest request) {
         String skillName = request.getParameter(SKILL_NAME_PARAM);
-        return StringUtils.isNotBlank(skillName) ? skillName
-            : request.getParameter(SKILL_CLIENT_NAME_PARAM);
+        return StringUtils.isNotBlank(skillName) ? skillName : request.getParameter(SKILL_CLIENT_NAME_PARAM);
     }
     
     private String deserializeAndGetSkillName(String skillCardJson) {

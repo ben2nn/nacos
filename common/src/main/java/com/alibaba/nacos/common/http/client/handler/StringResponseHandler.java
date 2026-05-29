@@ -31,8 +31,7 @@ import java.lang.reflect.Type;
 public class StringResponseHandler extends AbstractResponseHandler<String> {
     
     @Override
-    public HttpRestResult<String> convertResult(HttpClientResponse response, Type responseType)
-        throws Exception {
+    public HttpRestResult<String> convertResult(HttpClientResponse response, Type responseType) throws Exception {
         final Header headers = response.getHeaders();
         String extractBody = IoUtils.toString(response.getBody(), headers.getCharset());
         return new HttpRestResult<>(headers, response.getStatusCode(), extractBody, null);

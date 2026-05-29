@@ -30,8 +30,7 @@ import com.alibaba.nacos.plugin.datasource.model.MapperResult;
  *
  * @author Long Yu
  **/
-public abstract class BaseGroupCapacityMapper extends AbstractMapper
-    implements GroupCapacityMapper {
+public abstract class BaseGroupCapacityMapper extends AbstractMapper implements GroupCapacityMapper {
     
     private DatabaseDialect databaseDialect;
     
@@ -41,13 +40,11 @@ public abstract class BaseGroupCapacityMapper extends AbstractMapper
     
     @Override
     public MapperResult selectGroupInfoBySize(MapperContext context) {
-        String sql = databaseDialect
-            .getLimitTopSqlWithMark("SELECT id, group_id FROM group_capacity WHERE id > ?");
+        String sql = databaseDialect.getLimitTopSqlWithMark("SELECT id, group_id FROM group_capacity WHERE id > ?");
         return new MapperResult(sql,
-            CollectionUtils.list(context.getWhereParameter(FieldConstant.ID),
-                context.getPageSize()));
+                CollectionUtils.list(context.getWhereParameter(FieldConstant.ID), context.getPageSize()));
     }
-    
+
     @Override
     public String getFunction(String functionName) {
         return databaseDialect.getFunction(functionName);

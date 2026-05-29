@@ -43,8 +43,7 @@ public abstract class BaseRpcServer {
     @PostConstruct
     public void start() throws Exception {
         String serverName = getClass().getSimpleName();
-        Loggers.REMOTE.info("Nacos {} Rpc server starting at port {}", serverName,
-            getServicePort());
+        Loggers.REMOTE.info("Nacos {} Rpc server starting at port {}", serverName, getServicePort());
         
         startServer();
         

@@ -54,8 +54,6 @@ interface PromptVersionTimelineProps {
 const STATUS_STYLES: Record<string, string> = {
   draft: 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300',
   reviewing: 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300',
-  pendingPublish: 'bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300',
-  rejected: 'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300',
   online: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300',
   offline: 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400',
 };
@@ -63,8 +61,6 @@ const STATUS_STYLES: Record<string, string> = {
 const DOT_STYLES: Record<string, string> = {
   draft: 'bg-amber-400',
   reviewing: 'bg-blue-400',
-  pendingPublish: 'bg-teal-400',
-  rejected: 'bg-red-400',
   online: 'bg-emerald-400',
   offline: 'bg-gray-400',
 };
@@ -165,12 +161,7 @@ export function PromptVersionTimeline({
             hasEditingVersion || hasReviewingVersion,
             pipelineInfo?.status,
             isGlobalAdmin,
-            pipelineInfo?.historical,
           );
-
-          const isPendingPublish = (v.status === 'reviewed' && pipelineInfo?.status !== 'REJECTED') || (v.status === 'reviewing' && pipelineInfo?.status === 'APPROVED');
-          const isRejected = v.status === 'reviewed' && pipelineInfo?.status === 'REJECTED';
-          const displayStatus = isRejected ? 'rejected' : isPendingPublish ? 'pendingPublish' : v.status;
 
           return (
             <div key={v.version} className="relative flex gap-3 pb-4">
@@ -181,7 +172,7 @@ export function PromptVersionTimeline({
               <div
                 className={cn(
                   'relative z-10 mt-1.5 h-[15px] w-[15px] shrink-0 rounded-full border-2 border-background',
-                  DOT_STYLES[displayStatus] ?? 'bg-gray-400',
+                  DOT_STYLES[v.status] ?? 'bg-gray-400',
                   isActive && 'ring-2 ring-primary ring-offset-1',
                 )}
               />
@@ -198,10 +189,10 @@ export function PromptVersionTimeline({
                   <Badge
                     className={cn(
                       'text-[10px] px-1.5 py-0 h-4 font-medium border-0',
-                      STATUS_STYLES[displayStatus],
+                      STATUS_STYLES[v.status],
                     )}
                   >
-                    {t(`prompt.versionStatus.${displayStatus}`)}
+                    {t(`prompt.versionStatus.${v.status}`)}
                   </Badge>
                   {pipelineInfo && (
                     <PipelineStatusDisplay pipelineInfo={pipelineInfo} compact />

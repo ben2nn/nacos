@@ -25,15 +25,13 @@ import org.junit.jupiter.api.Test;
  * @author Ken
  */
 public class TrustedPostgresqlFunctionEnumTest {
-    
     @Test
     void testGetFunctionByName() {
         Assertions.assertEquals("NOW()", TrustedPostgresqlFunctionEnum.getFunctionByName("NOW()"));
     }
-    
+
     @Test()
     void testGetFunctionByErrorName() {
-        Assertions.assertThrows(IllegalArgumentException.class,
-            () -> TrustedPostgresqlFunctionEnum.getFunctionByName("UNKNOWN"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> TrustedPostgresqlFunctionEnum.getFunctionByName("UNKNOWN"));
     }
 }

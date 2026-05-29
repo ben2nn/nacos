@@ -26,7 +26,6 @@ import com.alibaba.nacos.naming.core.v2.pojo.Service;
  * @date 2022/9/14 下午6:12
  */
 public class InfoChangeEvent extends Event {
-    
     private static final long serialVersionUID = 2222222222222L;
     
     private final Service service;

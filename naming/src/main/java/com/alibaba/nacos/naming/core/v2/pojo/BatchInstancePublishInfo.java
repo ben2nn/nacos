@@ -52,8 +52,7 @@ public class BatchInstancePublishInfo extends InstancePublishInfo {
             return false;
         }
         BatchInstancePublishInfo that = (BatchInstancePublishInfo) o;
-        return CollectionUtils.isEqualCollection(this.getInstancePublishInfos(),
-            that.getInstancePublishInfos());
+        return CollectionUtils.isEqualCollection(this.getInstancePublishInfos(), that.getInstancePublishInfos());
     }
     
     @Override
@@ -61,3 +60,4 @@ public class BatchInstancePublishInfo extends InstancePublishInfo {
         return Objects.hash(CollectionUtils.getCardinalityMap(instancePublishInfos));
     }
 }
+

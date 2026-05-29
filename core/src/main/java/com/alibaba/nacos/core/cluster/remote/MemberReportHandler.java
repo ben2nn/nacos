@@ -18,7 +18,6 @@
 
 package com.alibaba.nacos.core.cluster.remote;
 
-import com.alibaba.nacos.api.annotation.Since;
 import com.alibaba.nacos.api.common.ApiType;
 import com.alibaba.nacos.api.common.NodeState;
 import com.alibaba.nacos.api.exception.NacosException;
@@ -41,7 +40,6 @@ import org.springframework.stereotype.Component;
  *
  * @author : huangtianhui
  */
-@Since("2.2.1")
 @Component
 @InvokeSource(source = {RemoteConstants.LABEL_SOURCE_CLUSTER})
 public class MemberReportHandler extends RequestHandler<MemberReportRequest, MemberReportResponse> {
@@ -54,16 +52,14 @@ public class MemberReportHandler extends RequestHandler<MemberReportRequest, Mem
     
     @Override
     @Secured(resource = "report", signType = SignType.SPECIFIED, apiType = ApiType.INNER_API)
-    public MemberReportResponse handle(MemberReportRequest request, RequestMeta meta)
-        throws NacosException {
+    public MemberReportResponse handle(MemberReportRequest request, RequestMeta meta) throws NacosException {
         Member node = request.getNode();
         if (!node.check()) {
             MemberReportResponse result = new MemberReportResponse();
             result.setErrorInfo(400, "Node information is illegal");
             return result;
         }
-        LoggerUtils.printIfDebugEnabled(Loggers.CLUSTER, "node state report, receive info : {}",
-            node);
+        LoggerUtils.printIfDebugEnabled(Loggers.CLUSTER, "node state report, receive info : {}", node);
         node.setState(NodeState.UP);
         node.setFailAccessCnt(0);
         memberManager.update(node);

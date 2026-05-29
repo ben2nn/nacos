@@ -34,18 +34,16 @@ class NacosSerializationExceptionTest {
     
     @Test
     void testConstructorWithSerializedClass() {
-        NacosSerializationException exception =
-            new NacosSerializationException(NacosSerializationExceptionTest.class);
+        NacosSerializationException exception = new NacosSerializationException(NacosSerializationExceptionTest.class);
         assertEquals(Constants.Exception.SERIALIZE_ERROR_CODE, exception.getErrCode());
         assertEquals(String.format("errCode: 100, errMsg: Nacos serialize for class [%s] failed.  ",
-            NacosSerializationExceptionTest.class.getName()), exception.getMessage());
+                NacosSerializationExceptionTest.class.getName()), exception.getMessage());
         assertEquals(NacosSerializationExceptionTest.class, exception.getSerializedClass());
     }
     
     @Test
     void testConstructorWithCause() {
-        NacosSerializationException exception =
-            new NacosSerializationException(new RuntimeException("test"));
+        NacosSerializationException exception = new NacosSerializationException(new RuntimeException("test"));
         assertEquals(Constants.Exception.SERIALIZE_ERROR_CODE, exception.getErrCode());
         assertEquals("errCode: 100, errMsg: Nacos serialize failed.  ", exception.getMessage());
         assertNull(exception.getSerializedClass());
@@ -53,12 +51,11 @@ class NacosSerializationExceptionTest {
     
     @Test
     void testConstructorWithSerializedClassAndCause() {
-        NacosSerializationException exception =
-            new NacosSerializationException(NacosSerializationExceptionTest.class,
+        NacosSerializationException exception = new NacosSerializationException(NacosSerializationExceptionTest.class,
                 new RuntimeException("test"));
         assertEquals(Constants.Exception.SERIALIZE_ERROR_CODE, exception.getErrCode());
         assertEquals(String.format("errCode: 100, errMsg: Nacos serialize for class [%s] failed.  ",
-            NacosSerializationExceptionTest.class.getName(), "test"), exception.getMessage());
+                NacosSerializationExceptionTest.class.getName(), "test"), exception.getMessage());
         assertEquals(NacosSerializationExceptionTest.class, exception.getSerializedClass());
     }
 }

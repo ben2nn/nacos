@@ -40,8 +40,7 @@ class ServiceListRequestTest extends BasedNamingRequestTest {
     
     @Test
     void testDeserialize() throws JsonProcessingException {
-        String json =
-            "{\"headers\":{},\"namespace\":\"namespace\",\"serviceName\":\"\",\"groupName\":\"group\","
+        String json = "{\"headers\":{},\"namespace\":\"namespace\",\"serviceName\":\"\",\"groupName\":\"group\","
                 + "\"pageNo\":1,\"pageSize\":10,\"selector\":\"label\",\"module\":\"naming\"}";
         ServiceListRequest actual = mapper.readValue(json, ServiceListRequest.class);
         assertEquals(GROUP, actual.getGroupName());

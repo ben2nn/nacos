@@ -35,8 +35,7 @@ import java.util.List;
  * @author nkorange
  * @since 1.2.0
  */
-public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
-    implements NacosRoleService {
+public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService implements NacosRoleService {
     
     private static final int DEFAULT_PAGE_NO = 1;
     
@@ -48,9 +47,8 @@ public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
     
     private final PermissionPersistService permissionPersistService;
     
-    public NacosRoleServiceDirectImpl(AuthConfigs authConfigs,
-        RolePersistService rolePersistService,
-        NacosUserService userDetailsService, PermissionPersistService permissionPersistService) {
+    public NacosRoleServiceDirectImpl(AuthConfigs authConfigs, RolePersistService rolePersistService,
+            NacosUserService userDetailsService, PermissionPersistService permissionPersistService) {
         super(authConfigs);
         this.authConfigs = authConfigs;
         this.rolePersistService = rolePersistService;
@@ -62,8 +60,7 @@ public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
     public List<RoleInfo> getRoles(String username) {
         List<RoleInfo> roleInfoList = getCachedRoleInfoMap().get(username);
         if (!authConfigs.isCachingEnabled() || roleInfoList == null) {
-            Page<RoleInfo> roleInfoPage =
-                getRoles(username, StringUtils.EMPTY, DEFAULT_PAGE_NO, Integer.MAX_VALUE);
+            Page<RoleInfo> roleInfoPage = getRoles(username, StringUtils.EMPTY, DEFAULT_PAGE_NO, Integer.MAX_VALUE);
             if (roleInfoPage != null) {
                 roleInfoList = roleInfoPage.getPageItems();
                 if (!CollectionUtils.isEmpty(roleInfoList)) {
@@ -76,8 +73,7 @@ public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
     
     @Override
     public Page<RoleInfo> getRoles(String username, String role, int pageNo, int pageSize) {
-        Page<RoleInfo> roles =
-            rolePersistService.getRolesByUserNameAndRoleName(username, role, pageNo, pageSize);
+        Page<RoleInfo> roles = rolePersistService.getRolesByUserNameAndRoleName(username, role, pageNo, pageSize);
         if (roles == null) {
             return new Page<>();
         }
@@ -86,8 +82,7 @@ public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
     
     @Override
     public List<RoleInfo> getAllRoles() {
-        Page<RoleInfo> roleInfoPage =
-            rolePersistService.getRolesByUserNameAndRoleName(StringUtils.EMPTY,
+        Page<RoleInfo> roleInfoPage = rolePersistService.getRolesByUserNameAndRoleName(StringUtils.EMPTY,
                 StringUtils.EMPTY, DEFAULT_PAGE_NO, Integer.MAX_VALUE);
         if (roleInfoPage == null) {
             return null;
@@ -99,8 +94,7 @@ public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
     public List<PermissionInfo> getPermissions(String role) {
         List<PermissionInfo> permissionInfoList = getCachedPermissionInfoMap().get(role);
         if (!authConfigs.isCachingEnabled() || permissionInfoList == null) {
-            Page<PermissionInfo> permissionInfoPage =
-                getPermissions(role, DEFAULT_PAGE_NO, Integer.MAX_VALUE);
+            Page<PermissionInfo> permissionInfoPage = getPermissions(role, DEFAULT_PAGE_NO, Integer.MAX_VALUE);
             if (permissionInfoPage != null) {
                 permissionInfoList = permissionInfoPage.getPageItems();
                 if (!CollectionUtils.isEmpty(permissionInfoList)) {
@@ -113,8 +107,7 @@ public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
     
     @Override
     public Page<PermissionInfo> getPermissions(String role, int pageNo, int pageSize) {
-        Page<PermissionInfo> pageInfo =
-            permissionPersistService.getPermissions(role, pageNo, pageSize);
+        Page<PermissionInfo> pageInfo = permissionPersistService.getPermissions(role, pageNo, pageSize);
         if (pageInfo == null) {
             return new Page<>();
         }
@@ -129,17 +122,16 @@ public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
         
         if (AuthConstants.GLOBAL_ADMIN_ROLE.equals(role)) {
             throw new IllegalArgumentException(
-                "role '" + AuthConstants.GLOBAL_ADMIN_ROLE + "' is not permitted to create!");
+                    "role '" + AuthConstants.GLOBAL_ADMIN_ROLE + "' is not permitted to create!");
         }
         
         if (AuthConstants.ANONYMOUS_ROLE.equals(role)) {
             throw new IllegalArgumentException(
-                "role '" + AuthConstants.ANONYMOUS_ROLE + "' is reserved by the system");
+                    "role '" + AuthConstants.ANONYMOUS_ROLE + "' is reserved by the system");
         }
         
         if (isUserBoundToRole(role, username)) {
-            throw new IllegalArgumentException(
-                "user '" + username + "' already bound to the role '" + role + "'!");
+            throw new IllegalArgumentException("user '" + username + "' already bound to the role '" + role + "'!");
         }
         
         rolePersistService.addRole(role, username);
@@ -152,8 +144,7 @@ public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
             throw new IllegalArgumentException("user '" + username + "' not found!");
         }
         if (hasGlobalAdminRole()) {
-            throw new IllegalArgumentException(
-                "role '" + AuthConstants.GLOBAL_ADMIN_ROLE + "' already exist !");
+            throw new IllegalArgumentException("role '" + AuthConstants.GLOBAL_ADMIN_ROLE + "' already exist !");
         }
         
         rolePersistService.addRole(AuthConstants.GLOBAL_ADMIN_ROLE, username);
@@ -203,14 +194,13 @@ public class NacosRoleServiceDirectImpl extends AbstractCheckedRoleService
     }
     
     boolean isUserBoundToRole(String role, String username) {
-        Page<RoleInfo> roleInfoPage =
-            rolePersistService.getRolesByUserNameAndRoleName(username, role, DEFAULT_PAGE_NO,
+        Page<RoleInfo> roleInfoPage = rolePersistService.getRolesByUserNameAndRoleName(username, role, DEFAULT_PAGE_NO,
                 1);
         if (roleInfoPage == null) {
             return false;
         }
         List<RoleInfo> roleInfos = roleInfoPage.getPageItems();
         return CollectionUtils.isNotEmpty(roleInfos) && roleInfos.stream()
-            .anyMatch(roleInfo -> role.equals(roleInfo.getRole()));
+                .anyMatch(roleInfo -> role.equals(roleInfo.getRole()));
     }
 }

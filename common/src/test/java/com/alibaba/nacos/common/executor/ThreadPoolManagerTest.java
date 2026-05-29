@@ -70,8 +70,7 @@ class ThreadPoolManagerTest {
     
     @Test
     void testDestroyWithNull() {
-        ThreadPoolManager.getInstance().register("t", "g",
-            ExecutorFactory.newFixedExecutorService(1));
+        ThreadPoolManager.getInstance().register("t", "g", ExecutorFactory.newFixedExecutorService(1));
         try {
             ThreadPoolManager.getInstance().destroy("null");
             assertTrue(ThreadPoolManager.getInstance().getResourcesManager().containsKey("t"));

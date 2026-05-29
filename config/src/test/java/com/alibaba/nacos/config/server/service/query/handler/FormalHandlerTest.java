@@ -61,9 +61,8 @@ class FormalHandlerTest {
         configDiskServiceFactoryMockedStatic = Mockito.mockStatic(ConfigDiskServiceFactory.class);
         configChainEntryHandlerMockedStatic = Mockito.mockStatic(ConfigChainEntryHandler.class);
         configChainEntryHandlerMockedStatic.when(ConfigChainEntryHandler::getThreadLocalCacheItem)
-            .thenReturn(cacheItem);
-        configDiskServiceFactoryMockedStatic.when(ConfigDiskServiceFactory::getInstance)
-            .thenReturn(configDiskService);
+                .thenReturn(cacheItem);
+        configDiskServiceFactoryMockedStatic.when(ConfigDiskServiceFactory::getInstance).thenReturn(configDiskService);
     }
     
     @AfterEach
@@ -85,8 +84,7 @@ class FormalHandlerTest {
         
         ConfigQueryChainResponse response = formalHandler.handle(request);
         
-        assertEquals(ConfigQueryChainResponse.ConfigQueryStatus.CONFIG_NOT_FOUND,
-            response.getStatus());
+        assertEquals(ConfigQueryChainResponse.ConfigQueryStatus.CONFIG_NOT_FOUND, response.getStatus());
     }
     
     @Test
@@ -110,8 +108,7 @@ class FormalHandlerTest {
         assertEquals(123456789L, response.getLastModified());
         assertEquals("mockEncryptedDataKey", response.getEncryptedDataKey());
         assertEquals("mockType", response.getConfigType());
-        assertEquals(ConfigQueryChainResponse.ConfigQueryStatus.CONFIG_FOUND_FORMAL,
-            response.getStatus());
+        assertEquals(ConfigQueryChainResponse.ConfigQueryStatus.CONFIG_FOUND_FORMAL, response.getStatus());
     }
     
     @Test

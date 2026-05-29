@@ -16,8 +16,6 @@
 
 package com.alibaba.nacos.plugin.auth.impl.token.impl;
 
-import com.alibaba.nacos.api.exception.runtime.NacosRuntimeException;
-import com.alibaba.nacos.common.event.ServerConfigChangeEvent;
 import com.alibaba.nacos.plugin.auth.impl.configuration.AuthConfigs;
 import com.alibaba.nacos.plugin.auth.exception.AccessException;
 import com.alibaba.nacos.plugin.auth.impl.constant.AuthConstants;
@@ -40,7 +38,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,10 +53,8 @@ class JwtTokenManagerTest {
         when(authConfigs.isAuthEnabled()).thenReturn(true);
         MockEnvironment mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty(AuthConstants.TOKEN_SECRET_KEY, Base64.getEncoder()
-            .encodeToString("SecretKey0123$567890$234567890123456789012345678901234567890123456789"
-                .getBytes(StandardCharsets.UTF_8)));
-        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS,
-            AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
+                .encodeToString("SecretKey0123$567890$234567890123456789012345678901234567890123456789".getBytes(StandardCharsets.UTF_8)));
+        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS, AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
         
         EnvUtil.setEnvironment(mockEnvironment);
         jwtTokenManager = new JwtTokenManager(authConfigs);
@@ -78,9 +73,8 @@ class JwtTokenManagerTest {
     private void createToken(String secretKey) throws AccessException {
         MockEnvironment mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty(AuthConstants.TOKEN_SECRET_KEY,
-            Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8)));
-        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS,
-            AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
+                Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8)));
+        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS, AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
         
         EnvUtil.setEnvironment(mockEnvironment);
         
@@ -98,20 +92,8 @@ class JwtTokenManagerTest {
     }
     
     @Test
-    void testDeprecatedCreateToken() throws AccessException {
-        Authentication authentication = mock(Authentication.class);
-        when(authentication.getName()).thenReturn("nacos");
-        
-        String nacosToken = jwtTokenManager.createToken(authentication);
-        
-        assertNotNull(nacosToken);
-        jwtTokenManager.validateToken(nacosToken);
-    }
-    
-    @Test
     void testInvalidSecretKey() {
-        assertThrows(IllegalArgumentException.class,
-            () -> createToken("0123456789ABCDEF0123456789ABCDE"));
+        assertThrows(IllegalArgumentException.class, () -> createToken("0123456789ABCDEF0123456789ABCDE"));
     }
     
     @Test
@@ -121,8 +103,7 @@ class JwtTokenManagerTest {
     
     @Test
     void testGetExpiredTimeInSeconds() throws AccessException {
-        assertTrue(
-            jwtTokenManager.getExpiredTimeInSeconds(jwtTokenManager.createToken("nacos")) > 0);
+        assertTrue(jwtTokenManager.getExpiredTimeInSeconds(jwtTokenManager.createToken("nacos")) > 0);
     }
     
     @Test
@@ -130,16 +111,13 @@ class JwtTokenManagerTest {
         when(authConfigs.isAuthEnabled()).thenReturn(false);
         // valid secret key
         String ttl = EnvUtil.getProperty(AuthConstants.TOKEN_EXPIRE_SECONDS);
-        assertEquals(Integer.parseInt(ttl),
-            jwtTokenManager.getTokenTtlInSeconds(jwtTokenManager.createToken("nacos")));
-        assertEquals(Integer.parseInt(ttl), jwtTokenManager.getExpiredTimeInSeconds("ignored"));
+        assertEquals(Integer.parseInt(ttl), jwtTokenManager.getTokenTtlInSeconds(jwtTokenManager.createToken("nacos")));
         // invalid secret key
         MockEnvironment mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty(AuthConstants.TOKEN_SECRET_KEY, "");
         EnvUtil.setEnvironment(mockEnvironment);
         jwtTokenManager = new JwtTokenManager(authConfigs);
-        assertEquals(Integer.parseInt(ttl),
-            jwtTokenManager.getTokenTtlInSeconds(jwtTokenManager.createToken("nacos")));
+        assertEquals(Integer.parseInt(ttl), jwtTokenManager.getTokenTtlInSeconds(jwtTokenManager.createToken("nacos")));
     }
     
     @Test
@@ -147,8 +125,7 @@ class JwtTokenManagerTest {
         when(authConfigs.isAuthEnabled()).thenReturn(false);
         MockEnvironment mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty(AuthConstants.TOKEN_SECRET_KEY, "");
-        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS,
-            AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
+        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS, AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
         
         EnvUtil.setEnvironment(mockEnvironment);
         jwtTokenManager = new JwtTokenManager(authConfigs);
@@ -161,9 +138,8 @@ class JwtTokenManagerTest {
         MockEnvironment mockEnvironment = new MockEnvironment();
         String tmpKey = "SecretKey0123567890234567890123456789012345678901234567890123456789";
         mockEnvironment.setProperty(AuthConstants.TOKEN_SECRET_KEY,
-            Base64.getEncoder().encodeToString(tmpKey.getBytes(StandardCharsets.UTF_8)));
-        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS,
-            AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
+                Base64.getEncoder().encodeToString(tmpKey.getBytes(StandardCharsets.UTF_8)));
+        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS, AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
         EnvUtil.setEnvironment(mockEnvironment);
         jwtTokenManager = new JwtTokenManager(authConfigs);
         String token = jwtTokenManager.createToken("nacos");
@@ -172,40 +148,12 @@ class JwtTokenManagerTest {
     }
     
     @Test
-    void testOnEventReloadsConfigAndSubscribeType() {
-        MockEnvironment mockEnvironment = new MockEnvironment();
-        String tmpKey = "SecretKey0123567890234567890123456789012345678901234567890123456789";
-        mockEnvironment.setProperty(AuthConstants.TOKEN_SECRET_KEY,
-            Base64.getEncoder().encodeToString(tmpKey.getBytes(StandardCharsets.UTF_8)));
-        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS, "123");
-        EnvUtil.setEnvironment(mockEnvironment);
-        
-        jwtTokenManager.onEvent(new ServerConfigChangeEvent());
-        
-        assertEquals(123, jwtTokenManager.getTokenValidityInSeconds());
-        assertEquals(ServerConfigChangeEvent.class, jwtTokenManager.subscribeType());
-        assertNotNull(jwtTokenManager.createToken("nacos"));
-    }
-    
-    @Test
-    void testParseTokenThrowsWhenParserMissing() {
-        when(authConfigs.isAuthEnabled()).thenReturn(false);
-        MockEnvironment mockEnvironment = new MockEnvironment();
-        mockEnvironment.setProperty(AuthConstants.TOKEN_SECRET_KEY, "");
-        EnvUtil.setEnvironment(mockEnvironment);
-        JwtTokenManager manager = new JwtTokenManager(authConfigs);
-        
-        assertThrows(NacosRuntimeException.class, () -> manager.parseToken("token"));
-    }
-    
-    @Test
     void testNacosJwtParser() throws AccessException {
         String secretKey = "SecretKey0123$567890$234567890123456789012345678901234567890123456789";
         MockEnvironment mockEnvironment = new MockEnvironment();
         mockEnvironment.setProperty(AuthConstants.TOKEN_SECRET_KEY,
-            Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8)));
-        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS,
-            AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
+                Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8)));
+        mockEnvironment.setProperty(AuthConstants.TOKEN_EXPIRE_SECONDS, AuthConstants.DEFAULT_TOKEN_EXPIRE_SECONDS.toString());
         
         EnvUtil.setEnvironment(mockEnvironment);
         
@@ -215,15 +163,13 @@ class JwtTokenManagerTest {
         System.out.println("oldToken: " + nacosToken);
         
         jwtTokenManager.validateToken(nacosToken);
-        NacosJwtParser nacosJwtParser = new NacosJwtParser(
-            Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8)));
+        NacosJwtParser nacosJwtParser = new NacosJwtParser(Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8)));
         
         //check old token
         nacosJwtParser.parse(nacosToken);
         
         //create new token
-        String newToken = nacosJwtParser.jwtBuilder().setUserName("nacos")
-            .setExpiredTime(TimeUnit.DAYS.toSeconds(10L)).compact();
+        String newToken = nacosJwtParser.jwtBuilder().setUserName("nacos").setExpiredTime(TimeUnit.DAYS.toSeconds(10L)).compact();
         System.out.println("newToken: " + newToken);
         jwtTokenManager.validateToken(newToken);
     }

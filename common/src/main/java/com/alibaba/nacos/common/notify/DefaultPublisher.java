@@ -56,8 +56,7 @@ public class DefaultPublisher extends Thread implements EventPublisher {
     
     protected volatile Long lastEventSequence = -1L;
     
-    private static final AtomicReferenceFieldUpdater<DefaultPublisher, Long> UPDATER =
-        AtomicReferenceFieldUpdater
+    private static final AtomicReferenceFieldUpdater<DefaultPublisher, Long> UPDATER = AtomicReferenceFieldUpdater
             .newUpdater(DefaultPublisher.class, Long.class, "lastEventSequence");
     
     @Override
@@ -107,12 +106,11 @@ public class DefaultPublisher extends Thread implements EventPublisher {
                 ThreadUtils.sleep(1000L);
                 waitTimes--;
             }
-            
+
             while (!shutdown) {
                 final Event event = queue.take();
                 receiveEvent(event);
-                UPDATER.compareAndSet(this, lastEventSequence,
-                    Math.max(lastEventSequence, event.sequence()));
+                UPDATER.compareAndSet(this, lastEventSequence, Math.max(lastEventSequence, event.sequence()));
             }
         } catch (InterruptedException e) {
             // [issue #13752] ignore stack log
@@ -140,9 +138,7 @@ public class DefaultPublisher extends Thread implements EventPublisher {
         checkIsStart();
         boolean success = this.queue.offer(event);
         if (!success) {
-            LOGGER.warn(
-                "Unable to plug in due to interruption, synchronize sending time, event : {}",
-                event);
+            LOGGER.warn("Unable to plug in due to interruption, synchronize sending time, event : {}", event);
             receiveEvent(event);
             return true;
         }
@@ -188,9 +184,8 @@ public class DefaultPublisher extends Thread implements EventPublisher {
             
             // Whether to ignore expiration events
             if (subscriber.ignoreExpireEvent() && lastEventSequence > currentEventSequence) {
-                LOGGER.debug(
-                    "[NotifyCenter] the {} is unacceptable to this subscriber, because had expire",
-                    event.getClass());
+                LOGGER.debug("[NotifyCenter] the {} is unacceptable to this subscriber, because had expire",
+                        event.getClass());
                 continue;
             }
             

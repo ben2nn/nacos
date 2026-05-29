@@ -99,8 +99,7 @@ class EncryptionAesHandlerTest {
             
             @Override
             public String encryptSecretKey(String secretKey) {
-                return Base64.encodeBase64String(
-                    aes(Cipher.ENCRYPT_MODE, generateSecretKey(), theKeyOfContentKey));
+                return Base64.encodeBase64String(aes(Cipher.ENCRYPT_MODE, generateSecretKey(), theKeyOfContentKey));
             }
             
             @Override
@@ -120,8 +119,7 @@ class EncryptionAesHandlerTest {
             }
             
             private byte[] aesBytes(int mode, byte[] content, String key) {
-                SecretKeySpec keySpec =
-                    new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), ALGORITHM);
+                SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), ALGORITHM);
                 Cipher cipher = null;
                 try {
                     cipher = Cipher.getInstance(AES_PKCS5P);
@@ -146,9 +144,9 @@ class EncryptionAesHandlerTest {
         String contentKey = mockEncryptionPluginService.generateSecretKey();
         Pair<String, String> pair = EncryptionHandler.encryptHandler("cipher-aes-dataId", content);
         assertEquals(mockEncryptionPluginService.encryptSecretKey(contentKey), pair.getFirst(),
-            "should return the encryption secret key if algorithm defined.");
+                "should return the encryption secret key if algorithm defined.");
         assertEquals(mockEncryptionPluginService.encrypt(contentKey, content), pair.getSecond(),
-            "should return the encryption content if algorithm defined.");
+                "should return the encryption content if algorithm defined.");
     }
     
     @Test
@@ -158,13 +156,11 @@ class EncryptionAesHandlerTest {
         String encryptionSecretKey = mockEncryptionPluginService.encryptSecretKey(contentKey);
         String encryptionContent = mockEncryptionPluginService.encrypt(contentKey, content);
         
-        Pair<String, String> pair = EncryptionHandler.decryptHandler("cipher-aes-dataId",
-            encryptionSecretKey, encryptionContent);
+        Pair<String, String> pair = EncryptionHandler.decryptHandler("cipher-aes-dataId", encryptionSecretKey, encryptionContent);
         
         assertEquals(mockEncryptionPluginService.generateSecretKey(), pair.getFirst(),
-            "should return the original secret key if algorithm defined.");
-        assertEquals(content, pair.getSecond(),
-            "should return the original content if algorithm defined.");
+                "should return the original secret key if algorithm defined.");
+        assertEquals(content, pair.getSecond(), "should return the original content if algorithm defined.");
         
     }
     
@@ -179,17 +175,15 @@ class EncryptionAesHandlerTest {
         String encryptionContent = encryptPair.getSecond();
         assertNotNull(encryptPair);
         assertEquals(mockEncryptionPluginService.encryptSecretKey(contentKey), encryptionSecretKey,
-            "should return the encryption secret key if algorithm defined.");
+                "should return the encryption secret key if algorithm defined.");
         assertEquals(mockEncryptionPluginService.encrypt(contentKey, content), encryptionContent,
-            "should return the encryption content if algorithm defined.");
+                "should return the encryption content if algorithm defined.");
         
-        Pair<String, String> decryptPair =
-            EncryptionHandler.decryptHandler(dataId, encryptionSecretKey, encryptionContent);
+        Pair<String, String> decryptPair = EncryptionHandler.decryptHandler(dataId, encryptionSecretKey, encryptionContent);
         assertNotNull(decryptPair);
         assertEquals(mockEncryptionPluginService.generateSecretKey(), decryptPair.getFirst(),
-            "should return the original secret key if algorithm defined.");
-        assertEquals(content, decryptPair.getSecond(),
-            "should return the original content if algorithm defined.");
+                "should return the original secret key if algorithm defined.");
+        assertEquals(content, decryptPair.getSecond(), "should return the original content if algorithm defined.");
     }
     
     @Test
@@ -215,8 +209,7 @@ class EncryptionAesHandlerTest {
         String dataId = "cipher-";
         String content = "content";
         Pair<String, String> pair = EncryptionHandler.encryptHandler(dataId, content);
-        assertNotNull(pair,
-            "should not throw exception when parsing enc algo for dataId '" + dataId + "'");
+        assertNotNull(pair, "should not throw exception when parsing enc algo for dataId '" + dataId + "'");
         assertEquals("", pair.getFirst());
         assertEquals(pair.getSecond(), content);
     }
@@ -228,8 +221,7 @@ class EncryptionAesHandlerTest {
         Pair<String, String> pair = EncryptionHandler.encryptHandler(dataId, content);
         assertNotNull(pair);
         assertEquals("", pair.getFirst());
-        assertEquals(content, pair.getSecond(),
-            "should return original content if algorithm is not defined.");
+        assertEquals(content, pair.getSecond(), "should return original content if algorithm is not defined.");
     }
     
     @Test
@@ -239,7 +231,6 @@ class EncryptionAesHandlerTest {
         Pair<String, String> pair = EncryptionHandler.decryptHandler(dataId, "", content);
         assertNotNull(pair);
         assertEquals("", pair.getFirst());
-        assertEquals(content, pair.getSecond(),
-            "should return original content if algorithm is not defined.");
+        assertEquals(content, pair.getSecond(), "should return original content if algorithm is not defined.");
     }
 }

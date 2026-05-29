@@ -48,10 +48,9 @@ public class ConfigChainEntryHandler extends AbstractConfigQueryHandler {
     
     @Override
     public ConfigQueryChainResponse handle(ConfigQueryChainRequest request) throws IOException {
-        
+    
         request.setTenant(NamespaceUtil.processNamespaceParameter(request.getTenant()));
-        String groupKey =
-            GroupKey2.getKey(request.getDataId(), request.getGroup(), request.getTenant());
+        String groupKey = GroupKey2.getKey(request.getDataId(), request.getGroup(), request.getTenant());
         int lockResult = ConfigCacheService.tryConfigReadLock(groupKey);
         CacheItem cacheItem = ConfigCacheService.getContentCache(groupKey);
         

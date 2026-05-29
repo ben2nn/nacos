@@ -46,8 +46,7 @@ class ConnectionBasedClientTest {
     @Test
     void testIsExpire() {
         connectionBasedClient.setLastRenewTime();
-        long mustExpireTime = connectionBasedClient.getLastRenewTime()
-            + 2 * ClientConfig.getInstance().getClientExpiredTime();
+        long mustExpireTime = connectionBasedClient.getLastRenewTime() + 2 * ClientConfig.getInstance().getClientExpiredTime();
         assertTrue(connectionBasedClient.isExpire(mustExpireTime));
     }
     
